@@ -45,9 +45,11 @@ jobs:
           assert d.get("entryPoint") == "SKILL.md", "entryPoint must be SKILL.md"
           assert d.get("pipeline"), "pipeline missing"
           mods = d.get("modules", [])
-          assert len(mods) == 10, f"expected 10 modules, found {len(mods)}"
+          assert len(mods) == 11, f"expected 11 modules, found {len(mods)}"
           originals = [m for m in mods if m.get("origin") == "original"]
-          assert len(originals) == 3, f"expected 3 original modules, found {len(originals)}"
+          assert len(originals) == 4, f"expected 4 original modules, found {len(originals)}"
+          originals_slugs = {m["slug"] for m in originals}
+          assert originals_slugs == {"rtl-arabic", "a11y", "tokens", "web-vitals"}, f"original set drifted: {originals_slugs}"
           print(f"✅ index.json v{d['version']} — {len(mods)} modules ({len(originals)} original)")
           PY
 
@@ -83,15 +85,16 @@ jobs:
         run: |
           node skills/a11y/scripts/contrast.mjs --self-test
           node skills/design-tokens/scripts/convert.mjs --self-test
-          echo "✅ both module scripts pass"
+          node skills/web-vitals/scripts/webvitals.mjs --self-test
+          echo "✅ all three module scripts pass"
 
-      - name: README consistency (10 modules documented)
+      - name: README consistency (11 modules documented)
         run: |
-          for m in extract-design taste impeccable gsap react-bits transitions playwright-cli rtl-arabic a11y design-tokens; do
+          for m in extract-design taste impeccable gsap react-bits transitions playwright-cli rtl-arabic a11y design-tokens web-vitals; do
             grep -q "skills/$m/" README.md || { echo "❌ README does not document module: $m"; exit 1; }
           done
-          grep -q "عشر وحدات" README.md || { echo "❌ README still says seven modules"; exit 1; }
-          echo "✅ README documents all 10 modules"
+          grep -q "إحدى عشرة وحدة" README.md || { echo "❌ README module count is stale (expected إحدى عشرة وحدة)"; exit 1; }
+          echo "✅ README documents all 11 modules"
 
       - name: Anti-slop guard — no nested SKILL.md sneaks back
         run: |
