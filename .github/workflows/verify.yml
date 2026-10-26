@@ -1,0 +1,101 @@
+name: Verify package
+
+# Structural integrity checks for the single-tool bundle. Runs on every push
+# and PR: one entry point, no nested SKILL.md, every referenced manual exists,
+# index.json coherent with the tree, installer syntax + doctor, script
+# self-tests, and README consistency.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-package
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Single-skill architecture
+        run: |
+          set -e
+          [ -f SKILL.md ] || { echo "❌ root SKILL.md missing"; exit 1; }
+          NESTED=$(find skills -name 'SKILL.md' -not -path '*/node_modules/*' | wc -l)
+          [ "$NESTED" -eq 0 ] || { echo "❌ $NESTED nested SKILL.md under skills/ — must be MANUAL.md"; exit 1; }
+          echo "✅ one entry point, no nested skills"
+
+      - name: index.json valid + coherent
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("index.json"))
+          assert d.get("architecture") == "single-skill", "architecture must be single-skill"
+          assert d.get("entryPoint") == "SKILL.md", "entryPoint must be SKILL.md"
+          assert d.get("pipeline"), "pipeline missing"
+          mods = d.get("modules", [])
+          assert len(mods) == 10, f"expected 10 modules, found {len(mods)}"
+          originals = [m for m in mods if m.get("origin") == "original"]
+          assert len(originals) == 3, f"expected 3 original modules, found {len(originals)}"
+          print(f"✅ index.json v{d['version']} — {len(mods)} modules ({len(originals)} original)")
+          PY
+
+      - name: Every referenced manual path exists
+        run: |
+          MISS=0
+          PATHS=$(
+            {
+              grep -ohE 'skills/[A-Za-z0-9/_.-]+/(MANUAL|CATALOG)\.md' SKILL.md README.md index.json || true
+              python3 -c "
+          import json
+          d = json.load(open('index.json'))
+          for m in d.get('modules', []):
+              if m.get('manualPath'): print(m['manualPath'])
+              for sm in m.get('subModules', []):
+                  if sm.get('manualPath'): print(sm['manualPath'])
+          "
+            } | sort -u
+          )
+          TOTAL=$(echo "$PATHS" | grep -c . || true)
+          for p in $PATHS; do
+            [ -f "$p" ] || { echo "❌ missing: $p"; MISS=1; }
+          done
+          [ "$MISS" -eq 0 ] || exit 1
+          echo "✅ all $TOTAL referenced manual paths exist"
+
+      - name: Installer syntax + doctor
+        run: |
+          bash -n install.sh
+          bash install.sh doctor
+
+      - name: Script self-tests
+        run: |
+          node skills/a11y/scripts/contrast.mjs --self-test
+          node skills/design-tokens/scripts/convert.mjs --self-test
+          echo "✅ both module scripts pass"
+
+      - name: README consistency (10 modules documented)
+        run: |
+          for m in extract-design taste impeccable gsap react-bits transitions playwright-cli rtl-arabic a11y design-tokens; do
+            grep -q "skills/$m/" README.md || { echo "❌ README does not document module: $m"; exit 1; }
+          done
+          grep -q "عشر وحدات" README.md || { echo "❌ README still says seven modules"; exit 1; }
+          echo "✅ README documents all 10 modules"
+
+      - name: Anti-slop guard — no nested SKILL.md sneaks back
+        run: |
+          # upstream refreshes must never reintroduce per-module SKILL.md files
+          ! find . -name 'SKILL.md' -not -path './.git/*' -not -path './SKILL.md' | grep -q . \
+            && echo "✅ exactly one SKILL.md in the whole tree" \
+            || { echo "❌ extra SKILL.md detected"; exit 1; }

@@ -1,8 +1,8 @@
 {
   "name": "design-arsenal",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "architecture": "single-skill",
-  "description": "ONE unified frontend design skill merging 7 open-source tools as internal modules — one SKILL.md entry point, no per-module installation",
+  "description": "ONE unified frontend design skill: 7 upstream tools + 3 original modules as internal modules — one SKILL.md entry point, no per-module installation",
   "entryPoint": "SKILL.md",
   "documentation": "README.md",
   "pipeline": ["EXTRACT", "TASTE", "BUILD", "MOTION", "POLISH", "VERIFY"],
@@ -83,6 +83,38 @@
       "manualPath": "skills/playwright-cli/MANUAL.md",
       "category": "verify",
       "summary": "Token-efficient browser automation for coding agents: snapshots, screenshots, network, tracing."
+    },
+    {
+      "slug": "rtl-arabic",
+      "name": "RTL Arabic Design",
+      "origin": "original",
+      "source": "authored for design-arsenal",
+      "license": "MIT (this bundle)",
+      "manualPath": "skills/rtl-arabic/MANUAL.md",
+      "category": "localization",
+      "summary": "Arabic/RTL interfaces: logical properties, Arabic typography rules (the letterspacing ban, line-height), numerals, mirroring, Tailwind rtl:, GSAP under RTL, 10-point audit."
+    },
+    {
+      "slug": "a11y",
+      "name": "Accessibility (WCAG 2.2 AA)",
+      "origin": "original",
+      "source": "authored for design-arsenal",
+      "license": "MIT (this bundle)",
+      "manualPath": "skills/a11y/MANUAL.md",
+      "scripts": "skills/a11y/scripts/contrast.mjs",
+      "category": "quality",
+      "summary": "Practical accessibility gates: contrast math (zero-dep script), semantic HTML, 4 ARIA patterns, keyboard, forms, vestibular-safe motion, 12-point pre-ship audit."
+    },
+    {
+      "slug": "tokens",
+      "name": "Design Tokens (DTCG)",
+      "origin": "original",
+      "source": "authored for design-arsenal",
+      "license": "MIT (this bundle)",
+      "manualPath": "skills/design-tokens/MANUAL.md",
+      "scripts": "skills/design-tokens/scripts/convert.mjs",
+      "category": "tokens",
+      "summary": "Screenshot/URL/brief → tiered DTCG token architecture (primitives → semantic → component), exported to CSS variables, Tailwind v3/v4, or Figma; dark-mode-as-a-file."
     }
   ]
 }

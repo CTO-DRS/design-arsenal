@@ -3,6 +3,10 @@ name: Refresh bundle from upstream
 # Rebuilds skills/ + examples/ from the 7 upstream repositories and opens
 # a PR when anything changed. Runs monthly and on demand.
 #
+# The three ORIGINAL modules (skills/rtl-arabic, skills/a11y,
+# skills/design-tokens — see ATTRIBUTION.md) are excluded from the rsync sync:
+# they have no upstream and must never be deleted by a refresh.
+#
 # Note: ATTRIBUTION.md documents every upstream source and license — review
 # it as part of merging any refresh PR.
 
@@ -34,8 +38,16 @@ jobs:
 
       - name: Sync rebuilt trees into the repo
         run: |
-          rsync -a --delete bundle/skills/ skills/
+          rsync -a --delete \
+            --exclude='rtl-arabic/' \
+            --exclude='a11y/' \
+            --exclude='design-tokens/' \
+            bundle/skills/ skills/
           rsync -a --delete bundle/examples/ examples/
+          # guard: original modules must survive every refresh
+          for d in skills/rtl-arabic skills/a11y skills/design-tokens; do
+            [ -d "$d" ] || { echo "❌ original module lost: $d"; exit 1; }
+          done
 
       - name: Detect changes
         id: diff
