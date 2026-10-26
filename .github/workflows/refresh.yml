@@ -1,0 +1,68 @@
+name: Refresh bundle from upstream
+
+# Rebuilds skills/ + examples/ from the 7 upstream repositories and opens
+# a PR when anything changed. Runs monthly and on demand.
+#
+# Note: ATTRIBUTION.md documents every upstream source and license — review
+# it as part of merging any refresh PR.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 1 * *" # 1st of every month, 03:00 UTC
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: refresh-bundle
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Rebuild bundle from upstream sources
+        run: bash tools/build-bundle.sh bundle build/repos
+
+      - name: Sync rebuilt trees into the repo
+        run: |
+          rsync -a --delete bundle/skills/ skills/
+          rsync -a --delete bundle/examples/ examples/
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if [ -z "$(git status --porcelain -- skills examples)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No upstream changes detected."
+          else
+            git status --porcelain -- skills examples | head -50
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open refresh PR
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "design-arsenal-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH="refresh/upstream-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b "$BRANCH"
+          git add skills examples
+          git commit -m "Refresh bundle from upstream sources ($(date +%F))" \
+            -m "Automated rebuild via tools/build-bundle.sh from the 7 upstream repositories. Only skills/ and examples/ are touched; curated bundle files (SKILL.md, index.json, install.sh, README.md, ATTRIBUTION.md, demo/) remain as-is. Review ATTRIBUTION.md notices before merging."
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "Refresh bundle from upstream ($(date +%F))" \
+            --body "Automated rebuild from the 7 upstream repositories (design-extract, taste-skill, impeccable, gsap-skills, react-bits, transitions.dev, playwright-cli). Changed files under \`skills/\` and \`examples/\` only. Check that upstream licenses (see \`ATTRIBUTION.md\`) still permit redistribution before merging." \
+            --base main \
+            --head "$BRANCH"

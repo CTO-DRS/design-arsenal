@@ -18,7 +18,7 @@
 
 - **Added** (original content of this bundle): `SKILL.md` (the single entry point), `index.json`, `install.sh`, `README.md`, this file, and `demo/index.html`.
 - **Renamed (v2 single-tool architecture)**: every upstream `SKILL.md` inside `skills/` was renamed to `MANUAL.md` so that only ONE skill registers with the agent; internal cross-references were updated accordingly. File contents were not otherwise altered.
-- **Transformed**: `skills/impeccable/MANUAL.md` (formerly its SKILL.md) was compiled from upstream `SKILL.src.md` by substituting template variables (`{{scripts_path}}` → `<skill-base-dir>/scripts`, `{{command_prefix}}` → `/impeccable`, `{{command_hint}}` → `<command>`). No rules were added, removed, or reworded.
+- **Transformed**: `skills/impeccable/MANUAL.md` (formerly its SKILL.md) was compiled from upstream `SKILL.src.md` by substituting template variables (`{{scripts_path}}` → `<skill-base-dir>/scripts`, `{{command_prefix}}` → `/impeccable ` — including the trailing space the command grammar needs, `{{command_hint}}` → `<command>`). No rules were added, removed, or reworded.
 - **Generated**: `skills/react-bits/CATALOG.md` and `catalog.json` were generated programmatically from the upstream component directory listing — no component code was modified.
 - **Unchanged**: every other file is a verbatim copy from the upstream repos at their current `main` branches (cloned 2026-10-26).
 
