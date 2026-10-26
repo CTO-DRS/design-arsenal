@@ -1,0 +1,7 @@
+# Exclude development/CI infrastructure from release archives (git archive,
+# and the "Source code (zip)" assets GitHub auto-attaches to releases).
+# The v2.0.0 release asset is the installable bundle only.
+.github export-ignore
+tools export-ignore
+build export-ignore
+bundle export-ignore
