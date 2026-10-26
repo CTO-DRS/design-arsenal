@@ -1,8 +1,8 @@
 {
   "name": "design-arsenal",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "architecture": "single-skill",
-  "description": "ONE unified frontend design skill: 7 upstream tools + 3 original modules as internal modules — one SKILL.md entry point, no per-module installation",
+  "description": "ONE unified frontend design skill: 7 upstream tools + 4 original modules as internal modules — one SKILL.md entry point, no per-module installation",
   "entryPoint": "SKILL.md",
   "documentation": "README.md",
   "pipeline": ["EXTRACT", "TASTE", "BUILD", "MOTION", "POLISH", "VERIFY"],
@@ -115,6 +115,17 @@
       "scripts": "skills/design-tokens/scripts/convert.mjs",
       "category": "tokens",
       "summary": "Screenshot/URL/brief → tiered DTCG token architecture (primitives → semantic → component), exported to CSS variables, Tailwind v3/v4, or Figma; dark-mode-as-a-file."
+    },
+    {
+      "slug": "web-vitals",
+      "name": "Web Vitals (Performance)",
+      "origin": "original",
+      "source": "authored for design-arsenal",
+      "license": "MIT (this bundle)",
+      "manualPath": "skills/web-vitals/MANUAL.md",
+      "scripts": "skills/web-vitals/scripts/webvitals.mjs",
+      "category": "quality",
+      "summary": "Core Web Vitals (LCP/INP/CLS) thresholds and loading playbook + zero-dep static HTML linter: lazy heroes, dimensionless media, render-blocking head scripts, font-display, viewport, inline handlers, perf budgets."
     }
   ]
 }

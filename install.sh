@@ -5,7 +5,7 @@
 #  or any project-local skills folder.
 #
 #  Installs the whole arsenal as a SINGLE skill named `design-arsenal`:
-#  one SKILL.md entry point, 10 internal modules (7 upstream + 3 original),
+#  one SKILL.md entry point, 11 internal modules (7 upstream + 4 original),
 #  no per-module installation.
 #
 #  Usage:
@@ -35,7 +35,7 @@ yellow() { printf "\033[33m%s\033[0m\n" "$1"; }
 
 usage() {
   cat <<EOF
-design-arsenal — ONE tool, 10 internal modules (v2.1.0)
+design-arsenal — ONE tool, 11 internal modules (v2.2.0)
 
   install [target]   install (targets: claude codex gemini cursor windsurf
                      opencode project, or --dest <path>; default: auto-detect)
@@ -96,7 +96,7 @@ PY
 
 cmd_list() {
   local size; size="$(du -sh "$SRC_DIR" 2>/dev/null | cut -f1)"
-  cyan "design-arsenal — ONE tool, 10 modules (${size})"
+  cyan "design-arsenal — ONE tool, 11 modules (${size})"
   cyan "Entry point:  SKILL.md  (single skill — nothing else registers as a tool)"
   echo
   if command -v python3 >/dev/null 2>&1; then
@@ -162,7 +162,7 @@ cmd_doctor() {
   [ "$sk_missing" = "0" ] && doc_ok "all module paths referenced in SKILL.md resolve"
 
   # 6. scripts present and runnable
-  for s in skills/a11y/scripts/contrast.mjs skills/design-tokens/scripts/convert.mjs; do
+  for s in skills/a11y/scripts/contrast.mjs skills/design-tokens/scripts/convert.mjs skills/web-vitals/scripts/webvitals.mjs; do
     if [ -f "$SRC_DIR/$s" ]; then
       if node --check "$SRC_DIR/$s" >/dev/null 2>&1 || node -e "import('$SRC_DIR/$s')" >/dev/null 2>&1 \
          || node "$SRC_DIR/$s" --help >/dev/null 2>&1; then
@@ -202,7 +202,7 @@ cmd_install() {
   cp -r "$SRC_DIR" "$dest"
   # self-cleanup: don't keep the installer copy inside itself
   rm -f "${dest}/install.sh"
-  green "✓ Installed as ONE skill: design-arsenal (entry: SKILL.md, 10 internal modules)."
+  green "✓ Installed as ONE skill: design-arsenal (entry: SKILL.md, 11 internal modules)."
   echo
   echo "  Next steps:"
   echo "   1. Restart/reload your coding agent — it will register exactly ONE tool."
