@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Arsenal — عرض حيّ لترسانة التصميم</title>
+<meta name="description" content="ديمو شامل لأدوات design-arsenal: GSAP + transitions.dev + أنماط React Bits + قواعد taste/impeccable في صفحة واحدة تعمل بلا بناء.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════ الأساس — قواعد taste/impeccable مطبّقة ═══════════════
+   - لا تدرجات بنفسجية-زرقاء، لا أسود/رمادي نقي (كل شيء دافئ مائل)
+   - لا بطاقات داخل بطاقات، تباعد سخي، تدرج طباعي حقيقي
+   - حارس prefers-reduced-motion في كل مقطع حركة */
+:root{
+  --bg:#171310; --surface:#201a15; --surface-2:#262019;
+  --line:rgba(242,235,223,.13); --line-strong:rgba(242,235,223,.22);
+  --ink:#f2ebdf; --muted:#b9ac97; --faint:#8d8069;
+  --accent:#e4572e; --accent-soft:rgba(228,87,46,.14);
+  --ok:#7fb069; --ok-soft:rgba(127,176,105,.15);
+  --font-ar:"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --font-display:"Fraunces",Georgia,serif;
+  /* ── transitions.dev motion tokens (_root.css) ── */
+  --duration-stagger:40ms; --duration-micro:80ms; --duration-quick:150ms;
+  --duration-fast:250ms; --duration-medium:350ms; --duration-slow:400ms; --duration-very-slow:500ms;
+  --ease-smooth-out:cubic-bezier(0.22,1,0.36,1); --ease-in-out:ease-in-out; --ease-out:ease-out;
+  --ease-bounce:cubic-bezier(0.34,1.36,0.64,1);
+  --blur-small:2px; --blur-medium:3px; --blur-large:8px;
+  --scale-large:0.96;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--font-ar);
+  font-size:16px; line-height:1.8; overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--accent);color:#fff}
+h1,h2,h3{line-height:1.35;font-weight:700;letter-spacing:-.01em}
+.num{font-family:var(--font-display);font-variant-numeric:tabular-nums}
+
+/* شريط تقدم التمرير — GSAP ScrollTrigger */
+#progress{position:fixed;top:0;right:0;left:0;height:3px;z-index:90;
+  background:var(--accent);transform-origin:right center;transform:scaleX(0)}
+
+/* ═══ الترويسة ═══ */
+header{position:fixed;top:0;right:0;left:0;z-index:80;display:flex;align-items:center;
+  justify-content:space-between;padding:14px clamp(20px,5vw,56px);
+  background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.brand-mark{width:26px;height:26px;border-radius:8px;background:var(--accent);
+  display:grid;place-items:center;color:#fff;font-size:13px;font-weight:700;font-family:var(--font-display)}
+nav{display:flex;gap:6px}
+nav a{color:var(--muted);text-decoration:none;font-size:13.5px;padding:7px 13px;border-radius:999px;transition:color var(--duration-quick) var(--ease-smooth-out),background var(--duration-quick) var(--ease-smooth-out)}
+nav a:hover{color:var(--ink);background:var(--surface-2)}
+@media(max-width:720px){nav{display:none}}
+
+/* ═══ البطل — خلفية جزيئات بنمط React Bits ═══ */
+.hero{position:relative;min-height:92vh;display:flex;flex-direction:column;
+  justify-content:center;padding:120px clamp(20px,5vw,56px) 80px;overflow:hidden}
+#particles{position:absolute;inset:0;opacity:.55}
+.hero-inner{position:relative;max-width:1080px;margin-inline:auto;width:100%}
+.kicker{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--accent);
+  border:1px solid color-mix(in srgb,var(--accent) 45%,transparent);background:var(--accent-soft);
+  padding:6px 14px;border-radius:999px;margin-bottom:26px}
+.hero h1{font-size:clamp(34px,6.4vw,72px);max-width:16ch}
+.hero h1 .accent{color:var(--accent)}
+.hero p.lead{margin-top:22px;max-width:62ch;color:var(--muted);font-size:clamp(15px,1.8vw,18.5px);font-weight:300}
+.hero-ctas{display:flex;gap:14px;margin-top:38px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line-strong);
+  background:var(--surface);color:var(--ink);font-family:var(--font-ar);font-size:14.5px;font-weight:600;
+  padding:13px 24px;border-radius:12px;cursor:pointer;text-decoration:none;
+  transition:transform var(--duration-fast) var(--ease-smooth-out),background var(--duration-fast) var(--ease-smooth-out),border-color var(--duration-fast) var(--ease-smooth-out)}
+.btn:hover{transform:translateY(-2px);border-color:var(--accent);background:var(--surface-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:#c94a25}
+.hero-tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:46px}
+.tool-chip{font-size:12.5px;color:var(--faint);border:1px solid var(--line);padding:5px 12px;border-radius:999px}
+
+/* ═══ الأقسام ═══ */
+section{padding:clamp(64px,9vw,120px) clamp(20px,5vw,56px);position:relative}
+.wrap{max-width:1080px;margin-inline:auto;width:100%}
+.sec-head{margin-bottom:clamp(34px,5vw,56px)}
+.sec-tag{font-size:13px;color:var(--accent);font-weight:600;margin-bottom:10px;display:block}
+.sec-head h2{font-size:clamp(26px,4vw,42px)}
+.sec-head p{color:var(--muted);margin-top:12px;max-width:64ch;font-weight:300;font-size:15.5px}
+.src-note{font-size:12px;color:var(--faint);margin-top:8px}
+
+/* شبكة العروض التفاعلية */
+.demo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.demo-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:26px;display:flex;flex-direction:column;gap:16px;min-height:190px}
+.demo-card h3{font-size:17px;display:flex;align-items:center;gap:10px}
+.demo-card p{font-size:13.5px;color:var(--muted);font-weight:300;flex:1}
+.demo-stage{display:flex;align-items:center;gap:14px;min-height:56px}
+
+/* ── 1) المودال — transitions.dev #06 (CSS أصلي) ── */
+.t-modal{transform-origin:center;transform:scale(var(--scale-large));opacity:0;pointer-events:none;
+  transition:transform var(--duration-fast) var(--ease-smooth-out),opacity var(--duration-fast) var(--ease-smooth-out);
+  will-change:transform,opacity}
+.t-modal.is-open{transform:scale(1);opacity:1;pointer-events:auto}
+.t-modal.is-closing{transform:scale(var(--scale-large));opacity:0}
+.overlay{position:fixed;inset:0;z-index:100;background:rgba(15,11,8,.6);backdrop-filter:blur(6px);
+  display:grid;place-items:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity var(--duration-fast) var(--ease-smooth-out)}
+.overlay.is-open{opacity:1;pointer-events:auto}
+.modal-box{max-width:430px;width:100%;background:var(--surface-2);border:1px solid var(--line-strong);
+  border-radius:20px;padding:32px}
+.modal-box h3{font-size:20px;margin-bottom:10px}
+.modal-box p{color:var(--muted);font-size:14.5px;font-weight:300;margin-bottom:24px}
+
+/* ── 2) التوست — transitions.dev #22 (CSS أصلي) ── */
+#toast-zone{position:fixed;bottom:24px;inset-inline-start:24px;z-index:110;display:flex;flex-direction:column;gap:10px}
+.t-toast{display:flex;align-items:center;gap:12px;background:var(--surface-2);
+  border:1px solid var(--line-strong);border-radius:14px;padding:14px 18px;font-size:14px;
+  box-shadow:0 12px 34px rgba(10,7,4,.45);
+  opacity:0;transform:translateY(12px) scale(.97);filter:blur(var(--blur-small));
+  transition:opacity var(--duration-medium) var(--ease-smooth-out),transform var(--duration-medium) var(--ease-smooth-out),filter var(--duration-medium) var(--ease-smooth-out)}
+.t-toast.is-open{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}
+.t-toast .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex-shrink:0}
+
+/* ── 3) شارة الإشعار — transitions.dev #03 (CSS أصلي) ── */
+.bell-wrap{position:relative;display:inline-grid;place-items:center;width:52px;height:52px;
+  border-radius:14px;background:var(--surface-2);border:1px solid var(--line-strong);cursor:pointer;color:var(--ink);
+  transition:border-color var(--duration-quick) var(--ease-smooth-out)}
+.bell-wrap:hover{border-color:var(--accent)}
+.t-badge{position:absolute;top:-6px;inset-inline-end:-8px;pointer-events:none;will-change:transform}
+.t-badge[data-open="true"]{animation:t-badge-slide-in var(--duration-medium) var(--ease-bounce)}
+@keyframes t-badge-slide-in{from{transform:translate(-8px,8px)}to{transform:translate(0,0)}}
+.t-badge-dot{display:block;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--accent);
+  color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;
+  transform-origin:center;transform:scale(1);opacity:1;filter:blur(0);
+  transition:transform var(--duration-very-slow) var(--ease-bounce),opacity var(--duration-fast) var(--ease-bounce),filter var(--duration-very-slow) var(--ease-bounce)}
+.t-badge[data-open="false"] .t-badge-dot{transform:scale(0);opacity:0;filter:blur(var(--blur-small))}
+.bell-count{font-size:13px;color:var(--muted)}
+
+/* ── 4) حالة النجاح — transitions.dev #10 (CSS أصلي) ── */
+.t-success-check{display:inline-block;transform-origin:center;opacity:0;will-change:transform,opacity,filter}
+.t-success-check svg{display:block;overflow:visible}
+.t-success-check svg path{stroke-dasharray:20;stroke-dashoffset:20}
+.t-success-check[data-state="in"]{animation:
+  t-check-fade var(--duration-very-slow) var(--ease-smooth-out) forwards,
+  t-check-rotate var(--duration-very-slow) var(--ease-smooth-out) forwards,
+  t-check-blur var(--duration-very-slow) var(--ease-smooth-out) forwards,
+  t-check-bob var(--duration-very-slow) var(--ease-smooth-out) forwards}
+.t-success-check[data-state="in"] svg path{animation:t-check-draw var(--duration-very-slow) var(--ease-smooth-out) 80ms forwards}
+@keyframes t-check-fade{from{opacity:0}to{opacity:1}}
+@keyframes t-check-rotate{from{transform:rotate(80deg)}to{transform:rotate(0)}}
+@keyframes t-check-blur{from{filter:blur(10px)}to{filter:blur(0)}}
+@keyframes t-check-bob{from{translate:0 40px}to{translate:0 0}}
+@keyframes t-check-draw{to{stroke-dashoffset:0}}
+.success-slot{display:flex;align-items:center;gap:12px;min-height:52px}
+.success-msg{font-size:14px;color:var(--ok);opacity:0;transition:opacity var(--duration-medium) var(--ease-smooth-out) 240ms}
+.success-msg.show{opacity:1}
+
+/* ── 5) Skeleton → محتوى — transitions.dev #14 (CSS أصلي) ── */
+.t-skel{position:relative;height:110px}
+.t-skel-skeleton,.t-skel-content{position:absolute;inset:0}
+.t-skel-skeleton{z-index:1;opacity:1;filter:blur(0);
+  transition:opacity var(--duration-slow) var(--ease-in-out),filter var(--duration-slow) var(--ease-in-out)}
+.t-skel-content{z-index:2;opacity:0;filter:blur(var(--blur-small));
+  transition:opacity var(--duration-slow) var(--ease-in-out),filter var(--duration-slow) var(--ease-in-out)}
+.t-skel.is-revealed .t-skel-skeleton{opacity:0;filter:blur(var(--blur-small))}
+.t-skel.is-revealed .t-skel-content{opacity:1;filter:blur(0)}
+.t-skel.is-resetting .t-skel-skeleton,.t-skel.is-resetting .t-skel-content{transition:none!important}
+.t-skel-skeleton.is-pulsing>*{animation:t-skel-pulse 1.4s ease-in-out infinite}
+@keyframes t-skel-pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.skel-bar{height:12px;border-radius:6px;background:var(--surface-2);margin-bottom:14px}
+.skel-bar.w60{width:60%} .skel-bar.w85{width:85%} .skel-bar.w40{width:40%;margin-bottom:0}
+.skel-line{font-size:13.5px;color:var(--muted);font-weight:300;padding-top:4px}
+.skel-line strong{color:var(--ink);font-weight:600}
+
+/* ── 6) تدفق الاستدلال — transitions.dev #29 (CSS أصلي) ── */
+.t-reason{position:relative;overflow:hidden;height:120px;font-size:13.5px}
+.t-reason-viewport{position:absolute;inset:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%);
+  mask-image:linear-gradient(transparent 0,#000 18px,#000 calc(100% - 18px),transparent 100%)}
+.t-reason-scroll{position:absolute;right:0;left:0;transform:translateY(0);will-change:transform}
+.reason-line{display:flex;gap:10px;align-items:baseline;padding:5px 0;color:var(--muted);font-weight:300}
+.reason-line .tick{color:var(--accent);font-weight:700;flex-shrink:0}
+.reason-line.done{color:var(--faint)}
+
+/* ═══ قسم GSAP ═══ */
+.gsap-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-bottom:26px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px}
+.stat .num{font-size:clamp(38px,4.6vw,54px);font-weight:650;color:var(--ink);line-height:1.1}
+.stat .num .unit{color:var(--accent);font-size:.6em}
+.stat span{display:block;margin-top:8px;color:var(--muted);font-size:13.5px;font-weight:300}
+.wave-headline{font-size:clamp(24px,3.6vw,40px);text-align:center;padding:clamp(28px,5vw,56px) 0;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:10px}
+.wave-headline .ch{display:inline-block;white-space:pre;will-change:transform}
+
+/* ═══ قسم React Bits ═══ */
+.rb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+/* GlareHover — نمط React Bits معاد بناؤه بـ JS خالص */
+.glare-card{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--line);
+  border-radius:16px;padding:30px 26px;--gx:50%;--gy:50%}
+.glare-card::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:radial-gradient(circle 220px at var(--gx) var(--gy),rgba(242,235,223,.14),transparent 65%);
+  transition:opacity var(--duration-medium) var(--ease-out)}
+.glare-card:hover::after{opacity:1}
+.glare-card .icon{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);
+  display:grid;place-items:center;color:var(--accent);margin-bottom:16px;font-size:20px}
+.glare-card h3{font-size:16.5px;margin-bottom:8px}
+.glare-card p{font-size:13.5px;color:var(--muted);font-weight:300}
+.grad-text{background:linear-gradient(92deg,var(--accent),#e8b44f,var(--accent));background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:grad-pan 5s linear infinite}
+@keyframes grad-pan{to{background-position:220% 0}}
+
+/* ═══ التذييل ═══ */
+footer{border-top:1px solid var(--line);padding:44px clamp(20px,5vw,56px) 60px;color:var(--faint);font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+footer b{color:var(--muted)}
+
+/* ═══ حارس تقليل الحركة — مطلوب في كل مقطع ═══ */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .t-success-check{animation:none!important;opacity:1}
+  .t-success-check svg path{animation:none!important;stroke-dashoffset:0!important}
+  .t-reason-scroll{transition:none!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header>
+  <div class="brand"><span class="brand-mark">A</span> Design Arsenal <span style="color:var(--faint);font-weight:400">/ ترسانة التصميم</span></div>
+  <nav>
+    <a href="#transitions">انتقالات transitions.dev</a>
+    <a href="#gsap">حركة GSAP</a>
+    <a href="#reactbits">أنماط React Bits</a>
+  </nav>
+</header>
+
+<!-- ═══════════ البطل: خلفية جزيئات بنمط React Bits ═══════════ -->
+<div class="hero">
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <span class="kicker">سبع أدوات · حزمة واحدة · سير عمل كامل</span>
+    <h1>واجهات لا تشبه القوالب — <span class="accent">من الاستخراج إلى التحقق</span> في حزمة واحدة.</h1>
+    <p class="lead">هذه الصفحة عرض حيّ لما تدمجه حزمة design-arsenal: انتقالات transitions.dev بأكوادها الأصلية الموثقة، حركة GSAP، أنماط مكوّنات React Bits معاد بناؤها بـ JavaScript خالص، وقواعد الذوق من taste وimpeccable مطبّقة على التصميم نفسه.</p>
+    <div class="hero-ctas">
+      <button class="btn primary" data-open-modal>جرّب المودال ← transitions.dev</button>
+      <a class="btn" href="#transitions">استعرض الأدلة الحيّة</a>
+    </div>
+    <div class="hero-tools">
+      <span class="tool-chip">designlang</span><span class="tool-chip">taste v2</span>
+      <span class="tool-chip">impeccable</span><span class="tool-chip">GSAP ×8</span>
+      <span class="tool-chip">react-bits ×218</span><span class="tool-chip">transitions.dev ×43</span>
+      <span class="tool-chip">playwright-cli</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 1) انتقالات transitions.dev — CSS أصلي من المراجع ═══════════ -->
+<section id="transitions">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">skills/transitions</span>
+      <h2>انتقالات إنتاجية — بالأكواد الأصلية نفسها</h2>
+      <p>كل مثال هنا منسوخ من الملفات المرجعية في <code>skills/transitions/transitions-dev/</code> مع رموز الحركة الموحدة (<code>_root.css</code>) وحارس <code>prefers-reduced-motion</code> كما تطلب المهارة حرفيًا.</p>
+      <p class="src-note">المصدر: Jakubantalik/transitions.dev — 43+ انتقالًا ضمن الحزمة.</p>
+    </div>
+
+    <div class="demo-grid">
+      <!-- مودال -->
+      <div class="demo-card reveal">
+        <h3>🪟 مودال يتنفس</h3>
+        <p>تكبير من 0.96 مع تشويش خروج عند الإغلاق — النمط المرجعي رقم 06.</p>
+        <div class="demo-stage"><button class="btn" data-open-modal>افتح المودال</button></div>
+      </div>
+
+      <!-- توست -->
+      <div class="demo-card reveal">
+        <h3>🔔 توست تراكمي</h3>
+        <p>دخول من الأسفل مع تشويش، وإغلاق أسرع من الدخول — النمط رقم 22.</p>
+        <div class="demo-stage"><button class="btn" id="toast-btn">أطلق توستًا</button></div>
+      </div>
+
+      <!-- شارة -->
+      <div class="demo-card reveal">
+        <h3>🔴 شارة إشعار</h3>
+        <p>انزلاق قطري مع ارتداد نابض عند الظهور — النمط رقم 03.</p>
+        <div class="demo-stage">
+          <button class="bell-wrap" id="bell" aria-label="إشعارات">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <span class="t-badge" data-open="false"><span class="t-badge-dot" id="badge-count">3</span></span>
+          </button>
+          <span class="bell-count" id="bell-hint">اضغط لتبديل الشارة</span>
+        </div>
+      </div>
+
+      <!-- نجاح -->
+      <div class="demo-card reveal">
+        <h3>✅ علامة النجاح</h3>
+        <p>دوران 80° مع تشويش 10px وارتداد ثم رسم المسار — النمط رقم 10.</p>
+        <div class="demo-stage success-slot">
+          <span class="t-success-check" id="check" data-state="out">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5.5 5.5L20 6.5" stroke="#7fb069" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="success-msg" id="success-msg">تم الحفظ بنجاح</span>
+          <button class="btn" id="check-btn" style="margin-inline-start:auto">أعد التشغيل</button>
+        </div>
+      </div>
+
+      <!-- skeleton -->
+      <div class="demo-card reveal">
+        <h3>⏳ هياكل ثم كشف</h3>
+        <p>تبادل blur مزامَن بين الهيكل والمحتوى في الاتجاهين — النمط رقم 14.</p>
+        <div class="t-skel" id="skel">
+          <div class="t-skel-skeleton is-pulsing">
+            <div class="skel-bar w60"></div><div class="skel-bar w85"></div><div class="skel-bar w40"></div>
+          </div>
+          <div class="t-skel-content">
+            <p class="skel-line"><strong>تم الكشف بعد 400ms</strong> — نفس المدة في الدرج والخروج، فتُقرأ الحركة كتبادل واحد.</p>
+          </div>
+        </div>
+        <div class="demo-stage"><button class="btn" id="skel-btn">كشف / إعادة</button></div>
+      </div>
+
+      <!-- تدفق استدلال -->
+      <div class="demo-card reveal">
+        <h3>🧠 تدفق استدلال وكيل</h3>
+        <p>خطوط تفكير تتدفق داخل قناع أطراف متلاشٍ — النمط رقم 29 لحالات «الذكاء الاصطناعي يفكر».</p>
+        <div class="t-reason" id="reason">
+          <div class="t-reason-viewport"><div class="t-reason-scroll" id="reason-scroll"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 2) GSAP ═══════════ -->
+<section id="gsap" style="background:var(--surface);border-block:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">skills/gsap</span>
+      <h2>حركة GSAP — عدّادات وموجات وتمرير</h2>
+      <p>وحدات GSAP الثمانية ضمن الحزمة تعلّم الوكيل كل شيء من tweens الأساسية إلى ScrollTrigger والتمرير المثبّت. هذه أمثلة حيّة تُقرأ بأفضل إعداداتها: تخفيف <code>power3.out</code> وتماهد مدروس.</p>
+      <p class="src-note">المصدر: greensock/gsap-skills (رسمي) — الأمثلة الجاهزة في examples/gsap/</p>
+    </div>
+
+    <div class="gsap-row">
+      <div class="stat reveal"><div class="num"><span class="counter" data-to="218">0</span></div><span>مكوّن React Bits داخل الحزمة</span></div>
+      <div class="stat reveal"><div class="num"><span class="counter" data-to="43">0</span><span class="unit">+</span></div><span>انتقال CSS جاهز للتطبيق</span></div>
+      <div class="stat reveal"><div class="num"><span class="counter" data-to="24">0</span></div><span>أمر تصميم في impeccable</span></div>
+      <div class="stat reveal"><div class="num"><span class="counter" data-to="7">0</span></div><span>أدوات مدمجة في الراوتر الواحد</span></div>
+    </div>
+
+    <h2 class="wave-headline" id="wave" aria-label="حركة نصية موجة بـ GSAP">Wave your words with GSAP motion</h2>
+  </div>
+</section>
+
+<!-- ═══════════ 3) React Bits ═══════════ -->
+<section id="reactbits">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">skills/react-bits</span>
+      <h2>أنماط <span class="grad-text">React Bits</span> — بلا أي اعتماديات</h2>
+      <p>الحزمة تتضمن 218 مكوّنًا بنكهتي TS-CSS وTS-Tailwind مع كتالوج آلي. أنماط البطاقات الثلاثة أدناه تعيد بناء فكرة GlareHover بـ JavaScript خالص — مرر المؤشر وشاهد التلألؤ يتبعك.</p>
+      <p class="src-note">المصدر: DavidHDev/react-bits — انسخ من ts-tailwind/ أو ts-default/ أو استخدم سجل @react-bits</p>
+    </div>
+
+    <div class="rb-grid">
+      <div class="glare-card reveal"><div class="icon">✦</div><h3>خلفيات متحركة ×64</h3><p>Aurora وParticles وHyperspeed وSquares — خلفيات كاملة الأقسام بشيفرة أصلية قابلة للنسخ.</p></div>
+      <div class="glare-card reveal"><div class="icon">✍</div><h3>نصوص متحركة ×33</h3><p>SplitText وBlurText وShinyText وCircularText — عناوين تفتح نفسها بدقة حرفية.</p></div>
+      <div class="glare-card reveal"><div class="icon">⚙</div><h3>مكونات وتفاصيل ×83</h3><p>Carousel وDock وMagnet وSpotlightCard وCounter — تفاصيل دقيقة تصنع الفرق.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>مبني ضمن <b>design-arsenal</b> — دمج منفتح لسبعة مشاريع مفتوحة المصدر، راجع <b>ATTRIBUTION.md</b> للتراخيص.</div>
+    <div>designlang · taste · impeccable · GSAP · React Bits · transitions.dev · playwright-cli</div>
+  </div>
+</footer>
+
+<!-- المودال (نمط 06) -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-label="مودال تجريبي">
+  <div class="t-modal modal-box" id="modal">
+    <h3>هذا انتقال المودال الأصلي</h3>
+    <p>تكبير من <code>--scale-large: 0.96</code> بخفة 250ms وبتخفيف <code>--ease-smooth-out</code>، وعند الإغلاق يُستبدل الصنف بـ <code>.is-closing</code> لمدة 150ms قبل الإزالة — كما تكتبه المهارة حرفيًا في skills/transitions/transitions-dev/06-modal.md.</p>
+    <div style="display:flex;gap:10px;justify-content:flex-end">
+      <button class="btn" data-close-modal>إغلاق</button>
+      <button class="btn primary" data-close-modal>فهمت</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-zone" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+"use strict";
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hasGSAP = typeof gsap !== "undefined";
+
+/* ═══ 1) المودال — نمط 06: is-open ثم is-closing عند الإغلاق ═══ */
+const overlay = document.getElementById("overlay");
+const modal = document.getElementById("modal");
+let modalCloseTimer = null;
+function openModal(){ clearTimeout(modalCloseTimer);
+  overlay.classList.add("is-open"); modal.classList.remove("is-closing"); modal.classList.add("is-open"); }
+function closeModal(){
+  modal.classList.remove("is-open"); modal.classList.add("is-closing");
+  modalCloseTimer = setTimeout(()=>{ modal.classList.remove("is-closing"); overlay.classList.remove("is-open"); }, 150);
+}
+document.querySelectorAll("[data-open-modal]").forEach(b=>b.addEventListener("click", openModal));
+document.querySelectorAll("[data-close-modal]").forEach(b=>b.addEventListener("click", closeModal));
+overlay.addEventListener("click", e=>{ if(e.target===overlay) closeModal(); });
+addEventListener("keydown", e=>{ if(e.key==="Escape" && modal.classList.contains("is-open")) closeModal(); });
+
+/* ═══ 2) التوست — نمط 22: دخول بطيء، إغلاق أسرع ═══ */
+const toastZone = document.getElementById("toast-zone");
+const toastMsgs = ["تم تطبيق رموز الحركة", "لقطة شاشة: دسكتوب 1440×900", "الكشف: لا أنماط رديئة"];
+let toastIdx = 0;
+document.getElementById("toast-btn").addEventListener("click", ()=>{
+  const t = document.createElement("div");
+  t.className = "t-toast";
+  t.innerHTML = '<span class="dot"></span>' + toastMsgs[toastIdx++ % toastMsgs.length];
+  toastZone.appendChild(t);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>t.classList.add("is-open")));
+  setTimeout(()=>{ t.classList.remove("is-open");
+    setTimeout(()=>t.remove(), 350); }, 3200);
+});
+
+/* ═══ 3) الشارة — نمط 03: data-open يقود الحركة ═══ */
+const bell = document.getElementById("bell");
+const badge = bell.querySelector(".t-badge");
+const badgeCount = document.getElementById("badge-count");
+const hint = document.getElementById("bell-hint");
+let count = 3, open = false;
+bell.addEventListener("click", ()=>{
+  open = !open;
+  if(open){ count++; badgeCount.textContent = count; hint.textContent = "الشارة ظاهرة — اضغط لإخفائها"; }
+  else hint.textContent = "اضغط لتبديل الشارة";
+  badge.setAttribute("data-open", String(open));
+});
+
+/* ═══ 4) علامة النجاح — نمط 10: إعادة التشغيل عبر reflow ═══ */
+const check = document.getElementById("check");
+const path = check.querySelector("svg path");
+const len = Math.ceil(path.getTotalLength());
+path.style.strokeDasharray = len; path.style.strokeDashoffset = len;
+function showCheck(){
+  check.setAttribute("data-state","out");
+  void check.offsetWidth; // إجبار reflow كي تعيد keyframes الانطلاق
+  check.setAttribute("data-state","in");
+  document.getElementById("success-msg").classList.add("show");
+}
+check.addEventListener("animationend", (e)=>{ if(e.animationName==="t-check-bob") setTimeout(()=>document.getElementById("success-msg").classList.remove("show"), 1600); });
+document.getElementById("check-btn").addEventListener("click", showCheck);
+
+/* ═══ 5) Skeleton — نمط 14: is-revealed ثم is-resetting للعودة الفورية ═══ */
+const skel = document.getElementById("skel");
+let revealed = false;
+document.getElementById("skel-btn").addEventListener("click", ()=>{
+  if(!revealed){ skel.classList.remove("is-resetting"); skel.classList.add("is-revealed"); }
+  else{ skel.classList.add("is-resetting"); skel.classList.remove("is-revealed");
+    void skel.offsetWidth; skel.classList.remove("is-resetting"); }
+  revealed = !revealed;
+});
+
+/* ═══ 6) تدفق الاستدلال — نمط 29: إزاحة translateY متدرجة مع التفاف ═══ */
+const reasonLines = [
+  "يقرأ موجز المشروع…", "يستنتج الجمهور والمزاج…", "يختار عائلة التخطيط: تحريرية عمودية",
+  "يثبّت اللوحة: إسبريسو + لهيب + كريمي", "يفحص قائمة حظر taste: صفر مخالفات",
+  "يبني الهيكل ويوزع التباعد", "يموّه الدخول بـ power3.out", "يجري كشف impeccable الحتمي",
+  "يلتقط لقطتي تحقق 1440/390", "جاهز للتسليم ✓"
+];
+const scroller = document.getElementById("reason-scroll");
+reasonLines.forEach((l,i)=>{
+  const d = document.createElement("div");
+  d.className = "reason-line"; d.innerHTML = '<span class="tick">›</span><span>'+l+'</span>';
+  scroller.appendChild(d);
+});
+(function runReason(){
+  if(reduceMotion) return;
+  let i = 0;
+  const stepH = 34;
+  setInterval(()=>{
+    i++;
+    const offset = i * stepH;
+    scroller.style.transition = "transform 0.35s cubic-bezier(0.22,1,0.36,1)";
+    scroller.style.transform = "translateY(-" + offset + "px)";
+    // التفاف: بعد آخر سطر أعد الصفر بلا انتقال ثم أعد تشغيل الانتقال
+    if(i >= reasonLines.length){
+      setTimeout(()=>{
+        scroller.style.transition = "none";
+        scroller.style.transform = "translateY(0)";
+        i = 0; void scroller.offsetHeight;
+      }, 700);
+    }
+  }, 900);
+})();
+
+/* ═══ 7) خلفية الجزيئات — نمط React Bits Particles بـ Canvas خالص ═══ */
+(function particles(){
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+  if(!ctx || reduceMotion) return;
+  let w,h,pts=[],mouse={x:-999,y:-999};
+  function resize(){ w = canvas.width = canvas.offsetWidth; h = canvas.height = canvas.offsetHeight;
+    const n = Math.min(90, Math.floor(w*h/16000));
+    pts = Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.6+.6}));
+  }
+  resize(); addEventListener("resize", resize);
+  canvas.parentElement.addEventListener("mousemove",e=>{ const r=canvas.getBoundingClientRect(); mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; });
+  canvas.parentElement.addEventListener("mouseleave",()=>{ mouse.x=-999; mouse.y=-999; });
+  (function frame(){
+    ctx.clearRect(0,0,w,h);
+    for(const p of pts){
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>w) p.vx*=-1; if(p.y<0||p.y>h) p.vy*=-1;
+      const dx=p.x-mouse.x, dy=p.y-mouse.y, d=Math.hypot(dx,dy);
+      if(d<110){ p.x+=dx/d*.6; p.y+=dy/d*.6; }
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,7); ctx.fillStyle="rgba(242,235,223,.5)"; ctx.fill();
+    }
+    for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+      const a=pts[i],b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<115){ ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+        ctx.strokeStyle="rgba(228,87,46,"+(0.14*(1-d/115))+")"; ctx.lineWidth=1; ctx.stroke(); }
+    }
+    requestAnimationFrame(frame);
+  })();
+})();
+
+/* ═══ 8) GlareHover — نمط React Bits ═══ */
+document.querySelectorAll(".glare-card").forEach(card=>{
+  card.addEventListener("mousemove", e=>{
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--gx", (e.clientX-r.left)+"px");
+    card.style.setProperty("--gy", (e.clientY-r.top)+"px");
+  });
+});
+
+/* ═══ 9) GSAP — دخول، عدادات، موجة، تمرير ═══ */
+if(hasGSAP && !reduceMotion){
+  gsap.registerPlugin(ScrollTrigger);
+
+  // دخول البطل
+  gsap.timeline({defaults:{ease:"power3.out"}})
+    .from(".kicker",{y:18,opacity:0,duration:.6})
+    .from(".hero h1",{y:34,opacity:0,duration:.9},"-=.3")
+    .from(".hero p.lead",{y:22,opacity:0,duration:.7},"-=.55")
+    .from(".hero-ctas .btn",{y:16,opacity:0,duration:.55,stagger:.09},"-=.4")
+    .from(".tool-chip",{opacity:0,y:10,duration:.4,stagger:.05},"-=.3");
+
+  // شريط التقدم عبر ScrollTrigger scrub
+  gsap.to("#progress",{scaleX:1,ease:"none",
+    scrollTrigger:{start:0,end:"max",scrub:.3}});
+
+  // كشف الأقسام
+  document.querySelectorAll(".reveal").forEach(el=>{
+    gsap.from(el,{y:26,opacity:0,duration:.8,ease:"power3.out",
+      scrollTrigger:{trigger:el,start:"top 88%"}});
+  });
+
+  // العدادات
+  document.querySelectorAll(".counter").forEach(el=>{
+    const to = +el.dataset.to;
+    ScrollTrigger.create({trigger:el,start:"top 88%",once:true,onEnter:()=>{
+      gsap.fromTo(el,{innerText:0},{innerText:to,duration:1.6,ease:"power2.out",snap:{innerText:1}});
+    }});
+  });
+
+  // موجة النص — تقسيم حرفي (محاكاة SplitText)
+  const wave = document.getElementById("wave");
+  wave.innerHTML = wave.textContent.split("").map(c=>'<span class="ch">'+c+"</span>").join("");
+  gsap.to(".wave-headline .ch",{y:-10,duration:.55,ease:"sine.inOut",stagger:{each:.04,from:"center",yoyo:true,repeat:-1}});
+}
+})();
+</script>
+</body>
+</html>

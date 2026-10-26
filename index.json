@@ -1,0 +1,88 @@
+{
+  "name": "design-arsenal",
+  "version": "2.0.0",
+  "architecture": "single-skill",
+  "description": "ONE unified frontend design skill merging 7 open-source tools as internal modules — one SKILL.md entry point, no per-module installation",
+  "entryPoint": "SKILL.md",
+  "documentation": "README.md",
+  "pipeline": ["EXTRACT", "TASTE", "BUILD", "MOTION", "POLISH", "VERIFY"],
+  "modules": [
+    {
+      "slug": "extract",
+      "name": "designlang / design-extract",
+      "source": "https://github.com/Manavarya09/design-extract",
+      "license": "MIT",
+      "manualPath": "skills/extract-design/MANUAL.md",
+      "category": "workflow",
+      "summary": "Extract any website's complete design system (DTCG tokens, Tailwind, shadcn, Figma variables, WCAG scoring) with one command."
+    },
+    {
+      "slug": "taste",
+      "name": "Taste Skill v2",
+      "source": "https://github.com/Leonxlnx/taste-skill",
+      "license": "MIT",
+      "manualPath": "skills/taste/MANUAL.md",
+      "category": "workflow",
+      "summary": "Anti-slop frontend art direction: researched directions from 247 gallery sites, strict bans, real-browser inspector."
+    },
+    {
+      "slug": "polish",
+      "name": "Impeccable",
+      "source": "https://github.com/pbakaus/impeccable",
+      "license": "Apache-2.0",
+      "manualPath": "skills/impeccable/MANUAL.md",
+      "category": "workflow",
+      "summary": "24 design refinement commands (polish, audit, critique, bolder, quieter, typeset...) + deterministic detector rules."
+    },
+    {
+      "slug": "gsap",
+      "name": "GSAP Skills (official)",
+      "source": "https://github.com/greensock/gsap-skills",
+      "license": "MIT",
+      "manualPath": "skills/gsap/llms.txt",
+      "category": "motion",
+      "subModules": [
+        { "slug": "gsap-core", "manualPath": "skills/gsap/gsap-core/MANUAL.md", "summary": "Core API: tweens, easing, stagger, matchMedia, reduced-motion." },
+        { "slug": "gsap-timeline", "manualPath": "skills/gsap/gsap-timeline/MANUAL.md", "summary": "Sequenced animation timelines." },
+        { "slug": "gsap-scrolltrigger", "manualPath": "skills/gsap/gsap-scrolltrigger/MANUAL.md", "summary": "Scroll-driven animation: pinning, scrubbing, snap, reveals." },
+        { "slug": "gsap-react", "manualPath": "skills/gsap/gsap-react/MANUAL.md", "summary": "GSAP + React: useGSAP hook, cleanup, SSR-safe patterns." },
+        { "slug": "gsap-frameworks", "manualPath": "skills/gsap/gsap-frameworks/MANUAL.md", "summary": "GSAP in Vue, Nuxt, Svelte and other frameworks." },
+        { "slug": "gsap-plugins", "manualPath": "skills/gsap/gsap-plugins/MANUAL.md", "summary": "SplitText, Flip, Draggable, Observer, MotionPath and more." },
+        { "slug": "gsap-performance", "manualPath": "skills/gsap/gsap-performance/MANUAL.md", "summary": "Performance-safe animation: will-change, transforms, 60fps budgets." },
+        { "slug": "gsap-utils", "manualPath": "skills/gsap/gsap-utils/MANUAL.md", "summary": "Utility methods: interpolation, media queries helpers." }
+      ]
+    },
+    {
+      "slug": "components",
+      "name": "React Bits",
+      "source": "https://github.com/DavidHDev/react-bits",
+      "license": "MIT",
+      "manualPath": "skills/react-bits/CATALOG.md",
+      "catalog": "skills/react-bits/catalog.json",
+      "category": "components",
+      "summary": "218 animated React components in 5 categories, TS-CSS + TS-Tailwind flavors, shadcn registry."
+    },
+    {
+      "slug": "transitions",
+      "name": "Transitions.dev",
+      "source": "https://github.com/Jakubantalik/transitions.dev",
+      "license": "Free for personal and commercial use (see LICENSE.txt)",
+      "manualPath": "skills/transitions/transitions-dev/MANUAL.md",
+      "category": "motion",
+      "subModules": [
+        { "slug": "transitions-dev", "manualPath": "skills/transitions/transitions-dev/MANUAL.md", "summary": "43+ production CSS transitions: badges, dropdowns, modals, toasts, AI thinking states, with motion tokens." },
+        { "slug": "transitions-polish", "manualPath": "skills/transitions/transitions-polish/MANUAL.md", "summary": "Polish existing motion against the transitions.dev motion-token scale." },
+        { "slug": "transitions-ui-generation", "manualPath": "skills/transitions/transitions-ui-generation/MANUAL.md", "summary": "Make UI appear as if an AI agent is generating it (wireframe-to-UI reveal)." }
+      ]
+    },
+    {
+      "slug": "verify",
+      "name": "Playwright CLI",
+      "source": "https://github.com/microsoft/playwright-cli",
+      "license": "Apache-2.0",
+      "manualPath": "skills/playwright-cli/MANUAL.md",
+      "category": "verify",
+      "summary": "Token-efficient browser automation for coding agents: snapshots, screenshots, network, tracing."
+    }
+  ]
+}
