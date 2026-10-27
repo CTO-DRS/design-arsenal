@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="assets/icon.svg">
 <title>design-arsenal — الأداة الموحّدة لتصميم الواجهات (13 وحدة)</title>
 <meta name="description" content="عرض تفاعلي حيّ لأداة design-arsenal: 13 وحدة داخلية، تبديل ثيمات بلا وميض، فاحص تباين حي، شجرة قرار، ومعرض محظورات — ملف واحد بلا اعتماديات.">
 <meta name="color-scheme" content="light dark">
@@ -99,6 +100,7 @@ pre code { background: none; border: 0; padding: 0; color: inherit; }
 .skip-link:focus { inset-block-start: 12px; }
 .wrap { max-width: 1080px; margin-inline: auto; padding-inline: 22px; }
 section { padding-block: 72px; }
+section[id] { scroll-margin-top: 76px; }
 .sec-head { max-width: 640px; margin-block-end: 34px; }
 .sec-head .kicker { color: var(--accent); font-weight: 700; font-size: .85rem; margin: 0 0 6px; }
 .sec-head h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); }
@@ -110,19 +112,27 @@ header.site {
   backdrop-filter: blur(10px);
   border-block-end: 1px solid var(--border);
 }
-.nav { display: flex; align-items: center; gap: 18px; min-height: 62px; }
+.nav { display: flex; align-items: center; gap: 18px; min-height: 62px; position: relative; }
 .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--text); margin-inline-end: auto; }
 .brand:hover { text-decoration: none; }
-.brand .mark { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 55%, #0ea5b7)); display: grid; place-items: center; color: var(--accent-contrast); font-size: .8rem; font-weight: 800; }
+.brand-logo { width: 30px; height: 30px; border-radius: 9px; flex: none; }
 .nav .links { display: flex; gap: 4px; }
 .nav .links a { color: var(--text-muted); font-size: .92rem; padding: 8px 12px; border-radius: 8px; }
 .nav .links a:hover { color: var(--text); background: var(--surface-2); text-decoration: none; }
+.nav .links a[aria-current="true"] { color: var(--text); background: var(--surface-2); }
+.menu-btn { display: none; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); border-radius: 10px; cursor: pointer; }
+.menu-btn svg { width: 18px; height: 18px; }
+.menu-btn:hover { border-color: var(--accent); }
 .ver { font-size: .75rem; font-weight: 700; color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); padding: 3px 10px; border-radius: 999px; }
 /* theme toggle */
 .theme-btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); padding: 8px 14px; border-radius: 10px; font: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; box-shadow: var(--shadow); }
 .theme-btn:hover { border-color: var(--accent); }
 .theme-btn svg { width: 16px; height: 16px; }
-@media (max-width: 860px) { .nav .links { display: none; } }
+@media (max-width: 860px) {
+  .menu-btn { display: inline-flex; }
+  .nav .links { display: none; position: absolute; inset-inline: 0; top: 100%; flex-direction: column; padding: 10px 16px 16px; background: color-mix(in srgb, var(--page) 96%, transparent); backdrop-filter: blur(10px); border-block-end: 1px solid var(--border); box-shadow: var(--shadow); }
+  .nav.open .links { display: flex; }
+}
 /* ============ hero ============ */
 .hero { padding-block: 84px 64px; position: relative; overflow: hidden; }
 .hero .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 44px 44px; opacity: .35; mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 75%); pointer-events: none; }
@@ -187,6 +197,24 @@ header.site {
 /* code callout under studio */
 .callout { background: var(--code-bg); color: var(--code-text); border-radius: 12px; padding: 14px 16px; font-size: .8rem; margin-block-start: 14px; direction: ltr; text-align: left; overflow: auto; }
 .callout b { color: #7dd3a8; font-weight: 600; }
+/* ============ fluid lab ============ */
+.fluid-lab { display: grid; grid-template-columns: 320px 1fr; gap: 18px; align-items: stretch; }
+.fl-controls { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: var(--shadow), var(--glow); display: flex; flex-direction: column; gap: 18px; }
+.fl-controls input[type="range"] { width: 100%; accent-color: var(--accent); margin: 6px 0 2px; }
+.fl-ticks { display: flex; justify-content: space-between; font-size: .72rem; color: var(--text-muted); }
+.fl-readout { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; font-size: .85rem; display: grid; gap: 8px; }
+.fl-readout .big { font-size: 1.55rem; font-weight: 800; color: var(--accent); line-height: 1; }
+.fl-track { position: relative; height: 10px; border-radius: 999px; background: var(--page); border: 1px solid var(--border); overflow: hidden; }
+.fl-track .fill { position: absolute; inset-block: 0; inset-inline-start: 0; width: 0%; background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 45%, #0ea5b7)); }
+.fl-readout .range-note { color: var(--text-muted); font-size: .78rem; }
+.fl-stage { background: var(--page); border: 1px dashed var(--border-strong); border-radius: 16px; padding: clamp(20px, 4vw, 34px); display: flex; flex-direction: column; justify-content: center; gap: 10px; min-height: 250px; }
+.fl-stage .sample { font-weight: 800; line-height: 1.25; margin: 0; }
+.fl-stage .sample-p { color: var(--text-muted); margin: 0; font-size: 1rem; }
+.fl-code { position: relative; margin-block-start: 14px; }
+.fl-code pre { margin: 0; padding-block-end: 50px; }
+.fl-code button { position: absolute; bottom: 10px; inset-inline-end: 12px; background: #26282e; border: 0; color: var(--code-text); font: inherit; font-size: .74rem; padding: 5px 12px; border-radius: 7px; cursor: pointer; }
+.fl-code button:hover { background: #34383d; }
+@media (max-width: 860px) { .fluid-lab { grid-template-columns: 1fr; } }
 /* ============ contrast checker ============ */
 .contrast-box { display: grid; grid-template-columns: 340px 1fr; gap: 18px; }
 .cc-controls { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: var(--shadow), var(--glow); }
@@ -288,17 +316,23 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
 
 <header class="site themed">
   <div class="wrap nav">
-    <a class="brand" href="#top"><span class="mark">DA</span> design-arsenal <span class="ver">v2.3.0</span></a>
-    <nav class="links" aria-label="أقسام الصفحة">
+    <a class="brand" href="#top"><img class="brand-logo" src="assets/icon.svg" alt="" width="30" height="30"> design-arsenal <span class="ver">v2.4.1</span></a>
+    <nav class="links" id="navLinks" aria-label="أقسام الصفحة">
       <a href="#studio">الاستوديو الحي</a>
+      <a href="#fluid">مختبر السوائل</a>
       <a href="#contrast">فاحص التباين</a>
       <a href="#modules">الوحدات</a>
       <a href="#tree">شجرة القرار</a>
       <a href="#install">التثبيت</a>
+      <a href="index.html">معرض الحركة ↗</a>
     </nav>
     <button class="theme-btn" id="themeBtn" type="button" aria-describedby="themeHint">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" id="themeIcon"></svg>
       <span id="themeLabel">النظام</span>
+    </button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="navLinks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span class="visually-hidden">إظهار أقسام الصفحة</span>
     </button>
     <span id="themeHint" class="visually-hidden">يبدّل بين الفاتح والداكن وتفضيل النظام ويحفظ اختيارك</span>
   </div>
@@ -309,10 +343,11 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
   <section class="hero" id="top">
     <div class="grid-bg" aria-hidden="true"></div>
     <div class="wrap inner">
-      <h1>أداة واحدة.<br><span class="grad">اثنتا عشرة وحدة.</span> مدخل واحد للوكيل.</h1>
-      <p class="lead">design-arsenal تدمج سبعة مشاريع عالمية مفتوحة المصدر مع خمس وحدات أصلية (العربية وRTL، الإتاحة، الرموز، الأداء، والوضع الداكن) في مهارة واحدة بمدخل <code dir="ltr">SKILL.md</code> وحيد — وهذه الصفحة نفسها مبنية بقواعدها: ثيم بلا وميض، خصائص منطقية، وتباين مفحوص.</p>
+      <h1>أداة واحدة.<br><span class="grad">ثلاث عشرة وحدة.</span> مدخل واحد للوكيل.</h1>
+      <p class="lead">design-arsenal تدمج سبعة مشاريع عالمية مفتوحة المصدر مع ست وحدات أصلية (العربية وRTL، الإتاحة، الرموز، الأداء، الوضع الداكن، والتجاوب السائل) في مهارة واحدة بمدخل <code dir="ltr">SKILL.md</code> وحيد — وهذه الصفحة نفسها مبنية بقواعدها: ثيم بلا وميض، خصائص منطقية، وتباين مفحوص.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#studio">جرّب الاستوديو الحي</a>
+        <a class="btn btn-ghost" href="index.html">معرض الحركة والانتقالات</a>
         <a class="btn btn-ghost" href="https://github.com/CTO-DRS/design-arsenal" dir="ltr">GitHub ↗</a>
         <span class="install-chip"><span class="prompt" aria-hidden="true">$</span><code id="instCmd" dir="ltr">bash install.sh</code><button type="button" data-copy="#instCmd">نسخ</button></span>
       </div>
@@ -342,9 +377,9 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
   <!-- ================= STATS ================= -->
   <section style="padding-block: 8px 24px;">
     <div class="wrap stats">
-      <div class="stat"><b dir="ltr">12</b><span>وحدة داخلية بأدلة MANUAL</span></div>
-      <div class="stat"><b dir="ltr">5</b><span>وحدات أصلية authored للحزمة</span></div>
-      <div class="stat"><b dir="ltr">4</b><span>سكربتات قياس بلا اعتماديات</span></div>
+      <div class="stat"><b dir="ltr">13</b><span>وحدة داخلية بأدلة MANUAL</span></div>
+      <div class="stat"><b dir="ltr">6</b><span>وحدات أصلية authored للحزمة</span></div>
+      <div class="stat"><b dir="ltr">5</b><span>سكربتات قياس بلا اعتماديات</span></div>
       <div class="stat"><b dir="ltr">1</b><span>ملف SKILL.md يسجّل أداة واحدة</span></div>
     </div>
   </section>
@@ -415,6 +450,50 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
     </div>
   </section>
 
+  <!-- ================= FLUID LAB ================= -->
+  <section id="fluid">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">مختبر السوائل — وحدة responsive</p>
+        <h2>حرّك عرض الشاشة وشاهد <code dir="ltr">clamp()</code> تعمل</h2>
+        <p>الصيغ نفسها الموصى بها في <code dir="ltr">skills/responsive/MANUAL.md §3</code>: حدّ أدنى، ميل بصري بوحدة <code dir="ltr">vw</code>، وسقف أقصى — بلا استعلامات وسط. اسحب المنزلق ويُحسب الحجم الفعلي بالمعادلة نفسها لحظة بلحظة، ويتوقف النمو تلقائيًا عند نقطتَي التوقّف.</p>
+      </div>
+      <div class="fluid-lab">
+        <aside class="fl-controls">
+          <div class="ctl-group" style="margin-block-end: 0;">
+            <span class="ctl-label" id="lbl-fl">المقاس المرجعي</span>
+            <div class="seg" role="group" aria-labelledby="lbl-fl" id="flPresets">
+              <button type="button" data-p="0" aria-pressed="true">عنوان رئيسي</button>
+              <button type="button" data-p="1" aria-pressed="false">عنوان قسم</button>
+              <button type="button" data-p="2" aria-pressed="false">نص فقرة</button>
+            </div>
+          </div>
+          <div class="ctl-group" style="margin-block-end: 0;">
+            <label class="ctl-label" for="flRange">عرض الـviewport: <b id="flVw" dir="ltr">390px</b></label>
+            <input type="range" id="flRange" min="320" max="1600" step="10" value="390">
+            <div class="fl-ticks" aria-hidden="true"><span>320px</span><span>1600px</span></div>
+          </div>
+          <div class="fl-readout" aria-live="polite">
+            <span>الحجم الفعلي المحسوب</span>
+            <span class="big" id="flSize" dir="ltr">32.0px</span>
+            <div class="fl-track" aria-hidden="true"><div class="fill" id="flFill"></div></div>
+            <span class="range-note" id="flRangeNote">ثابت تحت <b dir="ltr">320px</b> وفوق <b dir="ltr">1280px</b> — بينهما سائل خطّي</span>
+          </div>
+        </aside>
+        <div class="preview">
+          <div class="fl-stage">
+            <p class="sample" id="flSample">التصميم السيّل لا يخمّن — يقيس</p>
+            <p class="sample-p">نص فقرة مرجعيّ بحجم <span dir="ltr">1rem</span> لتقارن نسبة العنوان إلى المتن عند كل عرض — والعنوان هنا لا يتجاوز سقفه مهما اتسعت الشاشة، ولا ينهار تحت حدّه على الهاتف.</p>
+          </div>
+          <div class="fl-code">
+            <pre id="flCode" tabindex="0">h1 { font-size: clamp(2rem, 1.5rem + 2.5vw, 3.5rem); }</pre>
+            <button type="button" id="flCopy" aria-label="نسخ قاعدة CSS">نسخ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= CONTRAST ================= -->
   <section id="contrast" style="padding-block-start: 0;">
     <div class="wrap">
@@ -456,12 +535,12 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
     <div class="wrap">
       <div class="sec-head">
         <p class="kicker">الداخلية</p>
-        <h2>اثنتا عشرة وحدة تحت أداة واحدة</h2>
-        <p>سبع من المشاريع الأفضل في مجالها (منسوخة من مستودعاتها) وخمس أصلية authored لهذه الحزمة — كلها تُقرأ كأدلة <code dir="ltr">MANUAL.md</code> من القرص عند الحاجة، ولا شيء منها يُسجَّل كأداة مستقلة.</p>
+        <h2>ثلاث عشرة وحدة تحت أداة واحدة</h2>
+        <p>سبع من المشاريع الأفضل في مجالها (منسوخة من مستودعاتها) وست أصلية authored لهذه الحزمة — كلها تُقرأ كأدلة <code dir="ltr">MANUAL.md</code> من القرص عند الحاجة، ولا شيء منها يُسجَّل كأداة مستقلة.</p>
       </div>
       <div class="filters" role="group" aria-label="فلترة الوحدات" id="modFilters">
         <button type="button" data-f="all" aria-pressed="true">الكل</button>
-        <button type="button" data-f="original" aria-pressed="false">الأصلية (5)</button>
+        <button type="button" data-f="original" aria-pressed="false">الأصلية (6)</button>
         <button type="button" data-f="upstream" aria-pressed="false">من المشاريع العالمية (7)</button>
         <button type="button" data-f="quality" aria-pressed="false">جودة وتحقق</button>
         <button type="button" data-f="motion" aria-pressed="false">حركة</button>
@@ -561,9 +640,10 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
 
 <footer class="site-foot themed">
   <div class="wrap inner">
-    <span>design-arsenal v2.3.0 — أداة واحدة، اثنتا عشرة وحدة، صفر اعتماديات في هذه الصفحة.</span>
+    <span>design-arsenal v2.4.1 — أداة واحدة، ثلاث عشرة وحدة، صفر اعتماديات في هذه الصفحة.</span>
     <span>
       <a href="https://github.com/CTO-DRS/design-arsenal" dir="ltr">GitHub</a> ·
+      <a href="index.html">معرض الحركة</a> ·
       <a href="#top">إلى الأعلى ↑</a>
     </span>
   </div>
@@ -610,10 +690,12 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
     if (live) live.textContent = "الثيم: " + NAMES[next];
   });
   mql.addEventListener("change", function () { if (effective() === "system") apply(); });
-  apply();
 
-  /* studio segmented controls mirror the same mechanism */
+  /* studio segmented controls mirror the same mechanism — must be assigned
+     BEFORE the first apply(), otherwise syncSeg() throws on an undefined
+     list and aborts every module below it (fixed in v2.4.1) */
   var segs = document.querySelectorAll(".seg");
+  apply();
   function syncSeg(mode) {
     segs.forEach(function (seg) {
       if (seg.dataset.seg !== "theme") return;
@@ -719,7 +801,8 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
     { n: "09", slug: "a11y", name: "Accessibility (WCAG 2.2 AA)", og: true, cat: "quality", stage: "بوابة كل مرحلة", blurb: "سكربت تباين بلا اعتماديات، HTML دلالي، 4 أنماط ARIA، لوحة مفاتيح، نماذج، وحركة آمنة دهليزيًا — تدقيق 12 نقطة." },
     { n: "10", slug: "tokens", name: "Design Tokens (DTCG)", og: true, cat: "tokens", stage: "EXTRACT/BUILD", blurb: "من لقطة أو رابط أو موجز إلى معمارية رموز متدرجة تُصدَّر إلى CSS وTailwind v3/v4 وFigma — والداكن بملف." },
     { n: "11", slug: "web-vitals", name: "Web Vitals (Performance)", og: true, cat: "quality", stage: "ميزانية كل مرحلة", blurb: "عتبات LCP/INP/CLS وخط لعب التحميل + محلل HTML ثابت يكشف lazy heroes والوسائط بلا أبعاد والسكربتات الحاجبة." },
-    { n: "12", slug: "dark-mode", name: "Dark Mode (Theming)", og: true, cat: "tokens", stage: "طبقة الثيمات", blurb: "إعادة ضبط لا قلب: سطوح 12% ونص 90%، الثيم بملف موازٍ، مفتاح ثلاثي بلا وميض، وفاحص توازية وتباين الثيمين." }
+    { n: "12", slug: "dark-mode", name: "Dark Mode (Theming)", og: true, cat: "tokens", stage: "طبقة الثيمات", blurb: "إعادة ضبط لا قلب: سطوح 12% ونص 90%، الثيم بملف موازٍ، مفتاح ثلاثي بلا وميض، وفاحص توازية وتباين الثيمين." },
+    { n: "13", slug: "responsive", name: "Responsive & Fluid Design", og: true, cat: "quality", stage: "طبقة سائلة", blurb: "السوائل قبل نقاط التوقف: تايبوغرافي وتباعد وشبكات clamp() وauto-fit، واستعلامات حاويات للمكوّنات فقط — مع لِنت ثابت يكشف viewport المقفول والجذر المقيس بالبكسل و100vw والعرض المقفول." }
   ];
   var grid = document.getElementById("modGrid");
   function render(f) {
@@ -809,7 +892,10 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
     ["loading='lazy' على صورة الـhero", "المتصفح يكتشف الطلب متأخرًا فيهبط LCP.", "eager + fetchpriority=high — web-vitals §2"],
     ["وسائط بلا width/height صريحين", "انزياح تخطيط مضمون عند التحميل (CLS).", "احجز الأبعاد دائمًا — web-vitals §3"],
     ["ثيم داكن بقلب القيم #fff↔#000", "وهج أبيض وسطوح ميتة بلا ارتفاع.", "أعد الضبط: 12% و90% — dark-mode §1"],
-    ["مفتاح ثيم يومض أبيض عند كل تحديث", "الوميض يعني غياب سكربت الإقلاع.", "سكربت سطري حاجب في head — dark-mode §4"]
+    ["مفتاح ثيم يومض أبيض عند كل تحديث", "الوميض يعني غياب سكربت الإقلاع.", "سكربت سطري حاجب في head — dark-mode §4"],
+    ["viewport بـ user-scalable=no أو maximum-scale أقل من 2", "قفل التكبير يفشل WCAG 1.4.4 — تكبير الشاشة حاجة فعلية لملايين المستخدمين.", "width=device-width, initial-scale=1 — responsive §2"],
+    ["width: 100vw على حاوية", "‏100vw تشمل شريط التمرير، فيولد تمريرًا أفقيًا مع أي تمرير رأسي.", "width: 100% أو 100dvh — responsive §4"],
+    ["px على جذر html أو حاوية مقفولة بعرض 480px فأكثر", "يقضي على تكبير المستخدم ويكسر إعادة التدفق على 320px.", "جذر clamp() + وحدات نسبية + حاويات سائلة — responsive §3/§5"]
   ];
   document.getElementById("banGrid").innerHTML = BANS.map(function (b) {
     return '<div class="ban"><span class="no">✗ ' + b[0] + "</span><p>" + b[1] + '</p><span class="fix">✓ ' + b[2] + "</span></div>";
@@ -820,9 +906,9 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
 (function () {
   var CMDS = {
     install: '<span class="g">$</span> bash install.sh\n<span class="c"># كشف تلقائي: Claude Code / Codex / Gemini CLI / Cursor / Windsurf / OpenCode</span>\n<span class="c"># → يُنصّب أداة واحدة باسم design-arsenal (SKILL.md + 13 وحدة داخلية)</span>\n<span class="g">✓</span> Installed as ONE skill: design-arsenal\n<span class="c"># ثم أعد تشغيل وكيلك — سيسجّل أداة واحدة بالضبط</span>',
-    doctor: '<span class="g">$</span> bash install.sh doctor\n<span class="c">✓</span> root SKILL.md present (single entry point)\n<span class="c">✓</span> no nested SKILL.md under skills/ (manuals only)\n<span class="c">✓</span> index.json valid — version 2.3.0\n<span class="c">✓</span> all 23 manual paths from index.json exist on disk\n<span class="c">✓</span> script OK: a11y/contrast.mjs · design-tokens/convert.mjs · web-vitals/webvitals.mjs · dark-mode/theme.mjs\n<span class="g">✓</span> healthy — one tool, all references resolve.',
-    list: '<span class="g">$</span> bash install.sh list\ndesign-arsenal — ONE tool, 12 modules (v2.3.0)\n  1. extract      [upstream]  designlang / design-extract\n  2. taste        [upstream]  Taste Skill v2\n  3. polish       [upstream]  Impeccable\n  4. gsap         [upstream]  GSAP Skills (official) (+8 sub)\n  5. components   [upstream]  React Bits\n  6. transitions  [upstream]  Transitions.dev (+3 sub)\n  7. verify       [upstream]  Playwright CLI\n  8. rtl-arabic   <span class="g">[original]</span>  RTL Arabic Design\n  9. a11y         <span class="g">[original]</span>  Accessibility (WCAG 2.2 AA)\n 10. tokens       <span class="g">[original]</span>  Design Tokens (DTCG)\n 11. web-vitals   <span class="g">[original]</span>  Web Vitals (Performance)\n 12. dark-mode    <span class="g">[original]</span>  Dark Mode (Theming)',
-    update: '<span class="g">$</span> bash install.sh update\n<span class="c"># استنساخ git؟ ← git pull --ff-only</span>\n<span class="c"># نسخة ZIP؟ ← آخر Release من GitHub ثم doctor تلقائيًا</span>\n<span class="g">✓</span> updated to v2.3.0'
+    doctor: '<span class="g">$</span> bash install.sh doctor\n<span class="c">✓</span> root SKILL.md present (single entry point)\n<span class="c">✓</span> no nested SKILL.md under skills/ (manuals only)\n<span class="c">✓</span> index.json valid — version 2.4.1\n<span class="c">✓</span> all 24 manual paths from index.json exist on disk\n<span class="c">✓</span> script OK: a11y/contrast.mjs · design-tokens/convert.mjs · web-vitals/webvitals.mjs · dark-mode/theme.mjs · responsive/responsive.mjs\n<span class="g">✓</span> healthy — one tool, all references resolve.',
+    list: '<span class="g">$</span> bash install.sh list\ndesign-arsenal — ONE tool, 13 modules (v2.4.1)\n  1. extract      [upstream]  designlang / design-extract\n  2. taste        [upstream]  Taste Skill v2\n  3. polish       [upstream]  Impeccable\n  4. gsap         [upstream]  GSAP Skills (official) (+8 sub)\n  5. components   [upstream]  React Bits\n  6. transitions  [upstream]  Transitions.dev (+3 sub)\n  7. verify       [upstream]  Playwright CLI\n  8. rtl-arabic   <span class="g">[original]</span>  RTL Arabic Design\n  9. a11y         <span class="g">[original]</span>  Accessibility (WCAG 2.2 AA)\n 10. tokens       <span class="g">[original]</span>  Design Tokens (DTCG)\n 11. web-vitals   <span class="g">[original]</span>  Web Vitals (Performance)\n 12. dark-mode    <span class="g">[original]</span>  Dark Mode (Theming)\n 13. responsive   <span class="g">[original]</span>  Responsive & Fluid Design',
+    update: '<span class="g">$</span> bash install.sh update\n<span class="c"># استنساخ git؟ ← git pull --ff-only</span>\n<span class="c"># نسخة ZIP؟ ← آخر Release من GitHub ثم doctor تلقائيًا</span>\n<span class="g">✓</span> updated to v2.4.1'
   };
   var out = document.getElementById("termOut");
   var current = "install";
@@ -865,6 +951,99 @@ document.querySelectorAll("[data-copy]").forEach(function (b) {
     save.textContent = "محفوظ ✓"; setTimeout(function () { save.textContent = "أضِف للمفضلة"; }, 1200);
   });
 })();
+
+/* ================= mobile nav disclosure ================= */
+(function () {
+  var btn = document.getElementById("menuBtn");
+  var nav = document.querySelector(".nav");
+  if (!btn || !nav) return;
+  btn.addEventListener("click", function () {
+    var open = nav.classList.toggle("open");
+    btn.setAttribute("aria-expanded", String(open));
+  });
+  document.getElementById("navLinks").addEventListener("click", function (e) {
+    if (e.target.closest("a")) { nav.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); }
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && nav.classList.contains("open")) {
+      nav.classList.remove("open"); btn.setAttribute("aria-expanded", "false"); btn.focus();
+    }
+  });
+})();
+
+/* ================= scroll-spy (aria-current on the visible section) ================= */
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav .links a[href^="#"]'));
+  if (!links.length || !("IntersectionObserver" in window)) return;
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute("href").slice(1)] = a; });
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var a = map[en.target.id];
+      if (!a) return;
+      links.forEach(function (x) { x.removeAttribute("aria-current"); });
+      a.setAttribute("aria-current", "true");
+    });
+  }, { rootMargin: "-35% 0px -55% 0px" });
+  Object.keys(map).forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+})();
+
+/* ================= fluid lab — same clamp math as responsive §3 ================= */
+(function () {
+  var ROOT = 16; /* rem base used by the manual's recipes */
+  var PRESETS = [
+    { sel: "h1", min: 2,    pref: 1.5,  slope: 2.5, max: 3.5,   sample: "التصميم السيّل لا يخمّن — يقيس" },
+    { sel: "h2", min: 1.5,  pref: 1.1,  slope: 1.6, max: 2.25,  sample: "عنوان قسم يتكيف مع كل شاشة" },
+    { sel: "p",  min: 1,    pref: 0.95, slope: 0.2, max: 1.125, sample: "نص فقرة قابل للقراءة في كل مكان" }
+  ];
+  var range = document.getElementById("flRange");
+  if (!range) return;
+  var vwEl = document.getElementById("flVw");
+  var sizeEl = document.getElementById("flSize");
+  var fillEl = document.getElementById("flFill");
+  var noteEl = document.getElementById("flRangeNote");
+  var sample = document.getElementById("flSample");
+  var code = document.getElementById("flCode");
+  var presetIdx = 0;
+
+  function fmt(n) { return (Math.round(n * 10) / 10).toString(); }
+  function update() {
+    var p = PRESETS[presetIdx];
+    var v = +range.value;
+    var fluidPx = p.pref * ROOT + (p.slope * v) / 100;
+    var minPx = p.min * ROOT, maxPx = p.max * ROOT;
+    var size = Math.min(maxPx, Math.max(minPx, fluidPx));
+    var lo = ((p.min - p.pref) * ROOT) / (p.slope / 100);
+    var hi = ((p.max - p.pref) * ROOT) / (p.slope / 100);
+    vwEl.textContent = v + "px";
+    sizeEl.textContent = fmt(size) + "px";
+    sample.style.fontSize = size + "px";
+    sample.textContent = p.sample;
+    fillEl.style.width = ((size - minPx) / (maxPx - minPx)) * 100 + "%";
+    noteEl.innerHTML = "ثابت تحت <b dir=\"ltr\">" + fmt(lo) + "px</b> وفوق <b dir=\"ltr\">" + fmt(hi) + "px</b> — بينهما سائل خطّي";
+    code.textContent = p.sel + " { font-size: clamp(" + p.min + "rem, " + p.pref + "rem + " + p.slope + "vw, " + p.max + "rem); }";
+  }
+  range.addEventListener("input", update);
+  document.getElementById("flPresets").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    presetIdx = +b.dataset.p;
+    update();
+  });
+  document.getElementById("flCopy").addEventListener("click", function () {
+    if (navigator.clipboard) navigator.clipboard.writeText(code.textContent);
+    this.textContent = "تم ✓";
+    var self = this;
+    setTimeout(function () { self.textContent = "نسخ"; }, 1400);
+  });
+  update();
+})();
+
 </script>
 </body>
 </html>

@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Design Arsenal — عرض حيّ لترسانة التصميم</title>
-<meta name="description" content="ديمو شامل لأدوات design-arsenal: GSAP + transitions.dev + أنماط React Bits + قواعد taste/impeccable في صفحة واحدة تعمل بلا بناء.">
+<meta name="description" content="ديمو شامل لأداة design-arsenal (13 وحدة): GSAP + transitions.dev + أنماط React Bits + قواعد taste/impeccable في صفحة واحدة تعمل بلا بناء — والاستوديو التفاعلي للوحدات في showcase.html.">
+<link rel="icon" type="image/svg+xml" href="assets/icon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,650&display=swap" rel="stylesheet">
@@ -50,11 +51,15 @@ header{position:fixed;top:0;right:0;left:0;z-index:80;display:flex;align-items:c
   background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.brand-logo{width:28px;height:28px;border-radius:8px;flex:none}
+.brand img{display:block}
 .brand-mark{width:26px;height:26px;border-radius:8px;background:var(--accent);
   display:grid;place-items:center;color:#fff;font-size:13px;font-weight:700;font-family:var(--font-display)}
 nav{display:flex;gap:6px}
 nav a{color:var(--muted);text-decoration:none;font-size:13.5px;padding:7px 13px;border-radius:999px;transition:color var(--duration-quick) var(--ease-smooth-out),background var(--duration-quick) var(--ease-smooth-out)}
 nav a:hover{color:var(--ink);background:var(--surface-2)}
+nav a.nav-cta{color:var(--ink);border:1px solid var(--line-strong)}
+nav a.nav-cta:hover{border-color:var(--accent)}
 @media(max-width:720px){nav{display:none}}
 
 /* ═══ البطل — خلفية جزيئات بنمط React Bits ═══ */
@@ -210,6 +215,18 @@ section{padding:clamp(64px,9vw,120px) clamp(20px,5vw,56px);position:relative}
   animation:grad-pan 5s linear infinite}
 @keyframes grad-pan{to{background-position:220% 0}}
 
+/* ═══ شريط الوحدات الأصلية — ربط ثنائي الاتجاه مع الاستوديو ═══ */
+.origin-band{background:var(--surface);border-block:1px solid var(--line)}
+.origin-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:28px}
+.origin-card{display:flex;flex-direction:column;gap:8px;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:14px;padding:20px;color:var(--ink);text-decoration:none;
+  transition:transform var(--duration-fast) var(--ease-smooth-out),border-color var(--duration-fast) var(--ease-smooth-out)}
+.origin-card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.origin-card b{font-size:14.5px;display:flex;align-items:center;gap:8px}
+.origin-card b .idx{font-family:var(--font-display);color:var(--accent);font-size:12px}
+.origin-card span{font-size:13px;color:var(--muted);font-weight:300;line-height:1.7}
+.origin-card .go{font-size:12px;color:var(--accent);font-weight:600}
+
 /* ═══ التذييل ═══ */
 footer{border-top:1px solid var(--line);padding:44px clamp(20px,5vw,56px) 60px;color:var(--faint);font-size:13px}
 footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
@@ -230,11 +247,12 @@ footer b{color:var(--muted)}
 <div id="progress"></div>
 
 <header>
-  <div class="brand"><span class="brand-mark">A</span> Design Arsenal <span style="color:var(--faint);font-weight:400">/ ترسانة التصميم</span></div>
+  <div class="brand"><img class="brand-logo" src="assets/icon.svg" alt="" width="28" height="28"> Design Arsenal <span style="color:var(--faint);font-weight:400">/ ترسانة التصميم</span></div>
   <nav>
     <a href="#transitions">انتقالات transitions.dev</a>
     <a href="#gsap">حركة GSAP</a>
     <a href="#reactbits">أنماط React Bits</a>
+    <a class="nav-cta" href="showcase.html">استوديو الوحدات ←</a>
   </nav>
 </header>
 
@@ -242,18 +260,19 @@ footer b{color:var(--muted)}
 <div class="hero">
   <canvas id="particles" aria-hidden="true"></canvas>
   <div class="hero-inner">
-    <span class="kicker">سبع أدوات · حزمة واحدة · سير عمل كامل</span>
+    <span class="kicker">13 وحدة · أداة واحدة · مدخل واحد للوكيل</span>
     <h1>واجهات لا تشبه القوالب — <span class="accent">من الاستخراج إلى التحقق</span> في حزمة واحدة.</h1>
-    <p class="lead">هذه الصفحة عرض حيّ لما تدمجه حزمة design-arsenal: انتقالات transitions.dev بأكوادها الأصلية الموثقة، حركة GSAP، أنماط مكوّنات React Bits معاد بناؤها بـ JavaScript خالص، وقواعد الذوق من taste وimpeccable مطبّقة على التصميم نفسه.</p>
+    <p class="lead">هذه الصفحة عرض حيّ لما تدمجه حزمة design-arsenal (13 وحدة داخل أداة واحدة): انتقالات transitions.dev بأكوادها الأصلية الموثقة، حركة GSAP، أنماط مكوّنات React Bits معاد بناؤها بـ JavaScript خالص، وقواعد الذوق من taste وimpeccable مطبّقة على التصميم نفسه — والوحدات الأصلية الست لها استوديو تفاعلي في صفحة ثانية.</p>
     <div class="hero-ctas">
-      <button class="btn primary" data-open-modal>جرّب المودال ← transitions.dev</button>
-      <a class="btn" href="#transitions">استعرض الأدلة الحيّة</a>
+      <a class="btn primary" href="showcase.html">استوديو الوحدات التفاعلي ←</a>
+      <button class="btn" data-open-modal>جرّب المودال ← transitions.dev</button>
     </div>
     <div class="hero-tools">
       <span class="tool-chip">designlang</span><span class="tool-chip">taste v2</span>
       <span class="tool-chip">impeccable</span><span class="tool-chip">GSAP ×8</span>
       <span class="tool-chip">react-bits ×218</span><span class="tool-chip">transitions.dev ×43</span>
       <span class="tool-chip">playwright-cli</span>
+      <span class="tool-chip" style="color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent)">+ rtl-arabic · a11y · tokens · web-vitals · dark-mode · responsive</span>
     </div>
   </div>
 </div>
@@ -350,7 +369,7 @@ footer b{color:var(--muted)}
       <div class="stat reveal"><div class="num"><span class="counter" data-to="218">0</span></div><span>مكوّن React Bits داخل الحزمة</span></div>
       <div class="stat reveal"><div class="num"><span class="counter" data-to="43">0</span><span class="unit">+</span></div><span>انتقال CSS جاهز للتطبيق</span></div>
       <div class="stat reveal"><div class="num"><span class="counter" data-to="24">0</span></div><span>أمر تصميم في impeccable</span></div>
-      <div class="stat reveal"><div class="num"><span class="counter" data-to="7">0</span></div><span>أدوات مدمجة في الراوتر الواحد</span></div>
+      <div class="stat reveal"><div class="num"><span class="counter" data-to="13">0</span></div><span>وحدة داخلية بمدخل SKILL.md واحد</span></div>
     </div>
 
     <h2 class="wave-headline" id="wave" aria-label="حركة نصية موجة بـ GSAP">Wave your words with GSAP motion</h2>
@@ -375,9 +394,29 @@ footer b{color:var(--muted)}
   </div>
 </section>
 
+<!-- ═══════════ 4) الوحدات الأصلية الست — ربط مع الاستوديو ═══════════ -->
+<section id="originals" class="origin-band">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-tag">authored داخل الحزمة</span>
+      <h2>ست وحدات أصلية — جرّبها حيّة في الاستوديو</h2>
+      <p>وحدات كُتبت خصيصًا لهذه الحزمة ولا تُنسخ من مشروع خارجي: كل بطاقة أدناه تفتح القسم التفاعلي المقابل في <code>showcase.html</code> حيث تُطبّق الوحدة على نفسها.</p>
+    </div>
+    <div class="origin-grid">
+      <a class="origin-card reveal" href="showcase.html#studio"><b><span class="idx">08</span> rtl-arabic</b><span>خصائص منطقية وتايبوغرافيا عربية — قلب RTL/LTR حيّ بخصائص inset-inline فقط.</span><span class="go">جرّب في الاستوديو ←</span></a>
+      <a class="origin-card reveal" href="showcase.html#contrast"><b><span class="idx">09</span> a11y</b><span>WCAG 2.2 AA — فاحص تباين مباشر بنفس معادلات contrast.mjs ولوحة مفاتيح كاملة.</span><span class="go">جرّب فاحص التباين ←</span></a>
+      <a class="origin-card reveal" href="showcase.html#studio"><b><span class="idx">10</span> design-tokens</b><span>رموز DTCG متدرجة تُصدَّر إلى CSS وTailwind وFigma — الثيم = بيانات لا قيم صلبة.</span><span class="go">شاهد الثيم ببيانات ←</span></a>
+      <a class="origin-card reveal" href="showcase.html#studio"><b><span class="idx">11</span> web-vitals</b><span>ميزانيات LCP/INP/CLS على كل مرحلة — وخط لعب تحميل قبل النشر.</span><span class="go">القسم في الاستوديو ←</span></a>
+      <a class="origin-card reveal" href="showcase.html#studio"><b><span class="idx">12</span> dark-mode</b><span>إعادة ضبط لا قلب — مفتاح ثلاثي بلا وميض يعمل في هذه الصفحة وأختها.</span><span class="go">بدّل الثيم حيًّا ←</span></a>
+      <a class="origin-card reveal" href="showcase.html#fluid"><b><span class="idx">13</span> responsive</b><span>السوائل قبل نقاط التوقف — مختبر clamp() بمنزلق viewport يُظهر نقطتَي التوقّف.</span><span class="go">افتح مختبر السوائل ←</span></a>
+    </div>
+    <a class="btn primary" href="showcase.html">افتح الاستوديو الكامل ←</a>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
-    <div>مبني ضمن <b>design-arsenal</b> — دمج منفتح لسبعة مشاريع مفتوحة المصدر، راجع <b>ATTRIBUTION.md</b> للتراخيص.</div>
+    <div>مبني ضمن <b>design-arsenal</b> — أداة واحدة تدمج 13 وحدة (7 مشاريع عالمية + 6 أصلية)، راجع <b>ATTRIBUTION.md</b> للتراخيص · <a href="showcase.html" style="color:var(--muted)">الاستوديو التفاعلي</a> · <a href="https://github.com/CTO-DRS/design-arsenal" style="color:var(--muted)">GitHub</a></div>
     <div>designlang · taste · impeccable · GSAP · React Bits · transitions.dev · playwright-cli</div>
   </div>
 </footer>
@@ -404,20 +443,32 @@ footer b{color:var(--muted)}
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const hasGSAP = typeof gsap !== "undefined";
 
-/* ═══ 1) المودال — نمط 06: is-open ثم is-closing عند الإغلاق ═══ */
+/* ═══ 1) المودال — نمط 06: is-open ثم is-closing عند الإغلاق + focus trap ═══ */
 const overlay = document.getElementById("overlay");
 const modal = document.getElementById("modal");
 let modalCloseTimer = null;
+let lastFocused = null;
 function openModal(){ clearTimeout(modalCloseTimer);
-  overlay.classList.add("is-open"); modal.classList.remove("is-closing"); modal.classList.add("is-open"); }
+  lastFocused = document.activeElement;
+  overlay.classList.add("is-open"); modal.classList.remove("is-closing"); modal.classList.add("is-open");
+  const first = modal.querySelector("button"); if (first) first.focus(); }
 function closeModal(){
   modal.classList.remove("is-open"); modal.classList.add("is-closing");
   modalCloseTimer = setTimeout(()=>{ modal.classList.remove("is-closing"); overlay.classList.remove("is-open"); }, 150);
-}
+  if (lastFocused) { lastFocused.focus(); lastFocused = null; } }
 document.querySelectorAll("[data-open-modal]").forEach(b=>b.addEventListener("click", openModal));
 document.querySelectorAll("[data-close-modal]").forEach(b=>b.addEventListener("click", closeModal));
 overlay.addEventListener("click", e=>{ if(e.target===overlay) closeModal(); });
-addEventListener("keydown", e=>{ if(e.key==="Escape" && modal.classList.contains("is-open")) closeModal(); });
+addEventListener("keydown", e=>{
+  if(!modal.classList.contains("is-open")) return;
+  if(e.key==="Escape"){ closeModal(); return; }
+  if(e.key==="Tab"){
+    const f = [...modal.querySelectorAll("button")];
+    const first = f[0], last = f[f.length-1];
+    if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+  }
+});
 
 /* ═══ 2) التوست — نمط 22: دخول بطيء، إغلاق أسرع ═══ */
 const toastZone = document.getElementById("toast-zone");

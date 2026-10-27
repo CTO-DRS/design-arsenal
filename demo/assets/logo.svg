@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" role="img" aria-label="Design Arsenal — الأداة الموحّدة لتصميم الواجهات">
+  <defs>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#17181c"/>
+      <stop offset="1" stop-color="#0c0d0e"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#232629"/>
+      <stop offset="1" stop-color="#121212"/>
+    </linearGradient>
+    <linearGradient id="bar1" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#4338ca"/><stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="bar2" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#4f46e5"/><stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="bar3" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#a5b4fc"/>
+    </linearGradient>
+    <linearGradient id="bar4" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#c7d2fe"/>
+    </linearGradient>
+    <linearGradient id="bar5" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#a5b4fc"/><stop offset="1" stop-color="#eef0ff"/>
+    </linearGradient>
+    <clipPath id="shieldClip">
+      <path d="M160 42 C 195 58 225 66 252 70 L 252 158 C 252 210 214 244 160 264 C 106 244 68 210 68 158 L 68 70 C 95 66 125 58 160 42 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- card -->
+  <rect x="4" y="4" width="952" height="292" rx="30" fill="url(#card)" stroke="#34383d" stroke-width="2"/>
+
+  <!-- shield (arsenal) -->
+  <path d="M160 42 C 195 58 225 66 252 70 L 252 158 C 252 210 214 244 160 264 C 106 244 68 210 68 158 L 68 70 C 95 66 125 58 160 42 Z"
+        fill="url(#shield)" stroke="#4a5058" stroke-width="2.5"/>
+
+  <!-- fluid bars inside the shield (clipped) -->
+  <g clip-path="url(#shieldClip)">
+    <rect x="84"  y="196" width="16" height="70" rx="6" fill="url(#bar1)"/>
+    <rect x="108" y="172" width="16" height="94" rx="6" fill="url(#bar2)"/>
+    <rect x="132" y="184" width="16" height="82" rx="6" fill="url(#bar3)"/>
+    <rect x="156" y="156" width="16" height="110" rx="6" fill="url(#bar4)"/>
+    <rect x="180" y="176" width="16" height="90" rx="6" fill="url(#bar3)"/>
+    <rect x="204" y="140" width="16" height="126" rx="6" fill="url(#bar5)"/>
+    <!-- baseline -->
+    <rect x="78" y="270" width="164" height="4" rx="2" fill="#4a5058"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="312" y="132" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="66" font-weight="800" letter-spacing="2" fill="#e8eaed">DESIGN ARSENAL</text>
+  <text x="314" y="186" font-family="system-ui, -apple-system, 'Segoe UI', Tahoma, sans-serif"
+        font-size="31" font-weight="600" fill="#a6adb8">الترسانة التصميمية — ثلاث عشرة وحدة، مدخل واحد</text>
+  <text x="314" y="232" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="17" font-weight="600" letter-spacing="4" fill="#6b7280">ONE TOOL · THIRTEEN MODULES · FLUID BY DEFAULT</text>
+
+  <!-- accent tick -->
+  <rect x="312" y="158" width="64" height="5" rx="2.5" fill="#6366f1"/>
+</svg>
