@@ -3,9 +3,9 @@ name: Refresh bundle from upstream
 # Rebuilds skills/ + examples/ from the 7 upstream repositories and opens
 # a PR when anything changed. Runs monthly and on demand.
 #
-# The eight ORIGINAL modules (skills/rtl-arabic, skills/a11y,
+# The nine ORIGINAL modules (skills/rtl-arabic, skills/a11y,
 # skills/design-tokens, skills/web-vitals, skills/dark-mode,
-# skills/responsive, skills/forms, skills/dataviz — see
+# skills/responsive, skills/forms, skills/dataviz, skills/i18n — see
 # ATTRIBUTION.md) are excluded from the rsync sync: they have no upstream and
 # must never be deleted by a refresh.
 # examples/workflows/ is also original content (the Arabic end-to-end
@@ -52,10 +52,11 @@ jobs:
             --exclude='responsive/' \
             --exclude='forms/' \
             --exclude='dataviz/' \
+            --exclude='i18n/' \
             bundle/skills/ skills/
           rsync -a --delete --exclude='workflows/' bundle/examples/ examples/
           # guard: original modules + original workflows must survive every refresh
-          for d in skills/rtl-arabic skills/a11y skills/design-tokens skills/web-vitals skills/dark-mode skills/responsive skills/forms skills/dataviz examples/workflows; do
+          for d in skills/rtl-arabic skills/a11y skills/design-tokens skills/web-vitals skills/dark-mode skills/responsive skills/forms skills/dataviz skills/i18n examples/workflows; do
             [ -d "$d" ] || { echo "❌ original content lost: $d"; exit 1; }
           done
 
