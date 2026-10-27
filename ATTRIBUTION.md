@@ -34,11 +34,13 @@
   - `skills/dataviz/` — data visualization (charts & dashboards) guide + `scripts/dataviz.mjs` (original content; WCAG 1.4.11 graphical-object contrast referenced by number only).
 - **Original module added in v2.7.0** — same terms as above:
   - `skills/i18n/` — Arabic-first internationalization guide + `scripts/i18n.mjs` (original content; Unicode bidi/isolation behavior and Intl/PluralRules semantics referenced conceptually, quoted from no document).
+- **Original module added in v2.8.0** — same terms as above:
+  - `skills/arabic-typography/` — advanced Arabic typography guide + `scripts/typography.mjs` (original content; WCAG 1.4.4 zoom criteria referenced by number only).
 - **Renamed (v2 single-tool architecture)**: every upstream `SKILL.md` inside `skills/` was renamed to `MANUAL.md` so that only ONE skill registers with the agent; internal cross-references were updated accordingly. File contents were not otherwise altered.
 - **Transformed**: `skills/impeccable/MANUAL.md` (formerly its SKILL.md) was compiled from upstream `SKILL.src.md` by substituting template variables (`{{scripts_path}}` → `<skill-base-dir>/scripts`, `{{command_prefix}}` → `/impeccable ` — including the trailing space the command grammar needs, `{{command_hint}}` → `<command>`). No rules were added, removed, or reworded.
 - **Generated**: `skills/react-bits/CATALOG.md` and `catalog.json` were generated programmatically from the upstream component directory listing — no component code was modified.
 - **Unchanged**: every other file is a verbatim copy from the upstream repos at their current `main` branches (cloned 2026-10-26).
-- **CI note**: the monthly refresh workflow (`tools/build-bundle.sh` + `.github/workflows/refresh.yml`) rebuilds upstream content only — the nine original module directories, `logo/`, and `examples/workflows/` above are excluded from its rsync sync and are never overwritten.
+- **CI note**: the monthly refresh workflow (`tools/build-bundle.sh` + `.github/workflows/refresh.yml`) rebuilds upstream content only — the ten original module directories, `logo/`, and `examples/workflows/` above are excluded from its rsync sync and are never overwritten.
 
 ## React Bits components notice
 
