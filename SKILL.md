@@ -1,13 +1,13 @@
 ---
 name: design-arsenal
-description: "ONE unified frontend design tool merging 11 capabilities into a single skill: designlang (extract any site's design system), taste-skill (anti-slop art direction), impeccable (24 design refinement commands), GSAP (advanced animation, 8 modules), transitions.dev (43+ production CSS transitions), react-bits (218 animated React components), playwright-cli (browser automation & testing), plus 4 original modules: rtl-arabic (Arabic/RTL interfaces), a11y (WCAG 2.2 AA accessibility), design-tokens (DTCG token architecture & exports), and web-vitals (Core Web Vitals performance). One installation, one entry point, one workflow. Use when the user wants to: extract a design system from a URL, build/redesign/polish/critique/audit a frontend, add animation or transitions, use animated React components, automate/test a browser, build an Arabic or RTL interface, make UI accessible, create design tokens, or make a page fast/pass Core Web Vitals. Triggers: 'extract design', 'design system', 'build a landing page', 'redesign', 'polish UI', 'animate this', 'GSAP', 'scroll animation', 'transition', 'modal animation', 'React component animation', 'slop', 'design review', 'test in browser', 'screenshot the page', 'Arabic', 'RTL', 'عربي', 'right-to-left', 'accessibility', 'a11y', 'WCAG', 'contrast', 'screen reader', 'aria', 'design tokens', 'DTCG', 'theme tokens', 'CSS variables theme', 'performance', 'slow page', 'lighthouse', 'core web vitals', 'LCP', 'INP', 'CLS', 'perf budget', 'render-blocking', 'أداء', 'بطيء', 'سرعة الموقع'. This file is the single entry point: identify the matching module below, then read that module's MANUAL.md from disk."
+description: "ONE unified frontend design tool merging 12 capabilities into a single skill: designlang (extract any site's design system), taste-skill (anti-slop art direction), impeccable (24 design refinement commands), GSAP (advanced animation, 8 modules), transitions.dev (43+ production CSS transitions), react-bits (218 animated React components), playwright-cli (browser automation & testing), plus 5 original modules: rtl-arabic (Arabic/RTL interfaces), a11y (WCAG 2.2 AA accessibility), design-tokens (DTCG token architecture & exports), web-vitals (Core Web Vitals performance), and dark-mode (dark theme architecture & audit). One installation, one entry point, one workflow. Use when the user wants to: extract a design system from a URL, build/redesign/polish/critique/audit a frontend, add animation or transitions, use animated React components, automate/test a browser, build an Arabic or RTL interface, make UI accessible, create design tokens, make a page fast/pass Core Web Vitals, or implement/audit a dark theme with a flash-free toggle. Triggers: 'extract design', 'design system', 'build a landing page', 'redesign', 'polish UI', 'animate this', 'GSAP', 'scroll animation', 'transition', 'modal animation', 'React component animation', 'slop', 'design review', 'test in browser', 'screenshot the page', 'Arabic', 'RTL', 'عربي', 'right-to-left', 'accessibility', 'a11y', 'WCAG', 'contrast', 'screen reader', 'aria', 'design tokens', 'DTCG', 'theme tokens', 'CSS variables theme', 'performance', 'slow page', 'lighthouse', 'core web vitals', 'LCP', 'INP', 'CLS', 'perf budget', 'render-blocking', 'dark mode', 'dark theme', 'night mode', 'theme toggle', 'prefers-color-scheme', 'الوضع الداكن', 'الوضع الليلي', 'أداء', 'بطيء', 'سرعة الموقع'. This file is the single entry point: identify the matching module below, then read that module's MANUAL.md from disk."
 license: Mixed — see ATTRIBUTION.md (MIT / Apache-2.0 / Free-for-use per tool)
 ---
 
 # Design Arsenal — الأداة الموحدة لتصميم الواجهات
 
-**One tool. One entry point. Eleven modules.** This is a single skill — everything runs
-through this file. Seven world-class upstream tools and four original modules are
+**One tool. One entry point. Twelve modules.** This is a single skill — everything runs
+through this file. Seven world-class upstream tools and five original modules are
 not separate skills anymore; they are internal **modules**, each documented in a
 `MANUAL.md` you read from disk when the task calls for it.
 
@@ -17,9 +17,10 @@ EXTRACT  →  TASTE  →  BUILD  →  MOTION  →  POLISH  →  VERIFY
  + design-tokens       react-bits  transitions
 rtl-arabic (context layer — any Arabic content)
 a11y (gates every stage)        web-vitals (budgets every stage)
+dark-mode (theme layer — any themed UI, pairs with design-tokens)
 ```
 
-> **نظام أداة واحدة:** تُنصَّب هذه المهارة مرة واحدة كأداة واحدة باسم `design-arsenal`، وكل ما تفعله يمر عبر هذا الملف. الأدوات السبع السابقة أصبحت **وحدات داخلية** (مع 4 وحدات أصلية: rtl-arabic وa11y وdesign-tokens وweb-vitals) — لا تُنصَّب منفردة ولا تظهر كأدوات مستقلة، بل تُقرأ أدلة استخدامها (`MANUAL.md`) من القرص عند الحاجة فقط.
+> **نظام أداة واحدة:** تُنصَّب هذه المهارة مرة واحدة كأداة واحدة باسم `design-arsenal`، وكل ما تفعله يمر عبر هذا الملف. الأدوات السبع السابقة أصبحت **وحدات داخلية** (مع 5 وحدات أصلية: rtl-arabic وa11y وdesign-tokens وweb-vitals وdark-mode) — لا تُنصَّب منفردة ولا تظهر كأدوات مستقلة، بل تُقرأ أدلة استخدامها (`MANUAL.md`) من القرص عند الحاجة فقط.
 
 ---
 
@@ -41,6 +42,7 @@ this file's directory), then follow it. Never load more than two modules for a s
 | 9 | Accessibility: "a11y", "accessible", "WCAG", "contrast", "aria", "screen reader", "keyboard" | **a11y** (original) | `skills/a11y/MANUAL.md` |
 | 10 | Design tokens: "design tokens", "DTCG", "theme tokens", "CSS variables theme", "convert palette to Tailwind", "token architecture" | **tokens** (original) | `skills/design-tokens/MANUAL.md` |
 | 11 | Performance: "slow page", "lighthouse", "core web vitals", "LCP", "INP", "CLS", "perf budget", "render-blocking", "أداء", "بطيء", "سرعة" | **web-vitals** (original) | `skills/web-vitals/MANUAL.md` |
+| 12 | Dark theme: "dark mode", "dark theme", "night mode", "theme toggle", "prefers-color-scheme", "الوضع الداكن", "الوضع الليلي", or any UI that must ship in both light and dark | **dark-mode** (original) | `skills/dark-mode/MANUAL.md` |
 
 **Overlaps → tie-breakers:**
 
@@ -52,6 +54,7 @@ this file's directory), then follow it. Never load more than two modules for a s
 - **Motion + accessibility question** → the `a11y` reduced-motion rules always win over motion richness.
 - **Motion + performance question** → `web-vitals` main-thread budget wins; animations ship only on `transform`/`opacity`.
 - "Page is slow" → `web-vitals` static lint first (structural causes), then measure (§8 of its manual) — never guess a metric.
+- **Theme/token request** → `tokens` builds the architecture; `dark-mode` audits and implements the switch (parity, boot, toggle). Dark palette without a token file → build the token file first.
 - After ANY UI change → offer to verify with `verify` (screenshot the result).
 
 ---
@@ -63,9 +66,9 @@ Ask, in order, and stop at the first match:
 1. **Does the content contain Arabic (or another RTL script)?** → add `rtl-arabic` as the context layer, then continue below.
 2. **Is the input an existing design to consume?** URL → `extract`; screenshot/mockup → `tokens`; palette file → `tokens`.
 3. **Is the task creating something new, or changing something that exists?** New → `taste` → build (pull from `react-bits`/`gsap`/`transitions` as needed). Existing → `polish` audit first (`/impeccable audit`), then `taste` only if a new direction is needed.
-4. **What does the task end with?** Shipping UI → run `a11y` gates + `web-vitals` lint + `verify` screenshots. Producing a theme/token file → `tokens` exports + a11y audit of the pairs.
+4. **What does the task end with?** Shipping UI → run `a11y` gates + `web-vitals` lint + `verify` screenshots. Producing a theme/token file → `tokens` exports + `dark-mode` parity audit + a11y audit of the pairs in both themes.
 
-Read at most two `MANUAL.md` files per task; the four original modules may stack with one upstream module (e.g. `rtl-arabic` + `taste`).
+Read at most two `MANUAL.md` files per task; the five original modules may stack with one upstream module (e.g. `rtl-arabic` + `taste`).
 
 ---
 
@@ -87,6 +90,10 @@ Cross-module bans collected from the manuals. If your output contains one, the t
 - An `<img>` or `<iframe>` without explicit `width`/`height` (web-vitals §3) — guaranteed layout shift.
 - A classic `<script src>` in `<head>` without `defer`/`async`, or any `document.write` (web-vitals §7).
 - An `@font-face` without `font-display`, or a Google-Fonts stylesheet with no `preconnect` to fonts.gstatic.com (web-vitals §6).
+- A dark theme built by inverting light values (`#fff→#000` swap) instead of re-tuned surfaces and text steps (dark-mode §1).
+- A theme toggle that flashes the wrong theme on every reload — missing the no-flash boot script in `<head>` (dark-mode §4).
+- Pure `#ffffff` text on pure `#000000` surfaces in dark mode (dark-mode §1) — glare and dead elevation; use the `#E6E6E6`/`#121212` ranges.
+- Light-only literals (`#fff`, `white`, `bg-white`) on themed surfaces when a theme layer exists (dark-mode §2) — the component cannot participate in theming.
 
 ---
 
@@ -99,7 +106,9 @@ design-arsenal/                  ← ONE skill, installed once
 ├── install.sh                   ← one-command installer (all platforms)
 ├── ATTRIBUTION.md               ← sources & licenses
 ├── README.md                    ← الدليل الكامل بالعربية
-├── demo/index.html              ← working demo of the motion stack
+├── demo/                        ← demos (static, zero build)
+│   ├── index.html               ← working demo of the motion stack
+│   └── showcase.html            ← interactive Arabic showcase (themes, RTL, contrast)
 ├── examples/gsap/               ← GSAP starter examples (react/vue/nuxt/vanilla)
 └── skills/                      ← internal modules (reference manuals only)
     ├── extract-design/          ← designlang: URL → full design system (17+ files)
@@ -112,7 +121,8 @@ design-arsenal/                  ← ONE skill, installed once
     ├── rtl-arabic/              ← original: Arabic/RTL interfaces (logical properties, typography, 10-point audit)
     ├── a11y/                    ← original: WCAG 2.2 AA gates + zero-dep contrast script
     ├── design-tokens/           ← original: DTCG architecture + multi-target converter
-    └── web-vitals/              ← original: Core Web Vitals playbook + static HTML linter
+    ├── web-vitals/              ← original: Core Web Vitals playbook + static HTML linter
+    └── dark-mode/               ← original: dark theme architecture + zero-dep theme auditor
 ```
 
 Every module directory contains a `MANUAL.md` (formerly its own SKILL.md). Because only
@@ -154,6 +164,6 @@ skill sprawl, no duplicate triggers, no context bloat from seven installed skill
 3. **Match, don't mix.** One task → one primary module. Stack modules only in the pipeline order above.
 4. **Respect each module's bans.** `taste` bans templated looks; `impeccable` bans gray-on-color, nested cards, bounce easing; `transitions` and `a11y` require `prefers-reduced-motion` guards; `rtl-arabic` bans letterspacing on Arabic and physical `left/right` in RTL pages; `web-vitals` bans lazy heroes, dimensionless media, and render-blocking head scripts. When rules conflict, the stricter rule wins — and `a11y` safety rules outrank every aesthetic preference.
 5. **Never invent component names.** For react-bits, use only names present in `skills/react-bits/catalog.json`; otherwise build from scratch under `taste` rules.
-6. **Measure, don't eyeball.** Contrast claims come from `node skills/a11y/scripts/contrast.mjs`; token exports come from `node skills/design-tokens/scripts/convert.mjs`; structural perf claims come from `node skills/web-vitals/scripts/webvitals.mjs`. If the scripts disagree with your eye, the scripts win.
+6. **Measure, don't eyeball.** Contrast claims come from `node skills/a11y/scripts/contrast.mjs`; token exports come from `node skills/design-tokens/scripts/convert.mjs`; structural perf claims come from `node skills/web-vitals/scripts/webvitals.mjs`; dark-theme readiness claims come from `node skills/dark-mode/scripts/theme.mjs`. If the scripts disagree with your eye, the scripts win.
 7. **Arabic content routes through rtl-arabic.** The moment a task contains Arabic or RTL content, read `skills/rtl-arabic/MANUAL.md` before writing any CSS — even if another module leads.
-8. **Attribution.** The seven upstream modules come from independent open-source projects — keep their licenses intact (see `ATTRIBUTION.md`). The four original modules (rtl-arabic, a11y, design-tokens, web-vitals) are part of this bundle.
+8. **Attribution.** The seven upstream modules come from independent open-source projects — keep their licenses intact (see `ATTRIBUTION.md`). The five original modules (rtl-arabic, a11y, design-tokens, web-vitals, dark-mode) are part of this bundle.

@@ -1,8 +1,8 @@
 {
   "name": "design-arsenal",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "architecture": "single-skill",
-  "description": "ONE unified frontend design skill: 7 upstream tools + 4 original modules as internal modules — one SKILL.md entry point, no per-module installation",
+  "description": "ONE unified frontend design skill: 7 upstream tools + 5 original modules as internal modules — one SKILL.md entry point, no per-module installation",
   "entryPoint": "SKILL.md",
   "documentation": "README.md",
   "pipeline": ["EXTRACT", "TASTE", "BUILD", "MOTION", "POLISH", "VERIFY"],
@@ -126,6 +126,17 @@
       "scripts": "skills/web-vitals/scripts/webvitals.mjs",
       "category": "quality",
       "summary": "Core Web Vitals (LCP/INP/CLS) thresholds and loading playbook + zero-dep static HTML linter: lazy heroes, dimensionless media, render-blocking head scripts, font-display, viewport, inline handlers, perf budgets."
+    },
+    {
+      "slug": "dark-mode",
+      "name": "Dark Mode (Theming)",
+      "origin": "original",
+      "source": "authored for design-arsenal",
+      "license": "MIT (this bundle)",
+      "manualPath": "skills/dark-mode/MANUAL.md",
+      "scripts": "skills/dark-mode/scripts/theme.mjs",
+      "category": "tokens",
+      "summary": "Dark theme re-tuning (not inversion): token parity per theme (dark-as-a-file), three-mode toggle, the no-flash boot script, per-theme contrast re-verification, elevation/images/icons, + zero-dep auditor: missing dark overrides, glare, invariant values, WCAG pairs in both themes."
     }
   ]
 }
