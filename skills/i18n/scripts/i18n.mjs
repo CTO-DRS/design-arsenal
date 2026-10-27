@@ -48,9 +48,11 @@ const ARABIC_RE = /[\u0600-\u06FF]/;
 function blankComments(src) {
   return src.replace(/<!--[\s\S]*?-->/g, (m) => m.replace(/[^\n]/g, " "));
 }
-/** blank the bodies of blocks matched by `re` (keeps tags + line numbers) */
+/** blank the bodies of blocks matched by `re` (keeps tags + line numbers).
+ *  v2.8.0 fix: capture group 2 (the body) — a bare (m, body) signature received
+ *  the OPEN TAG as `body`, leaving script/style content visible to markup rules. */
 function blankBodies(src, re) {
-  return src.replace(re, (m, body) => m.replace(body, body.replace(/[^\n]/g, " ")));
+  return src.replace(re, (m, open, body) => m.replace(body, body.replace(/[^\n]/g, " ")));
 }
 const SCRIPT_RE = /(<script\b[^>]*>)([\s\S]*?)(<\/script\s*>)/gi;
 const STYLE_RE = /(<style\b[^>]*>)([\s\S]*?)(<\/style\s*>)/gi;

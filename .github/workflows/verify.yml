@@ -45,11 +45,11 @@ jobs:
           assert d.get("entryPoint") == "SKILL.md", "entryPoint must be SKILL.md"
           assert d.get("pipeline"), "pipeline missing"
           mods = d.get("modules", [])
-          assert len(mods) == 16, f"expected 16 modules, found {len(mods)}"
+          assert len(mods) == 17, f"expected 17 modules, found {len(mods)}"
           originals = [m for m in mods if m.get("origin") == "original"]
-          assert len(originals) == 9, f"expected 9 original modules, found {len(originals)}"
+          assert len(originals) == 10, f"expected 10 original modules, found {len(originals)}"
           originals_slugs = {m["slug"] for m in originals}
-          assert originals_slugs == {"rtl-arabic", "a11y", "tokens", "web-vitals", "dark-mode", "responsive", "forms", "dataviz", "i18n"}, f"original set drifted: {originals_slugs}"
+          assert originals_slugs == {"rtl-arabic", "a11y", "tokens", "web-vitals", "dark-mode", "responsive", "forms", "dataviz", "i18n", "arabic-typography"}, f"original set drifted: {originals_slugs}"
           print(f"✅ index.json v{d['version']} — {len(mods)} modules ({len(originals)} original)")
           PY
 
@@ -91,15 +91,16 @@ jobs:
           node skills/forms/scripts/forms.mjs --self-test
           node skills/dataviz/scripts/dataviz.mjs --self-test
           node skills/i18n/scripts/i18n.mjs --self-test
-          echo "✅ all eight module scripts pass"
+          node skills/arabic-typography/scripts/typography.mjs --self-test
+          echo "✅ all nine module scripts pass"
 
-      - name: README consistency (16 modules documented)
+      - name: README consistency (17 modules documented)
         run: |
-          for m in extract-design taste impeccable gsap react-bits transitions playwright-cli rtl-arabic a11y design-tokens web-vitals dark-mode responsive forms dataviz i18n; do
+          for m in extract-design taste impeccable gsap react-bits transitions playwright-cli rtl-arabic a11y design-tokens web-vitals dark-mode responsive forms dataviz i18n arabic-typography; do
             grep -q "skills/$m/" README.md || { echo "❌ README does not document module: $m"; exit 1; }
           done
-          grep -q "ست عشرة وحدة" README.md || { echo "❌ README module count is stale (expected ست عشرة وحدة)"; exit 1; }
-          echo "✅ README documents all 16 modules"
+          grep -q "سبع عشرة وحدة" README.md || { echo "❌ README module count is stale (expected سبع عشرة وحدة)"; exit 1; }
+          echo "✅ README documents all 17 modules"
 
       - name: Anti-slop guard — no nested SKILL.md sneaks back
         run: |

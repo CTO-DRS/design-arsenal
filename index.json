@@ -1,8 +1,8 @@
 {
   "name": "design-arsenal",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "architecture": "single-skill",
-  "description": "ONE unified frontend design skill: 7 upstream tools + 9 original modules as internal modules — one SKILL.md entry point, no per-module installation",
+  "description": "ONE unified frontend design skill: 7 upstream tools + 10 original modules as internal modules — one SKILL.md entry point, no per-module installation",
   "entryPoint": "SKILL.md",
   "documentation": "README.md",
   "pipeline": [
@@ -232,6 +232,17 @@
       "scripts": "skills/i18n/scripts/i18n.mjs",
       "category": "localization",
       "summary": "Language-ready UI architecture: lang/dir declared on the first line, Intl-only formatting (numbers, dates, currency), Arabic 6-category plurals via Intl.PluralRules, bidi isolation for inserted names, expandable text (no fixed widths on text controls), Arabic webfont subsetting, locale-ready inputs; + zero-dep static linter: missing lang/dir, manual date templates, hardcoded 'en' locale, toFixed money, (s) plurals, fixed-width text controls, unsubsetted fonts."
+    },
+    {
+      "slug": "arabic-typography",
+      "name": "Advanced Arabic Typography (الطباعة العربية المتقدمة)",
+      "origin": "original",
+      "source": "authored for design-arsenal",
+      "license": "MIT (this bundle)",
+      "manualPath": "skills/arabic-typography/MANUAL.md",
+      "scripts": "skills/arabic-typography/scripts/typography.mjs",
+      "category": "typography",
+      "summary": "The letter-and-line layer for Arabic interfaces: line-height that survives diacritics (unitless 1.6–1.9), the letter-spacing ban and its weight-contrast replacement, naskh/kufi font pairing with a Latin superfamily, fake-italic and text-transform bans, one-numeral-policy and Arabic punctuation, kashida-safe justification, variable Arabic webfonts with a dark-mode weight floor; + zero-dep static linter: tracking reaching Arabic text, tight/fixed line-height on body, Latin punctuation glued to Arabic, digit mixing, Arabic-scoped case/italic, character-splitting justification, ASCII quotes."
     }
   ]
 }

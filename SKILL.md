@@ -1,13 +1,13 @@
 ---
 name: design-arsenal
-description: "ONE unified frontend design tool merging 16 capabilities into a single skill: designlang (extract any site's design system), taste-skill (anti-slop art direction), impeccable (24 design refinement commands), GSAP (advanced animation, 8 modules), transitions.dev (43+ production CSS transitions), react-bits (218 animated React components), playwright-cli (browser automation & testing), plus 8 original modules: rtl-arabic (Arabic/RTL interfaces), a11y (WCAG 2.2 AA accessibility), design-tokens (DTCG token architecture & exports), web-vitals (Core Web Vitals performance), dark-mode (dark theme architecture & audit), responsive (fluid-first responsive design), forms (accessible forms & inputs), dataviz (accessible charts & dashboards), and i18n (Arabic-first internationalization: Intl formatting, plural rules, bidi isolation, locale-ready inputs). One installation, one entry point, one workflow. Use when the user wants to: extract a design system from a URL, build/redesign/polish/critique/audit a frontend, add animation or transitions, use animated React components, automate/test a browser, build an Arabic or RTL interface, make UI accessible, create design tokens, make a page fast/pass Core Web Vitals, implement/audit a dark theme with a flash-free toggle, make a layout fluid and responsive across all viewports, build/audit an accessible form (labels, validation, autocomplete, Arabic field direction), or build/audit accessible charts, dashboards and data visualizations (chart type, dual encoding, color-blind-safe palettes, RTL axes), or internationalize a product (Intl formatting, plural rules, mixed-direction isolation, Arabic webfonts). Triggers: 'extract design', 'design system', 'build a landing page', 'redesign', 'polish UI', 'animate this', 'GSAP', 'scroll animation', 'transition', 'modal animation', 'React component animation', 'slop', 'design review', 'test in browser', 'screenshot the page', 'Arabic', 'RTL', 'عربي', 'right-to-left', 'accessibility', 'a11y', 'WCAG', 'contrast', 'screen reader', 'aria', 'design tokens', 'DTCG', 'theme tokens', 'CSS variables theme', 'performance', 'slow page', 'lighthouse', 'core web vitals', 'LCP', 'INP', 'CLS', 'perf budget', 'render-blocking', 'dark mode', 'dark theme', 'night mode', 'theme toggle', 'prefers-color-scheme', 'الوضع الداكن', 'الوضع الليلي', 'أداء', 'بطيء', 'سرعة الموقع', 'responsive', 'mobile layout', 'fluid type', 'breakpoints', 'media queries', 'container queries', 'viewport', 'متجاوب', 'تصميم متجاوب', 'الجوال', 'الهاتف', 'form validation', 'input label', 'autocomplete', 'placeholder', 'OTP input', 'نموذج', 'نماذج', 'حقول الإدخال', 'تحقق النموذج', 'chart', 'charts', 'dashboard', 'bar chart', 'line chart', 'pie chart', 'sparkline', 'data visualization', 'color-blind palette', 'legend', 'رسم بياني', 'رسوم بيانية', 'مخطط', 'لوحة بيانات', 'لوحة تحكم', 'مؤشرات أداء', 'internationalization', 'i18n', 'localization', 'Intl', 'plural rules', 'pluralization', 'locale', 'hijri', 'تدويل', 'تعريب', 'تنسيق التاريخ', 'الأرقام العربية', 'تقويم هجري'. This file is the single entry point: identify the matching module below, then read that module's MANUAL.md from disk."
+description: "ONE unified frontend design tool merging 17 capabilities into a single skill: designlang (extract any site's design system), taste-skill (anti-slop art direction), impeccable (24 design refinement commands), GSAP (advanced animation, 8 modules), transitions.dev (43+ production CSS transitions), react-bits (218 animated React components), playwright-cli (browser automation & testing), plus 10 original modules: rtl-arabic (Arabic/RTL interfaces), a11y (WCAG 2.2 AA accessibility), design-tokens (DTCG token architecture & exports), web-vitals (Core Web Vitals performance), dark-mode (dark theme architecture & audit), responsive (fluid-first responsive design), forms (accessible forms & inputs), dataviz (accessible charts & dashboards), and i18n (Arabic-first internationalization: Intl formatting, plural rules, bidi isolation, locale-ready inputs), and arabic-typography (advanced Arabic typography: diacritic-safe line-height, the letterspacing ban, font pairing, numeral policy, kashida-safe justification). One installation, one entry point, one workflow. Use when the user wants to: extract a design system from a URL, build/redesign/polish/critique/audit a frontend, add animation or transitions, use animated React components, automate/test a browser, build an Arabic or RTL interface, make UI accessible, create design tokens, make a page fast/pass Core Web Vitals, implement/audit a dark theme with a flash-free toggle, make a layout fluid and responsive across all viewports, build/audit an accessible form (labels, validation, autocomplete, Arabic field direction), or build/audit accessible charts, dashboards and data visualizations (chart type, dual encoding, color-blind-safe palettes, RTL axes), or internationalize a product (Intl formatting, plural rules, mixed-direction isolation, Arabic webfonts), or typeset Arabic text properly (diacritic-safe line-height, letterspacing ban, font pairing, numeral and punctuation policy). Triggers: 'extract design', 'design system', 'build a landing page', 'redesign', 'polish UI', 'animate this', 'GSAP', 'scroll animation', 'transition', 'modal animation', 'React component animation', 'slop', 'design review', 'test in browser', 'screenshot the page', 'Arabic', 'RTL', 'عربي', 'right-to-left', 'accessibility', 'a11y', 'WCAG', 'contrast', 'screen reader', 'aria', 'design tokens', 'DTCG', 'theme tokens', 'CSS variables theme', 'performance', 'slow page', 'lighthouse', 'core web vitals', 'LCP', 'INP', 'CLS', 'perf budget', 'render-blocking', 'dark mode', 'dark theme', 'night mode', 'theme toggle', 'prefers-color-scheme', 'الوضع الداكن', 'الوضع الليلي', 'أداء', 'بطيء', 'سرعة الموقع', 'responsive', 'mobile layout', 'fluid type', 'breakpoints', 'media queries', 'container queries', 'viewport', 'متجاوب', 'تصميم متجاوب', 'الجوال', 'الهاتف', 'form validation', 'input label', 'autocomplete', 'placeholder', 'OTP input', 'نموذج', 'نماذج', 'حقول الإدخال', 'تحقق النموذج', 'chart', 'charts', 'dashboard', 'bar chart', 'line chart', 'pie chart', 'sparkline', 'data visualization', 'color-blind palette', 'legend', 'رسم بياني', 'رسوم بيانية', 'مخطط', 'لوحة بيانات', 'لوحة تحكم', 'مؤشرات أداء', 'internationalization', 'i18n', 'localization', 'Intl', 'plural rules', 'pluralization', 'locale', 'hijri', 'تدويل', 'تعريب', 'تنسيق التاريخ', 'الأرقام العربية', 'تقويم هجري', 'typography', 'type scale', 'line height', 'line-height', 'font pairing', 'letter spacing', 'letter-spacing', 'kashida', 'تشكيل', 'الطباعة العربية', 'تايبوغرافيا', 'خط عربي', 'خطوط عربية', 'ارتفاع السطر', 'تباعد الأحرف', 'كشيدة'. This file is the single entry point: identify the matching module below, then read that module's MANUAL.md from disk."
 license: Mixed — see ATTRIBUTION.md (MIT / Apache-2.0 / Free-for-use per tool)
 ---
 
 # Design Arsenal — الأداة الموحدة لتصميم الواجهات
 
-**One tool. One entry point. Sixteen modules.** This is a single skill — everything runs
-through this file. Seven world-class upstream tools and nine original modules are
+**One tool. One entry point. Seventeen modules.** This is a single skill — everything runs
+through this file. Seven world-class upstream tools and ten original modules are
 not separate skills anymore; they are internal **modules**, each documented in a
 `MANUAL.md` you read from disk when the task calls for it.
 
@@ -22,9 +22,10 @@ responsive (fluid layer — every viewport, pairs with web-vitals/a11y)
 forms (contract layer — every form, pairs with a11y/rtl-arabic)
 dataviz (data layer — every chart/dashboard, pairs with a11y/rtl-arabic/responsive)
 i18n (language layer — any localized UI, pairs with rtl-arabic)
+arabic-typography (type layer — every Arabic text block, pairs with rtl-arabic/i18n)
 ```
 
-> **نظام أداة واحدة:** تُنصَّب هذه المهارة مرة واحدة كأداة واحدة باسم `design-arsenal`، وكل ما تفعله يمر عبر هذا الملف. الأدوات السبع السابقة أصبحت **وحدات داخلية** (مع 9 وحدات أصلية: rtl-arabic وa11y وdesign-tokens وweb-vitals وdark-mode وresponsive وforms وdataviz وi18n) — لا تُنصَّب منفردة ولا تظهر كأدوات مستقلة، بل تُقرأ أدلة استخدامها (`MANUAL.md`) من القرص عند الحاجة فقط.
+> **نظام أداة واحدة:** تُنصَّب هذه المهارة مرة واحدة كأداة واحدة باسم `design-arsenal`، وكل ما تفعله يمر عبر هذا الملف. الأدوات السبع السابقة أصبحت **وحدات داخلية** (مع 10 وحدات أصلية: rtl-arabic وa11y وdesign-tokens وweb-vitals وdark-mode وresponsive وforms وdataviz وi18n وarabic-typography) — لا تُنصَّب منفردة ولا تظهر كأدوات مستقلة، بل تُقرأ أدلة استخدامها (`MANUAL.md`) من القرص عند الحاجة فقط.
 
 ---
 
@@ -51,6 +52,7 @@ this file's directory), then follow it. Never load more than two modules for a s
 | 14 | Forms & inputs: "build a form", "signup form", "form validation", "input label", "autocomplete", "error message", "نموذج تسجيل", "حقول الإدخال" | **forms** (original) | `skills/forms/MANUAL.md` |
 | 15 | Charts & dashboards: "bar chart", "dashboard", "data visualization", "pie chart", "sparkline", "KPI cards", "رسم بياني", "لوحة بيانات" | **dataviz** (original) | `skills/dataviz/MANUAL.md` |
 | 16 | Internationalization: "i18n", "localization", "format dates in Arabic", "hijri calendar", "plural rules", "Arabic numerals", "تدويل", "تعريب", "تنسيق التاريخ", "الأرقام العربية" | **i18n** (original) | `skills/i18n/MANUAL.md` |
+| 17 | Arabic text as type: "typography", "font pairing", "letter spacing", "line height", "خطوط عربية", "الطباعة العربية", "تايبوغرافيا", "تشكيل", "ارتفاع السطر", "تباعد الأحرف", "كشيدة" | **arabic-typography** (original) | `skills/arabic-typography/MANUAL.md` |
 
 **Overlaps → tie-breakers:**
 
@@ -66,7 +68,8 @@ this file's directory), then follow it. Never load more than two modules for a s
 - **Layout/viewport question** → `responsive` owns fluid type, grids, breakpoints, and overflow. It splits work with neighbours: an `<img>` question is **shape** (dimensions/aspect-ratio/srcset → `responsive`) plus **cost** (loading strategy → `web-vitals`); a zoom question is `responsive` (rem, no px root) enforced by `a11y` (WCAG 1.4.4).
 - **Form question** → `forms` owns labels/names/autocomplete/validation wiring and Arabic field direction (dir/inputmode); visual field styling comes from `tokens`/`dark-mode`, and `a11y` still gates the result.
 - **Chart/dashboard question** → `dataviz` owns chart type, dual encoding, series palettes and the data layer; axis direction inside RTL is `rtl-arabic` + `dataviz §6` together, chart cost/loading is `web-vitals`, and `a11y` (1.4.11 graphical contrast, names, alternatives) still gates the result.
-- **Language/formatting question** → `i18n` owns Intl formatting, plural rules, mixed-direction isolation, and locale-ready inputs; direction and Arabic typography stay with `rtl-arabic`, and `a11y` still gates the result.
+- **Language/formatting question** → `i18n` owns Intl formatting, plural rules, mixed-direction isolation, and locale-ready inputs; direction stays with `rtl-arabic`, letter-and-line typography with `arabic-typography`, and `a11y` still gates the result.
+- **Letter-and-line question (Arabic type)** → `arabic-typography` owns line-height, the tracking/italic/case bans, font pairing, numerals rendering and justification; layout mirroring stays with `rtl-arabic`, `Intl` formatting with `i18n`, and `a11y` (zoom, contrast) still gates the result.
 - After ANY UI change → offer to verify with `verify` (screenshot the result).
 
 ---
@@ -78,9 +81,9 @@ Ask, in order, and stop at the first match:
 1. **Does the content contain Arabic (or another RTL script)?** → add `rtl-arabic` as the context layer, then continue below.
 2. **Is the input an existing design to consume?** URL → `extract`; screenshot/mockup → `tokens`; palette file → `tokens`.
 3. **Is the task creating something new, or changing something that exists?** New → `taste` → build (pull from `react-bits`/`gsap`/`transitions` as needed). Existing → `polish` audit first (`/impeccable audit`), then `taste` only if a new direction is needed.
-4. **What does the task end with?** Shipping UI → run `a11y` gates + `web-vitals` lint + `responsive` lint (+ `forms` lint when the page contains forms, + `dataviz` lint when it contains charts/dashboards, + `i18n` lint when it formats dates/numbers or ships in more than one language) + `verify` screenshots (desktop **and** 320–390px widths). Producing a theme/token file → `tokens` exports + `dark-mode` parity audit + a11y audit of the pairs in both themes.
+4. **What does the task end with?** Shipping UI → run `a11y` gates + `web-vitals` lint + `responsive` lint (+ `forms` lint when the page contains forms, + `dataviz` lint when it contains charts/dashboards, + `i18n` lint when it formats dates/numbers or ships in more than one language, + `arabic-typography` lint when the page renders Arabic text) + `verify` screenshots (desktop **and** 320–390px widths). Producing a theme/token file → `tokens` exports + `dark-mode` parity audit + a11y audit of the pairs in both themes.
 
-Read at most two `MANUAL.md` files per task; the nine original modules may stack with one upstream module (e.g. `rtl-arabic` + `taste`).
+Read at most two `MANUAL.md` files per task; the ten original modules may stack with one upstream module (e.g. `rtl-arabic` + `taste`).
 
 ---
 
@@ -115,6 +118,8 @@ Cross-module bans collected from the manuals. If your output contains one, the t
 - Values encoded by color alone (red/green series, swatch-only legend) — fails ~8% of male readers with color-vision deficiency; dual-encode or label directly (dataviz §3).
 - A date or price formatted by hand (`${y}/${m}/${d}`, `.toFixed(2)`) instead of `Intl` (i18n §3) — correct in exactly one locale: the one you tested.
 - One plural string for all counts, or an `(s)` suffix (i18n §4) — Arabic distinguishes zero/one/two/few/many/other via `Intl.PluralRules`.
+- Body-text `line-height` below 1.6 — or a fixed `px` line-height — on an Arabic page (arabic-typography §2) — diacritics clip and rows collide; unitless 1.6–1.9.
+- `font-style: italic` or `text-transform: uppercase` applied to Arabic text (arabic-typography §3) — the script has no italics and no case; emphasize with weight, size, or color.
 
 ---
 
@@ -148,7 +153,8 @@ design-arsenal/                  ← ONE skill, installed once
     ├── responsive/              ← original: fluid-first responsive system + zero-dep layout linter
     ├── forms/                   ← original: forms & inputs contract + zero-dep forms linter
     ├── dataviz/                 ← original: charts & dashboards guide + zero-dep dataviz linter
-    └── i18n/                    ← original: Arabic-first i18n guide + zero-dep i18n linter
+    ├── i18n/                    ← original: Arabic-first i18n guide + zero-dep i18n linter
+    └── arabic-typography/       ← original: advanced Arabic typography guide + zero-dep typography linter
 ```
 
 Every module directory contains a `MANUAL.md` (formerly its own SKILL.md). Because only
@@ -172,7 +178,8 @@ skill sprawl, no duplicate triggers, no context bloat from seven installed skill
 **Making it responsive?** → `responsive`: lint first (`node skills/responsive/scripts/responsive.mjs src/`), then fluid type + auto-fit grids + container queries — breakpoints only for structural change.
 **Building or fixing a form?** → `forms`: lint first (`node skills/forms/scripts/forms.mjs src/`), then labels/names/autocomplete/validation wiring — `a11y` gates still apply on top.
 **Building a dashboard or chart?** → `dataviz`: lint first (`node skills/dataviz/scripts/dataviz.mjs src/`), then chart-type table + dual encoding + token series — `a11y`/`web-vitals`/`rtl-arabic` gates still apply on top.
-**Localizing a product (Arabic first)?** → `i18n`: lint first (`node skills/i18n/scripts/i18n.mjs src/`), then Intl formatting + plural rules + bidi isolation — `rtl-arabic` still owns direction and typography.
+**Localizing a product (Arabic first)?** → `i18n`: lint first (`node skills/i18n/scripts/i18n.mjs src/`), then Intl formatting + plural rules + bidi isolation — `rtl-arabic` still owns direction and `arabic-typography` owns the letter and line.
+**Typesetting Arabic text?** → `arabic-typography`: lint first (`node skills/arabic-typography/scripts/typography.mjs src/`), then line-height 1.6–1.9, weight-contrast emphasis, font pairing, numeral/punctuation policy — `rtl-arabic` still owns direction.
 **Page slow / vitals failing?** → `web-vitals`: lint the markup, apply the LCP/CLS/INP playbook, then measure (§8).
 
 ---
@@ -187,6 +194,7 @@ skill sprawl, no duplicate triggers, no context bloat from seven installed skill
 - `forms` linter is zero-dependency Node 18+ (`node skills/forms/scripts/forms.mjs page.html`).
 - `dataviz` linter is zero-dependency Node 18+ (`node skills/dataviz/scripts/dataviz.mjs page.html`).
 - `i18n` linter is zero-dependency Node 18+ (`node skills/i18n/scripts/i18n.mjs page.html`).
+- `arabic-typography` linter is zero-dependency Node 18+ (`node skills/arabic-typography/scripts/typography.mjs page.html`).
 - `verify` needs `npm install -g @playwright/cli` + `playwright-cli install-browser chromium`.
 - `components` local sources are plain files — copy from `ts-tailwind/` (Tailwind projects) or `ts-default/` (CSS projects), or use the live registry: `{"registries":{"@react-bits":"https://reactbits.dev/r/{name}.json"}}` in `components.json`.
 - GSAP examples live in `examples/gsap/{vanilla,react,vue,nuxt}`.
@@ -198,6 +206,6 @@ skill sprawl, no duplicate triggers, no context bloat from seven installed skill
 3. **Match, don't mix.** One task → one primary module. Stack modules only in the pipeline order above.
 4. **Respect each module's bans.** `taste` bans templated looks; `impeccable` bans gray-on-color, nested cards, bounce easing; `transitions` and `a11y` require `prefers-reduced-motion` guards; `rtl-arabic` bans letterspacing on Arabic and physical `left/right` in RTL pages; `web-vitals` bans lazy heroes, dimensionless media, and render-blocking head scripts. When rules conflict, the stricter rule wins — and `a11y` safety rules outrank every aesthetic preference.
 5. **Never invent component names.** For react-bits, use only names present in `skills/react-bits/catalog.json`; otherwise build from scratch under `taste` rules.
-6. **Measure, don't eyeball.** Contrast claims come from `node skills/a11y/scripts/contrast.mjs`; token exports come from `node skills/design-tokens/scripts/convert.mjs`; structural perf claims come from `node skills/web-vitals/scripts/webvitals.mjs`; dark-theme readiness claims come from `node skills/dark-mode/scripts/theme.mjs`; responsive-readiness claims come from `node skills/responsive/scripts/responsive.mjs`; forms-readiness claims come from `node skills/forms/scripts/forms.mjs`; chart-readiness claims come from `node skills/dataviz/scripts/dataviz.mjs`; locale-readiness claims come from `node skills/i18n/scripts/i18n.mjs`. If the scripts disagree with your eye, the scripts win.
+6. **Measure, don't eyeball.** Contrast claims come from `node skills/a11y/scripts/contrast.mjs`; token exports come from `node skills/design-tokens/scripts/convert.mjs`; structural perf claims come from `node skills/web-vitals/scripts/webvitals.mjs`; dark-theme readiness claims come from `node skills/dark-mode/scripts/theme.mjs`; responsive-readiness claims come from `node skills/responsive/scripts/responsive.mjs`; forms-readiness claims come from `node skills/forms/scripts/forms.mjs`; chart-readiness claims come from `node skills/dataviz/scripts/dataviz.mjs`; locale-readiness claims come from `node skills/i18n/scripts/i18n.mjs`; typographic-readiness claims come from `node skills/arabic-typography/scripts/typography.mjs`. If the scripts disagree with your eye, the scripts win.
 7. **Arabic content routes through rtl-arabic.** The moment a task contains Arabic or RTL content, read `skills/rtl-arabic/MANUAL.md` before writing any CSS — even if another module leads.
-8. **Attribution.** The seven upstream modules come from independent open-source projects — keep their licenses intact (see `ATTRIBUTION.md`). The nine original modules (rtl-arabic, a11y, design-tokens, web-vitals, dark-mode, responsive, forms, dataviz, i18n) are part of this bundle.
+8. **Attribution.** The seven upstream modules come from independent open-source projects — keep their licenses intact (see `ATTRIBUTION.md`). The ten original modules (rtl-arabic, a11y, design-tokens, web-vitals, dark-mode, responsive, forms, dataviz, i18n, arabic-typography) are part of this bundle.
