@@ -1,8 +1,8 @@
 {
   "name": "design-arsenal",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "architecture": "single-skill",
-  "description": "ONE unified frontend design skill: 7 upstream tools + 7 original modules as internal modules — one SKILL.md entry point, no per-module installation",
+  "description": "ONE unified frontend design skill: 7 upstream tools + 8 original modules as internal modules — one SKILL.md entry point, no per-module installation",
   "entryPoint": "SKILL.md",
   "documentation": "README.md",
   "pipeline": ["EXTRACT", "TASTE", "BUILD", "MOTION", "POLISH", "VERIFY"],
@@ -159,6 +159,17 @@
       "scripts": "skills/forms/scripts/forms.mjs",
       "category": "quality",
       "summary": "Forms as a contract: semantic structure (label/fieldset/autocomplete tokens), accessible validation (aria-invalid + describedby + live error summary), Arabic field direction (dir=ltr for email/tel, inputmode for OTP), double-submit guard, state discipline; + zero-dep static linter: missing labels/names, placeholder-as-label, autocomplete gaps, novalidate without a live region, submit-less forms, RTL bidi fields."
+    },
+    {
+      "slug": "dataviz",
+      "name": "Data Visualization (Charts & Dashboards)",
+      "origin": "original",
+      "source": "authored for design-arsenal",
+      "license": "MIT (this bundle)",
+      "manualPath": "skills/dataviz/MANUAL.md",
+      "scripts": "skills/dataviz/scripts/dataviz.mjs",
+      "category": "quality",
+      "summary": "Charts and dashboards as sentences: chart-type decision table, dual encoding (never color-only), color-blind-safe categorical palettes with token-driven series (--chart-1..7 + dark variants), honest axes, Arabic/RTL chart containers, fluid viewBox charts, deferred chart libraries; + zero-dep static linter: unnamed chart svgs, dead canvas, fixed-pixel charts, render-blocking chart scripts, unguarded chart animations, hardcoded series colors, missing legends, RTL axis hints."
     }
   ]
 }
