@@ -5,3 +5,7 @@
 tools export-ignore
 build export-ignore
 bundle export-ignore
+
+# README demo GIF is a display asset only (README + GitHub Pages) —
+# keep the installable release archive lean; no need inside the skill bundle.
+demo/assets/demo.gif export-ignore

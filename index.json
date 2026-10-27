@@ -1,6 +1,6 @@
 {
   "name": "design-arsenal",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "architecture": "single-skill",
   "description": "ONE unified frontend design skill: 7 upstream tools + 6 original modules as internal modules — one SKILL.md entry point, no per-module installation",
   "entryPoint": "SKILL.md",
