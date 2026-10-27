@@ -28,6 +28,8 @@
 - **Original module added in v2.4.0** — same terms as above:
   - `skills/responsive/` — responsive & fluid design guide + `scripts/responsive.mjs` (original content; WCAG 1.4.4 zoom criteria referenced by number only).
   - `logo/` — brand assets (`logo.svg`, `icon.svg`) authored for this bundle (original content).
+- **Original module added in v2.5.0** — same terms as above:
+  - `skills/forms/` — forms & inputs guide + `scripts/forms.mjs` (original content; WCAG 1.3.5 / 2.5.8 criteria referenced by number only).
 - **Renamed (v2 single-tool architecture)**: every upstream `SKILL.md` inside `skills/` was renamed to `MANUAL.md` so that only ONE skill registers with the agent; internal cross-references were updated accordingly. File contents were not otherwise altered.
 - **Transformed**: `skills/impeccable/MANUAL.md` (formerly its SKILL.md) was compiled from upstream `SKILL.src.md` by substituting template variables (`{{scripts_path}}` → `<skill-base-dir>/scripts`, `{{command_prefix}}` → `/impeccable ` — including the trailing space the command grammar needs, `{{command_hint}}` → `<command>`). No rules were added, removed, or reworded.
 - **Generated**: `skills/react-bits/CATALOG.md` and `catalog.json` were generated programmatically from the upstream component directory listing — no component code was modified.

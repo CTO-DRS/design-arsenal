@@ -1,8 +1,8 @@
 {
   "name": "design-arsenal",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "architecture": "single-skill",
-  "description": "ONE unified frontend design skill: 7 upstream tools + 6 original modules as internal modules — one SKILL.md entry point, no per-module installation",
+  "description": "ONE unified frontend design skill: 7 upstream tools + 7 original modules as internal modules — one SKILL.md entry point, no per-module installation",
   "entryPoint": "SKILL.md",
   "documentation": "README.md",
   "pipeline": ["EXTRACT", "TASTE", "BUILD", "MOTION", "POLISH", "VERIFY"],
@@ -148,6 +148,17 @@
       "scripts": "skills/responsive/scripts/responsive.mjs",
       "category": "quality",
       "summary": "Fluid-first responsive system: fluid type/spacing/grids before breakpoints (structure-only @media), clamp() recipes, auto-fit + minmax, container queries, srcset/sizes + aspect-ratio, dvh/svh, zoom-200% testing; + zero-dep static linter: missing/locked viewport, px root font, fixed widths, 100vw overflow, fluid-less CSS, srcset hints."
+    },
+    {
+      "slug": "forms",
+      "name": "Forms & Inputs",
+      "origin": "original",
+      "source": "authored for design-arsenal",
+      "license": "MIT (this bundle)",
+      "manualPath": "skills/forms/MANUAL.md",
+      "scripts": "skills/forms/scripts/forms.mjs",
+      "category": "quality",
+      "summary": "Forms as a contract: semantic structure (label/fieldset/autocomplete tokens), accessible validation (aria-invalid + describedby + live error summary), Arabic field direction (dir=ltr for email/tel, inputmode for OTP), double-submit guard, state discipline; + zero-dep static linter: missing labels/names, placeholder-as-label, autocomplete gaps, novalidate without a live region, submit-less forms, RTL bidi fields."
     }
   ]
 }
