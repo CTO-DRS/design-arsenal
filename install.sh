@@ -35,7 +35,7 @@ yellow() { printf "\033[33m%s\033[0m\n" "$1"; }
 
 usage() {
   cat <<EOF
-design-arsenal — ONE tool, 13 internal modules (v2.4.0)
+design-arsenal — ONE tool, 13 internal modules (v2.4.1)
 
   install [target]   install (targets: claude codex gemini cursor windsurf
                      opencode project, or --dest <path>; default: auto-detect)
