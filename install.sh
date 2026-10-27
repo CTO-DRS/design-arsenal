@@ -5,7 +5,7 @@
 #  or any project-local skills folder.
 #
 #  Installs the whole arsenal as a SINGLE skill named `design-arsenal`:
-#  one SKILL.md entry point, 13 internal modules (7 upstream + 6 original),
+#  one SKILL.md entry point, 14 internal modules (7 upstream + 7 original),
 #  no per-module installation.
 #
 #  Usage:
@@ -35,12 +35,13 @@ yellow() { printf "\033[33m%s\033[0m\n" "$1"; }
 
 usage() {
   cat <<EOF
-design-arsenal — ONE tool, 13 internal modules (v2.4.2)
+design-arsenal — ONE tool, 14 internal modules (v2.5.0)
 
   install [target]   install (targets: claude codex gemini cursor windsurf
                      opencode project, or --dest <path>; default: auto-detect)
   --list | list      show the entry point and module table
   doctor             verify package structure & references (exit 0 = healthy)
+  selftest           run every module script's --self-test (logic check)
   update             update this copy: git pull if a clone, else latest release
   -h | --help        this help
 EOF
@@ -96,7 +97,7 @@ PY
 
 cmd_list() {
   local size; size="$(du -sh "$SRC_DIR" 2>/dev/null | cut -f1)"
-  cyan "design-arsenal — ONE tool, 13 modules (${size})"
+  cyan "design-arsenal — ONE tool, 14 modules (${size})"
   cyan "Entry point:  SKILL.md  (single skill — nothing else registers as a tool)"
   echo
   if command -v python3 >/dev/null 2>&1; then
@@ -162,7 +163,7 @@ cmd_doctor() {
   [ "$sk_missing" = "0" ] && doc_ok "all module paths referenced in SKILL.md resolve"
 
   # 6. scripts present and runnable
-  for s in skills/a11y/scripts/contrast.mjs skills/design-tokens/scripts/convert.mjs skills/web-vitals/scripts/webvitals.mjs skills/dark-mode/scripts/theme.mjs skills/responsive/scripts/responsive.mjs; do
+  for s in skills/a11y/scripts/contrast.mjs skills/design-tokens/scripts/convert.mjs skills/web-vitals/scripts/webvitals.mjs skills/dark-mode/scripts/theme.mjs skills/responsive/scripts/responsive.mjs skills/forms/scripts/forms.mjs; do
     if [ -f "$SRC_DIR/$s" ]; then
       if node --check "$SRC_DIR/$s" >/dev/null 2>&1 || node -e "import('$SRC_DIR/$s')" >/dev/null 2>&1 \
          || node "$SRC_DIR/$s" --help >/dev/null 2>&1; then
@@ -202,7 +203,7 @@ cmd_install() {
   cp -r "$SRC_DIR" "$dest"
   # self-cleanup: don't keep the installer copy inside itself
   rm -f "${dest}/install.sh"
-  green "✓ Installed as ONE skill: design-arsenal (entry: SKILL.md, 13 internal modules)."
+  green "✓ Installed as ONE skill: design-arsenal (entry: SKILL.md, 14 internal modules)."
   echo
   echo "  Next steps:"
   echo "   1. Restart/reload your coding agent — it will register exactly ONE tool."
@@ -253,12 +254,32 @@ cmd_update() {
   cmd_doctor || true
 }
 
+cmd_selftest() {
+  cyan "design-arsenal — running all module self-tests (logic check)"
+  local fails=0
+  for s in skills/a11y/scripts/contrast.mjs skills/design-tokens/scripts/convert.mjs skills/web-vitals/scripts/webvitals.mjs skills/dark-mode/scripts/theme.mjs skills/responsive/scripts/responsive.mjs skills/forms/scripts/forms.mjs; do
+    if node "$SRC_DIR/$s" --self-test >/dev/null 2>&1; then
+      green "✓ self-test PASS: $s"
+    else
+      red "✗ self-test FAIL: $s"
+      fails=$((fails+1))
+    fi
+  done
+  if [ "$fails" -eq 0 ]; then
+    green "✓ all six module scripts pass — logic intact"
+  else
+    yellow "$fails script(s) failed — run 'node <script> --self-test' directly for details"
+    exit 1
+  fi
+}
+
 # ---------------- arg routing ----------------
 CMD="${1:-install}"
 case "$CMD" in
   install)            shift 2>/dev/null || true; cmd_install "${1:-auto}" ;;
   --list|list)        cmd_list ;;
   doctor|--doctor)    cmd_doctor ;;
+  selftest|--self-test) cmd_selftest ;;
   update|--update)    cmd_update ;;
   claude|codex|gemini|cursor|windsurf|opencode|project|auto) cmd_install "$CMD" ;;
   --dest)             shift; cmd_install "--dest" "$@" ;;

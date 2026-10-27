@@ -49,10 +49,11 @@ jobs:
             --exclude='web-vitals/' \
             --exclude='dark-mode/' \
             --exclude='responsive/' \
+            --exclude='forms/' \
             bundle/skills/ skills/
           rsync -a --delete --exclude='workflows/' bundle/examples/ examples/
           # guard: original modules + original workflows must survive every refresh
-          for d in skills/rtl-arabic skills/a11y skills/design-tokens skills/web-vitals skills/dark-mode skills/responsive examples/workflows; do
+          for d in skills/rtl-arabic skills/a11y skills/design-tokens skills/web-vitals skills/dark-mode skills/responsive skills/forms examples/workflows; do
             [ -d "$d" ] || { echo "❌ original content lost: $d"; exit 1; }
           done
 
