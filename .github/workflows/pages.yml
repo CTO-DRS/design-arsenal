@@ -1,0 +1,48 @@
+name: Pages
+
+# Publishes demo/ to GitHub Pages: https://cto-drs.github.io/design-arsenal/
+#
+# One-time prerequisite: Pages must be enabled with the "GitHub Actions" build
+# type — Settings → Pages → Source: GitHub Actions — or via REST:
+#   POST /repos/CTO-DRS/design-arsenal/pages  {"build_type":"workflow"}
+# After that, every push that touches demo/ (or a manual dispatch) republishes
+# the live demo automatically. Static files only — no build step needed.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'demo/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload demo/ as the site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: demo
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

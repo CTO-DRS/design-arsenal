@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>design-arsenal — الأداة الموحّدة لتصميم الواجهات (12 وحدة)</title>
-<meta name="description" content="عرض تفاعلي حيّ لأداة design-arsenal: 12 وحدة داخلية، تبديل ثيمات بلا وميض، فاحص تباين حي، شجرة قرار، ومعرض محظورات — ملف واحد بلا اعتماديات.">
+<title>design-arsenal — الأداة الموحّدة لتصميم الواجهات (13 وحدة)</title>
+<meta name="description" content="عرض تفاعلي حيّ لأداة design-arsenal: 13 وحدة داخلية، تبديل ثيمات بلا وميض، فاحص تباين حي، شجرة قرار، ومعرض محظورات — ملف واحد بلا اعتماديات.">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0c0d0e" media="(prefers-color-scheme: dark)">
@@ -334,6 +334,7 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
         <span><b>a11y</b> بوابات على كل مرحلة</span>
         <span><b>web-vitals</b> ميزانية أداء على كل مرحلة</span>
         <span><b>dark-mode</b> طبقة الثيمات</span>
+        <span><b>responsive</b> طبقة سائلة لكل viewport</span>
       </div>
     </div>
   </section>
@@ -512,6 +513,7 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
             <button type="button" data-result="theme">ملف ثيمات أو وضع داكن</button>
             <button type="button" data-result="motion">حركة أو انتقالات</button>
             <button type="button" data-result="perf">صفحة أسرع تجتاز Vitals</button>
+            <button type="button" data-result="layout">تخطيط متجاوب على كل الشاشات</button>
           </div>
         </div>
         <div class="q-step result" data-step="result"></div>
@@ -751,7 +753,8 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
   var back = document.getElementById("treeBack");
   var picked = [];
   var RESULTS = {
-    ship: ["a11y + web-vitals + verify", "سلّم بعد البوابات: فحص تباين الزوجين، لِنت HTML الثابت، ثم لقطات بالمتصفح.", "skills/a11y/MANUAL.md + skills/web-vitals/MANUAL.md"],
+    ship: ["a11y + web-vitals + responsive + verify", "سلّم بعد البوابات: فحص تباين الزوجين، لِنت HTML الثابت، لِنت التخطيط، ثم لقطات بالمتصفح عند 320px أيضًا.", "skills/a11y/MANUAL.md + skills/web-vitals/MANUAL.md + skills/responsive/MANUAL.md"],
+    layout: ["responsive", "فحص ثابت أولًا (بلا تخمين): viewport، px على الجذر، 100vw، عروض ثابتة — ثم تايبوغرافي clamp وشبكات auto-fit ونقاط توقف للبنية فقط.", "skills/responsive/MANUAL.md"],
     theme: ["tokens → dark-mode", "ابنِ معمارية الرموز ثم ثيمًا موازيًا بلا وميض — وفاحص theme.mjs على الثيمين معًا.", "skills/design-tokens/MANUAL.md + skills/dark-mode/MANUAL.md"],
     motion: ["transitions (CSS) أو gsap (مشاهد)", "تفاعل دقيق لعنصر واحد = transitions؛ مشاهد مُرسّبة بالتمرير = gsap — ولا خلط على نفس العنصر.", "skills/transitions/transitions-dev/MANUAL.md أو skills/gsap/gsap-core/MANUAL.md"],
     perf: ["web-vitals", "فحص ثابت أولًا (بلا تخمين أرقام): lazy hero، أبعاد مفقودة، سكربتات حاجبة — ثم خط اللعب ثم القياس.", "skills/web-vitals/MANUAL.md"]
@@ -816,7 +819,7 @@ html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-red
 /* ================= terminal tabs ================= */
 (function () {
   var CMDS = {
-    install: '<span class="g">$</span> bash install.sh\n<span class="c"># كشف تلقائي: Claude Code / Codex / Gemini CLI / Cursor / Windsurf / OpenCode</span>\n<span class="c"># → يُنصّب أداة واحدة باسم design-arsenal (SKILL.md + 12 وحدة داخلية)</span>\n<span class="g">✓</span> Installed as ONE skill: design-arsenal\n<span class="c"># ثم أعد تشغيل وكيلك — سيسجّل أداة واحدة بالضبط</span>',
+    install: '<span class="g">$</span> bash install.sh\n<span class="c"># كشف تلقائي: Claude Code / Codex / Gemini CLI / Cursor / Windsurf / OpenCode</span>\n<span class="c"># → يُنصّب أداة واحدة باسم design-arsenal (SKILL.md + 13 وحدة داخلية)</span>\n<span class="g">✓</span> Installed as ONE skill: design-arsenal\n<span class="c"># ثم أعد تشغيل وكيلك — سيسجّل أداة واحدة بالضبط</span>',
     doctor: '<span class="g">$</span> bash install.sh doctor\n<span class="c">✓</span> root SKILL.md present (single entry point)\n<span class="c">✓</span> no nested SKILL.md under skills/ (manuals only)\n<span class="c">✓</span> index.json valid — version 2.3.0\n<span class="c">✓</span> all 23 manual paths from index.json exist on disk\n<span class="c">✓</span> script OK: a11y/contrast.mjs · design-tokens/convert.mjs · web-vitals/webvitals.mjs · dark-mode/theme.mjs\n<span class="g">✓</span> healthy — one tool, all references resolve.',
     list: '<span class="g">$</span> bash install.sh list\ndesign-arsenal — ONE tool, 12 modules (v2.3.0)\n  1. extract      [upstream]  designlang / design-extract\n  2. taste        [upstream]  Taste Skill v2\n  3. polish       [upstream]  Impeccable\n  4. gsap         [upstream]  GSAP Skills (official) (+8 sub)\n  5. components   [upstream]  React Bits\n  6. transitions  [upstream]  Transitions.dev (+3 sub)\n  7. verify       [upstream]  Playwright CLI\n  8. rtl-arabic   <span class="g">[original]</span>  RTL Arabic Design\n  9. a11y         <span class="g">[original]</span>  Accessibility (WCAG 2.2 AA)\n 10. tokens       <span class="g">[original]</span>  Design Tokens (DTCG)\n 11. web-vitals   <span class="g">[original]</span>  Web Vitals (Performance)\n 12. dark-mode    <span class="g">[original]</span>  Dark Mode (Theming)',
     update: '<span class="g">$</span> bash install.sh update\n<span class="c"># استنساخ git؟ ← git pull --ff-only</span>\n<span class="c"># نسخة ZIP؟ ← آخر Release من GitHub ثم doctor تلقائيًا</span>\n<span class="g">✓</span> updated to v2.3.0'

@@ -1,8 +1,8 @@
 {
   "name": "design-arsenal",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "architecture": "single-skill",
-  "description": "ONE unified frontend design skill: 7 upstream tools + 5 original modules as internal modules — one SKILL.md entry point, no per-module installation",
+  "description": "ONE unified frontend design skill: 7 upstream tools + 6 original modules as internal modules — one SKILL.md entry point, no per-module installation",
   "entryPoint": "SKILL.md",
   "documentation": "README.md",
   "pipeline": ["EXTRACT", "TASTE", "BUILD", "MOTION", "POLISH", "VERIFY"],
@@ -137,6 +137,17 @@
       "scripts": "skills/dark-mode/scripts/theme.mjs",
       "category": "tokens",
       "summary": "Dark theme re-tuning (not inversion): token parity per theme (dark-as-a-file), three-mode toggle, the no-flash boot script, per-theme contrast re-verification, elevation/images/icons, + zero-dep auditor: missing dark overrides, glare, invariant values, WCAG pairs in both themes."
+    },
+    {
+      "slug": "responsive",
+      "name": "Responsive & Fluid Design",
+      "origin": "original",
+      "source": "authored for design-arsenal",
+      "license": "MIT (this bundle)",
+      "manualPath": "skills/responsive/MANUAL.md",
+      "scripts": "skills/responsive/scripts/responsive.mjs",
+      "category": "quality",
+      "summary": "Fluid-first responsive system: fluid type/spacing/grids before breakpoints (structure-only @media), clamp() recipes, auto-fit + minmax, container queries, srcset/sizes + aspect-ratio, dvh/svh, zoom-200% testing; + zero-dep static linter: missing/locked viewport, px root font, fixed widths, 100vw overflow, fluid-less CSS, srcset hints."
     }
   ]
 }

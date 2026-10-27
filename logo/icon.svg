@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Design Arsenal">
+  <defs>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#17181c"/>
+      <stop offset="1" stop-color="#0c0d0e"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#232629"/>
+      <stop offset="1" stop-color="#121212"/>
+    </linearGradient>
+    <linearGradient id="b1" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#4338ca"/><stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="b2" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#4f46e5"/><stop offset="1" stop-color="#818cf8"/>
+    </linearGradient>
+    <linearGradient id="b3" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#a5b4fc"/>
+    </linearGradient>
+    <linearGradient id="b4" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#eef0ff"/>
+    </linearGradient>
+    <clipPath id="sc">
+      <path d="M128 26 C 152 38 170 43 186 46 L 186 116 C 186 154 160 180 128 196 C 96 180 70 154 70 116 L 70 46 C 86 43 104 38 128 26 Z"/>
+    </clipPath>
+  </defs>
+
+  <rect x="4" y="4" width="248" height="248" rx="52" fill="url(#card)" stroke="#34383d" stroke-width="2"/>
+  <path d="M128 26 C 152 38 170 43 186 46 L 186 116 C 186 154 160 180 128 196 C 96 180 70 154 70 116 L 70 46 C 86 43 104 38 128 26 Z"
+        fill="url(#shield)" stroke="#4a5058" stroke-width="2.5"/>
+
+  <g clip-path="url(#sc)">
+    <rect x="88"  y="122" width="11" height="66" rx="4.5" fill="url(#b1)"/>
+    <rect x="105" y="104" width="11" height="84" rx="4.5" fill="url(#b2)"/>
+    <rect x="122" y="114" width="11" height="74" rx="4.5" fill="url(#b3)"/>
+    <rect x="139" y="92"  width="11" height="96" rx="4.5" fill="url(#b4)"/>
+    <rect x="156" y="108" width="11" height="80" rx="4.5" fill="url(#b3)"/>
+    <rect x="86" y="192" width="96" height="4" rx="2" fill="#4a5058"/>
+  </g>
+
+  <text x="128" y="228" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+        font-size="21" font-weight="800" letter-spacing="3" fill="#e8eaed">ARSENAL</text>
+</svg>
