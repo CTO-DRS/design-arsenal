@@ -1,0 +1,867 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>design-arsenal — الأداة الموحّدة لتصميم الواجهات (12 وحدة)</title>
+<meta name="description" content="عرض تفاعلي حيّ لأداة design-arsenal: 12 وحدة داخلية، تبديل ثيمات بلا وميض، فاحص تباين حي، شجرة قرار، ومعرض محظورات — ملف واحد بلا اعتماديات.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c0d0e" media="(prefers-color-scheme: dark)">
+<!-- no-flash boot (dark-mode §4): inline + blocking before the stylesheet -->
+<script>
+(function () {
+  try {
+    var s = localStorage.getItem("theme");
+    var t = s === "light" || s === "dark"
+      ? s
+      : (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.dataset.theme = t;
+  } catch (e) {}
+})();
+</script>
+<style>
+/* ============ tokens: theme = data (dark-mode §2) ============ */
+:root { color-scheme: light dark; }
+:root, [data-theme="light"] {
+  color-scheme: light;
+  --page: #f6f7f9;
+  --surface: #ffffff;
+  --surface-2: #eef0f4;
+  --raised: #ffffff;
+  --text: #1b1d21;
+  --text-muted: #565d66;
+  --border: #dce0e6;
+  --border-strong: #c3c9d1;
+  --accent: #4338ca;
+  --accent-contrast: #ffffff;
+  --accent-soft: #eef0ff;
+  --ok: #067647;
+  --ok-soft: #e7f6ef;
+  --warn: #9a4a06;
+  --warn-soft: #fdf1e3;
+  --err: #b42318;
+  --err-soft: #fdecea;
+  --code-bg: #17181c;
+  --code-text: #e8eaed;
+  --shadow: 0 1px 2px rgba(16,24,40,.06), 0 8px 24px rgba(16,24,40,.07);
+  --glow: transparent;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0c0d0e;
+  --surface: #121212;
+  --surface-2: #1a1c1e;
+  --raised: #232629;
+  --text: #e8eaed;
+  --text-muted: #a6adb8;
+  --border: #34383d;
+  --border-strong: #4a5058;
+  --accent: #a5b4fc;
+  --accent-contrast: #101243;
+  --accent-soft: #1e2140;
+  --ok: #4ade80;
+  --ok-soft: #10241a;
+  --warn: #fbbf24;
+  --warn-soft: #2a2110;
+  --err: #f87171;
+  --err-soft: #2b1513;
+  --code-bg: #17181c;
+  --code-text: #e8eaed;
+  --shadow: none;
+  --glow: 0 0 0 1px #34383d;
+}
+/* ============ base ============ */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font-family: system-ui, "Segoe UI", "Noto Kufi Arabic", "Noto Sans Arabic", Tahoma, Arial, sans-serif;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .18s ease, color .18s ease;
+}
+body, .themed { transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+h1, h2, h3, h4 { line-height: 1.3; margin: 0 0 .5em; font-weight: 800; letter-spacing: 0; }
+p { margin: 0 0 1em; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre, kbd { font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace; }
+code { background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; padding: .08em .4em; font-size: .9em; }
+pre { background: var(--code-bg); color: var(--code-text); border-radius: 12px; padding: 16px 18px; overflow-inline: auto; direction: ltr; text-align: left; font-size: .86rem; line-height: 1.6; margin: 0; }
+pre code { background: none; border: 0; padding: 0; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+::selection { background: var(--accent); color: var(--accent-contrast); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip-link { position: absolute; inset-inline-start: 16px; inset-block-start: -48px; z-index: 99; background: var(--accent); color: var(--accent-contrast); padding: 10px 16px; border-radius: 8px; transition: inset-block-start .15s ease; }
+.skip-link:focus { inset-block-start: 12px; }
+.wrap { max-width: 1080px; margin-inline: auto; padding-inline: 22px; }
+section { padding-block: 72px; }
+.sec-head { max-width: 640px; margin-block-end: 34px; }
+.sec-head .kicker { color: var(--accent); font-weight: 700; font-size: .85rem; margin: 0 0 6px; }
+.sec-head h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); }
+.sec-head p { color: var(--text-muted); margin: 0; }
+/* ============ header ============ */
+header.site {
+  position: sticky; inset-block-start: 0; z-index: 50;
+  background: color-mix(in srgb, var(--page) 82%, transparent);
+  backdrop-filter: blur(10px);
+  border-block-end: 1px solid var(--border);
+}
+.nav { display: flex; align-items: center; gap: 18px; min-height: 62px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; color: var(--text); margin-inline-end: auto; }
+.brand:hover { text-decoration: none; }
+.brand .mark { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 55%, #0ea5b7)); display: grid; place-items: center; color: var(--accent-contrast); font-size: .8rem; font-weight: 800; }
+.nav .links { display: flex; gap: 4px; }
+.nav .links a { color: var(--text-muted); font-size: .92rem; padding: 8px 12px; border-radius: 8px; }
+.nav .links a:hover { color: var(--text); background: var(--surface-2); text-decoration: none; }
+.ver { font-size: .75rem; font-weight: 700; color: var(--accent); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); padding: 3px 10px; border-radius: 999px; }
+/* theme toggle */
+.theme-btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); padding: 8px 14px; border-radius: 10px; font: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; box-shadow: var(--shadow); }
+.theme-btn:hover { border-color: var(--accent); }
+.theme-btn svg { width: 16px; height: 16px; }
+@media (max-width: 860px) { .nav .links { display: none; } }
+/* ============ hero ============ */
+.hero { padding-block: 84px 64px; position: relative; overflow: hidden; }
+.hero .grid-bg { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 44px 44px; opacity: .35; mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 75%); pointer-events: none; }
+.hero .inner { position: relative; }
+.hero h1 { font-size: clamp(2rem, 5.6vw, 3.4rem); max-width: 760px; margin-block-end: 18px; }
+.hero h1 .grad { background: linear-gradient(120deg, var(--accent), color-mix(in srgb, var(--accent) 45%, #0ea5b7)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero .lead { color: var(--text-muted); font-size: 1.08rem; max-width: 620px; }
+.hero .cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-block-start: 26px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 20px; border-radius: 11px; font: inherit; font-weight: 700; font-size: .95rem; cursor: pointer; border: 1px solid transparent; }
+.btn-primary { background: var(--accent); color: var(--accent-contrast); box-shadow: var(--shadow); }
+.btn-primary:hover { filter: brightness(1.06); }
+.btn-ghost { background: var(--surface); color: var(--text); border-color: var(--border-strong); box-shadow: var(--shadow); }
+.btn-ghost:hover { border-color: var(--accent); }
+.install-chip { display: inline-flex; align-items: center; gap: 10px; background: var(--code-bg); color: var(--code-text); padding: 11px 14px; border-radius: 11px; font-size: .88rem; box-shadow: var(--shadow); }
+.install-chip .prompt { color: #7dd3a8; user-select: none; }
+.install-chip button { background: none; border: 1px solid #3a3f45; color: var(--code-text); border-radius: 7px; padding: 4px 10px; font: inherit; font-size: .78rem; cursor: pointer; }
+.install-chip button:hover { border-color: #7dd3a8; color: #7dd3a8; }
+/* pipeline */
+.pipeline { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; margin-block-start: 44px; }
+.stage { flex: 1 1 130px; background: var(--raised); border: 1px solid var(--border); border-radius: 13px; padding: 14px 16px; box-shadow: var(--shadow), var(--glow); position: relative; min-width: 130px; }
+.stage .num { font-size: .7rem; font-weight: 800; color: var(--accent); }
+.stage .name { font-weight: 800; font-size: .95rem; direction: ltr; text-align: start; }
+.stage .tool { color: var(--text-muted); font-size: .78rem; direction: ltr; text-align: start; }
+.pipeline .arrow { align-self: center; color: var(--border-strong); font-weight: 800; }
+.layer-note { display: flex; flex-wrap: wrap; gap: 8px; margin-block-start: 16px; }
+.layer-note span { font-size: .8rem; font-weight: 600; color: var(--text-muted); border: 1px dashed var(--border-strong); padding: 5px 12px; border-radius: 999px; }
+.layer-note b { color: var(--text); }
+/* stats */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow), var(--glow); }
+.stat b { display: block; font-size: 1.7rem; font-weight: 800; color: var(--accent); }
+.stat span { color: var(--text-muted); font-size: .85rem; }
+@media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+/* ============ studio (live playground) ============ */
+.studio { display: grid; grid-template-columns: 300px 1fr; gap: 18px; align-items: start; }
+.controls { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: var(--shadow), var(--glow); }
+.ctl-group { margin-block-end: 20px; }
+.ctl-group:last-child { margin-block-end: 0; }
+.ctl-label { font-size: .82rem; font-weight: 700; color: var(--text-muted); margin-block-end: 8px; display: block; }
+.seg { display: flex; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 3px; gap: 3px; }
+.seg button { flex: 1; border: 0; background: none; color: var(--text-muted); font: inherit; font-size: .84rem; font-weight: 600; padding: 7px 6px; border-radius: 8px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.14); border: 1px solid var(--border); }
+.seg button:hover { color: var(--text); }
+.ctl-hint { font-size: .78rem; color: var(--text-muted); margin-block-start: 8px; }
+/* preview card — themed via the SAME semantic variables */
+.preview { border-radius: 16px; border: 1px solid var(--border); background: var(--page); padding: 22px; box-shadow: var(--shadow), var(--glow); }
+.mock { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; max-width: 460px; margin-inline: auto; box-shadow: var(--shadow), var(--glow); }
+.mock .media { height: 130px; background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 45%, #0ea5b7)); position: relative; }
+.mock .media .chip { position: absolute; inset-block-start: 12px; inset-inline-end: 12px; background: color-mix(in srgb, var(--surface) 88%, transparent); color: var(--text); font-size: .72rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); }
+.mock .body { padding: 18px 20px 20px; }
+.mock h3 { font-size: 1.05rem; margin: 0 0 6px; }
+.mock p { color: var(--text-muted); font-size: .88rem; margin: 0 0 14px; }
+.mock .row { display: flex; gap: 10px; align-items: center; }
+.mock .buy { background: var(--accent); color: var(--accent-contrast); border: 0; font: inherit; font-weight: 700; font-size: .88rem; padding: 9px 18px; border-radius: 9px; cursor: pointer; }
+.mock .buy:hover { filter: brightness(1.05); }
+.mock .save { background: none; border: 1px solid var(--border-strong); color: var(--text); font: inherit; font-size: .88rem; font-weight: 600; padding: 9px 14px; border-radius: 9px; cursor: pointer; }
+.mock .save:hover { border-color: var(--accent); }
+.mock .price { margin-inline-start: auto; font-weight: 800; font-size: 1.02rem; }
+.meter { display: flex; flex-wrap: wrap; gap: 8px; margin-block-start: 14px; justify-content: center; }
+.meter span { font-size: .74rem; font-weight: 700; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-muted); }
+.meter .live-ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); background: var(--ok-soft); }
+/* code callout under studio */
+.callout { background: var(--code-bg); color: var(--code-text); border-radius: 12px; padding: 14px 16px; font-size: .8rem; margin-block-start: 14px; direction: ltr; text-align: left; overflow: auto; }
+.callout b { color: #7dd3a8; font-weight: 600; }
+/* ============ contrast checker ============ */
+.contrast-box { display: grid; grid-template-columns: 340px 1fr; gap: 18px; }
+.cc-controls { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: var(--shadow), var(--glow); }
+.cc-row { display: flex; align-items: center; gap: 12px; margin-block-end: 14px; }
+.cc-row input[type="color"] { width: 46px; height: 34px; border: 1px solid var(--border-strong); border-radius: 8px; background: none; padding: 2px; cursor: pointer; }
+.cc-row label { font-weight: 700; font-size: .86rem; min-width: 88px; }
+.cc-row .hex { font-size: .82rem; color: var(--text-muted); direction: ltr; }
+.cc-swap { border: 1px solid var(--border-strong); background: var(--surface-2); border-radius: 8px; padding: 6px 14px; font: inherit; font-size: .82rem; font-weight: 600; cursor: pointer; color: var(--text); }
+.cc-swap:hover { border-color: var(--accent); }
+.cc-result { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 26px; box-shadow: var(--shadow), var(--glow); display: flex; flex-direction: column; gap: 16px; }
+.cc-sample { border-radius: 12px; padding: 22px 24px; border: 1px solid var(--border); }
+.cc-sample .big { font-size: 1.3rem; font-weight: 800; }
+.cc-sample .small { font-size: .86rem; }
+.cc-ratio { display: flex; align-items: baseline; gap: 10px; direction: ltr; justify-content: flex-end; }
+.cc-ratio b { font-size: 2.2rem; font-weight: 800; }
+.cc-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { font-size: .78rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-muted); }
+.badge.pass { color: var(--ok); background: var(--ok-soft); border-color: color-mix(in srgb, var(--ok) 35%, transparent); }
+.badge.fail { color: var(--err); background: var(--err-soft); border-color: color-mix(in srgb, var(--err) 35%, transparent); }
+.cc-note { color: var(--text-muted); font-size: .8rem; }
+/* ============ modules grid ============ */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-block-end: 22px; }
+.filters button { border: 1px solid var(--border-strong); background: var(--surface); color: var(--text-muted); font: inherit; font-size: .82rem; font-weight: 700; padding: 7px 16px; border-radius: 999px; cursor: pointer; }
+.filters button:hover { color: var(--text); border-color: var(--accent); }
+.filters button[aria-pressed="true"] { background: var(--accent); color: var(--accent-contrast); border-color: var(--accent); }
+.mods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.mod { background: var(--surface); border: 1px solid var(--border); border-radius: 15px; padding: 20px; box-shadow: var(--shadow), var(--glow); display: flex; flex-direction: column; gap: 8px; position: relative; }
+.mod .top { display: flex; align-items: center; gap: 8px; }
+.mod .idx { font-size: .7rem; font-weight: 800; color: var(--text-muted); background: var(--surface-2); border: 1px solid var(--border); border-radius: 7px; padding: 1px 8px; direction: ltr; }
+.mod h3 { font-size: 1rem; margin: 0; direction: ltr; text-align: start; }
+.mod .tag { font-size: .68rem; font-weight: 800; padding: 2px 9px; border-radius: 999px; margin-inline-start: auto; }
+.mod .tag.up { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+.mod .tag.og { background: var(--ok-soft); color: var(--ok); border: 1px solid color-mix(in srgb, var(--ok) 35%, transparent); }
+.mod p { color: var(--text-muted); font-size: .84rem; margin: 0; flex: 1; }
+.mod .path { font-size: .74rem; color: var(--text-muted); direction: ltr; text-align: start; background: var(--surface-2); border-radius: 7px; padding: 5px 9px; border: 1px solid var(--border); }
+.mod .stage-line { font-size: .74rem; font-weight: 700; color: var(--accent); }
+@media (max-width: 960px) { .mods { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .mods { grid-template-columns: 1fr; } }
+/* ============ decision tree ============ */
+.tree { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 28px; box-shadow: var(--shadow), var(--glow); max-width: 720px; margin-inline: auto; }
+.tree .q-step { display: none; }
+.tree .q-step.active { display: block; }
+.tree .q-num { font-size: .8rem; font-weight: 800; color: var(--accent); margin-block-end: 6px; }
+.tree h3 { font-size: 1.2rem; margin-block-end: 16px; }
+.tree .answers { display: flex; flex-wrap: wrap; gap: 10px; }
+.tree .answers button { font: inherit; font-size: .9rem; font-weight: 700; padding: 10px 18px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface-2); color: var(--text); cursor: pointer; }
+.tree .answers button:hover { border-color: var(--accent); background: var(--accent-soft); }
+.tree .back { background: none; border: 0; color: var(--text-muted); font: inherit; font-size: .82rem; cursor: pointer; margin-block-start: 14px; padding: 4px; }
+.tree .back:hover { color: var(--text); }
+.tree .result { text-align: start; }
+.tree .result .mod-name { font-size: 1.35rem; font-weight: 800; direction: ltr; text-align: start; color: var(--accent); }
+.tree .result p { color: var(--text-muted); }
+.tree .result .path { background: var(--code-bg); color: var(--code-text); border-radius: 9px; padding: 10px 14px; font-size: .82rem; direction: ltr; text-align: left; display: block; margin-block: 10px; }
+/* ============ bans ============ */
+.bans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.ban { background: var(--surface); border: 1px solid var(--border); border-inline-start: 3px solid var(--err); border-radius: 12px; padding: 16px 18px; box-shadow: var(--shadow), var(--glow); }
+.ban .no { color: var(--err); font-weight: 800; font-size: .9rem; }
+.ban p { margin: 6px 0 8px; font-size: .88rem; }
+.ban .fix { color: var(--ok); font-size: .78rem; font-weight: 700; }
+@media (max-width: 760px) { .bans { grid-template-columns: 1fr; } }
+/* ============ terminal ============ */
+.term { background: var(--code-bg); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid #26282e; }
+.term .bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-block-end: 1px solid #26282e; }
+.term .dot { width: 11px; height: 11px; border-radius: 50%; background: #3a3f45; }
+.term .dot:first-child { background: #e5484d; } .term .dot:nth-child(2) { background: #f5a623; } .term .dot:nth-child(3) { background: #46a758; }
+.term .tabs { display: flex; gap: 4px; margin-inline-start: 12px; }
+.term .tabs button { background: none; border: 0; color: #9aa1a9; font: inherit; font-size: .78rem; font-weight: 600; padding: 5px 12px; border-radius: 7px; cursor: pointer; }
+.term .tabs button[aria-pressed="true"] { background: #26282e; color: var(--code-text); }
+.term pre { background: none; border-radius: 0; margin: 0; padding: 18px 20px; font-size: .82rem; min-height: 120px; }
+.term pre .c { color: #7d8590; } .term pre .g { color: #7dd3a8; }
+.term .copybar { display: flex; justify-content: flex-end; padding: 0 14px 12px; }
+.term .copybar button { background: #26282e; border: 0; color: var(--code-text); font: inherit; font-size: .74rem; padding: 5px 12px; border-radius: 7px; cursor: pointer; }
+.term .copybar button:hover { background: #34383d; }
+/* ============ footer ============ */
+footer.site-foot { border-block-start: 1px solid var(--border); padding-block: 40px; background: var(--surface); }
+footer .inner { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; color: var(--text-muted); font-size: .86rem; }
+footer .inner a { color: var(--text-muted); font-weight: 600; }
+footer .inner a:hover { color: var(--text); }
+/* ============ animations + reduced motion ============ */
+@keyframes dash { to { background-position-x: -44px; } }
+.pipeline .stage { background-image: linear-gradient(90deg, var(--accent-soft) 0 12px, transparent 12px 24px); background-size: 24px 100%; animation: dash 1.1s linear infinite paused; animation-delay: calc(var(--i, 0) * .18s); }
+.pipeline .stage:hover, .pipeline .stage.play { animation-play-state: running; }
+body.motion-live .pipeline .stage { animation-play-state: running; }
+.mock .media::after { content: ""; position: absolute; inset-inline-start: -40%; inset-block: 0; width: 40%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent); transform: skewX(-18deg); animation: sheen 3.2s ease-in-out infinite; }
+@keyframes sheen { 0%, 55% { inset-inline-start: -40%; } 85%, 100% { inset-inline-start: 130%; } }
+body.motion-live .mock .media::after { animation-play-state: running; }
+html.force-reduced-motion *, html.force-reduced-motion *::before, html.force-reduced-motion *::after {
+  animation-duration: .01ms !important; animation-iteration-count: 1 !important;
+  transition-duration: .01ms !important; scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
+<p aria-live="polite" id="theme-status" class="visually-hidden"></p>
+
+<header class="site themed">
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="mark">DA</span> design-arsenal <span class="ver">v2.3.0</span></a>
+    <nav class="links" aria-label="أقسام الصفحة">
+      <a href="#studio">الاستوديو الحي</a>
+      <a href="#contrast">فاحص التباين</a>
+      <a href="#modules">الوحدات</a>
+      <a href="#tree">شجرة القرار</a>
+      <a href="#install">التثبيت</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" type="button" aria-describedby="themeHint">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" id="themeIcon"></svg>
+      <span id="themeLabel">النظام</span>
+    </button>
+    <span id="themeHint" class="visually-hidden">يبدّل بين الفاتح والداكن وتفضيل النظام ويحفظ اختيارك</span>
+  </div>
+</header>
+
+<main id="main">
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="top">
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="wrap inner">
+      <h1>أداة واحدة.<br><span class="grad">اثنتا عشرة وحدة.</span> مدخل واحد للوكيل.</h1>
+      <p class="lead">design-arsenal تدمج سبعة مشاريع عالمية مفتوحة المصدر مع خمس وحدات أصلية (العربية وRTL، الإتاحة، الرموز، الأداء، والوضع الداكن) في مهارة واحدة بمدخل <code dir="ltr">SKILL.md</code> وحيد — وهذه الصفحة نفسها مبنية بقواعدها: ثيم بلا وميض، خصائص منطقية، وتباين مفحوص.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#studio">جرّب الاستوديو الحي</a>
+        <a class="btn btn-ghost" href="https://github.com/CTO-DRS/design-arsenal" dir="ltr">GitHub ↗</a>
+        <span class="install-chip"><span class="prompt" aria-hidden="true">$</span><code id="instCmd" dir="ltr">bash install.sh</code><button type="button" data-copy="#instCmd">نسخ</button></span>
+      </div>
+      <div class="pipeline" role="list" aria-label="خط الأنابيب">
+        <div class="stage" role="listitem"><span class="num">01</span><div class="name">EXTRACT</div><div class="tool">extract + design-tokens</div></div>
+        <span class="arrow" aria-hidden="true">←</span>
+        <div class="stage" role="listitem"><span class="num">02</span><div class="name">TASTE</div><div class="tool">taste</div></div>
+        <span class="arrow" aria-hidden="true">←</span>
+        <div class="stage" role="listitem"><span class="num">03</span><div class="name">BUILD</div><div class="tool">react-bits</div></div>
+        <span class="arrow" aria-hidden="true">←</span>
+        <div class="stage" role="listitem"><span class="num">04</span><div class="name">MOTION</div><div class="tool">gsap / transitions</div></div>
+        <span class="arrow" aria-hidden="true">←</span>
+        <div class="stage" role="listitem"><span class="num">05</span><div class="name">POLISH</div><div class="tool">impeccable</div></div>
+        <span class="arrow" aria-hidden="true">←</span>
+        <div class="stage" role="listitem"><span class="num">06</span><div class="name">VERIFY</div><div class="tool">playwright-cli</div></div>
+      </div>
+      <div class="layer-note">
+        <span><b>rtl-arabic</b> طبقة سياق لأي محتوى عربي</span>
+        <span><b>a11y</b> بوابات على كل مرحلة</span>
+        <span><b>web-vitals</b> ميزانية أداء على كل مرحلة</span>
+        <span><b>dark-mode</b> طبقة الثيمات</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STATS ================= -->
+  <section style="padding-block: 8px 24px;">
+    <div class="wrap stats">
+      <div class="stat"><b dir="ltr">12</b><span>وحدة داخلية بأدلة MANUAL</span></div>
+      <div class="stat"><b dir="ltr">5</b><span>وحدات أصلية authored للحزمة</span></div>
+      <div class="stat"><b dir="ltr">4</b><span>سكربتات قياس بلا اعتماديات</span></div>
+      <div class="stat"><b dir="ltr">1</b><span>ملف SKILL.md يسجّل أداة واحدة</span></div>
+    </div>
+  </section>
+
+  <!-- ================= STUDIO ================= -->
+  <section id="studio">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">الاستوديو الحي</p>
+        <h2>بدّل الثيم والاتجاه والحركة — وشاهد القواعد تعمل</h2>
+        <p>مفتاح الثيم هنا هو نفس آلية الوحدة: يكتب <code dir="ltr">data-theme</code> على <code dir="ltr">&lt;html&gt;</code> ويحفظ في <code dir="ltr">localStorage</code>، وغيابه يعني تبعية النظام. قلب الاتجاه يستخدم خصائص منطقية فقط، وتخفيف الحركة يحاكي <code dir="ltr">prefers-reduced-motion</code>.</p>
+      </div>
+      <div class="studio">
+        <aside class="controls" aria-label="أدوات التحكم">
+          <div class="ctl-group">
+            <span class="ctl-label" id="lbl-theme">الثيم (يُطبَّق على الصفحة كلها)</span>
+            <div class="seg" role="group" aria-labelledby="lbl-theme" data-seg="theme">
+              <button type="button" data-val="light" aria-pressed="false">فاتح</button>
+              <button type="button" data-val="dark" aria-pressed="false">داكن</button>
+              <button type="button" data-val="system" aria-pressed="true">النظام</button>
+            </div>
+            <p class="ctl-hint">لاحظ: بلا وميض عند إعادة تحميل الصفحة — سكربت الإقلاع في <code dir="ltr">&lt;head&gt;</code> يقرأ اختيارك قبل أول رسمة.</p>
+          </div>
+          <div class="ctl-group">
+            <span class="ctl-label" id="lbl-dir">اتجاه الصفحة</span>
+            <div class="seg" role="group" aria-labelledby="lbl-dir" data-seg="dir">
+              <button type="button" data-val="rtl" aria-pressed="true">RTL عربي</button>
+              <button type="button" data-val="ltr" aria-pressed="false">LTR</button>
+            </div>
+            <p class="ctl-hint">الشعار يبقى في جهة البداية والأزرار تتبادل مواضعها بخصائص منطقية (<code dir="ltr">inset-inline</code>، <code dir="ltr">margin-inline-start</code>) — بلا سطر CSS مكرّر.</p>
+          </div>
+          <div class="ctl-group">
+            <span class="ctl-label" id="lbl-motion">الحركة</span>
+            <div class="seg" role="group" aria-labelledby="lbl-motion" data-seg="motion">
+              <button type="button" data-val="full" aria-pressed="true">كاملة</button>
+              <button type="button" data-val="reduced" aria-pressed="false">مخفَّفة</button>
+            </div>
+            <p class="ctl-hint">في الوضع المخفَّف تتجمد الأنماط المتحركة وتبقى العناصر واضحة — استبدال لا إخفاء (a11y §7).</p>
+          </div>
+        </aside>
+        <div class="preview">
+          <div class="mock">
+            <div class="media" id="mockMedia"><span class="chip">معاينة حيّة</span></div>
+            <div class="body">
+              <h3>لوحة تحكم المنتج</h3>
+              <p>بطاقة نموذجية تورّث متغيرات الثيم الحالية: السطح والنص والحدود واللون المميز — كلها من طبقة الرموز الدلالية نفسها.</p>
+              <div class="row">
+                <button class="buy" type="button" id="buyBtn">اشترِ الآن</button>
+                <button class="save" type="button" id="saveBtn">أضِف للمفضلة</button>
+                <span class="price" dir="ltr">$29</span>
+              </div>
+            </div>
+          </div>
+          <div class="meter" aria-label="مؤشرات الالتزام">
+            <span class="live-ok">تباين النص متوافق AA في الثيمين</span>
+            <span>ارتفاع سطر 1.75 للعربية</span>
+            <span class="live-ok">حلقة تركيز ≥3:1</span>
+            <span>بلا letterspacing على العربية</span>
+          </div>
+          <div class="callout" id="studioCallout">
+<b>/* ما الذي تغيّر الآن؟ */</b>
+:root, [data-theme="light"] { --surface: #ffffff; --text: #1b1d21; }
+[data-theme="dark"]         { --surface: #121212; --text: #e8eaed; }
+/* المكوّنات لا ترى قيمًا خامًا — أسماء دلالية فقط، والثيم = بيانات */
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTRAST ================= -->
+  <section id="contrast" style="padding-block-start: 0;">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">فاحص التباين الحي</p>
+        <h2>قِس، ولا تحكم بعينك</h2>
+        <p>نفس معادلات سكربت <code dir="ltr">contrast.mjs</code> (luminance النسبي + نسبة WCAG) تعمل هنا في متصفحك: اختر لونَي النص والسطح وشاهد الحكم فورًا على معايير AA وAAA والعناصر الكبيرة.</p>
+      </div>
+      <div class="contrast-box">
+        <div class="cc-controls">
+          <div class="cc-row">
+            <label for="ccFg">لون النص</label>
+            <input type="color" id="ccFg" value="#565d66" aria-describedby="ccFgHex">
+            <span class="hex" id="ccFgHex" dir="ltr">#565D66</span>
+          </div>
+          <div class="cc-row">
+            <label for="ccBg">لون السطح</label>
+            <input type="color" id="ccBg" value="#ffffff" aria-describedby="ccBgHex">
+            <span class="hex" id="ccBgHex" dir="ltr">#FFFFFF</span>
+          </div>
+          <div class="cc-row" style="margin-block-end: 0;">
+            <button class="cc-swap" type="button" id="ccSwap">تبديل الاتجاه ⇄</button>
+          </div>
+          <p class="cc-note" style="margin-block-start: 14px; margin-block-end: 0;">جرّب الزوج الشهير: <code dir="ltr">#767676</code> على الأبيض (4.54:1 يمرّ بالكاد) مقابل <code dir="ltr">#777777</code> (4.48:1 يسقط).</p>
+        </div>
+        <div class="cc-result">
+          <div class="cc-sample themed" id="ccSample" style="background:#ffffff; color:#565d66;">
+            <div class="big">نص أساسي للعينة</div>
+            <div class="small">نص ثانوي أصغر حجمًا — هذا ما يقرؤه مستخدمك فعلًا.</div>
+          </div>
+          <div class="cc-ratio"><span style="color: var(--text-muted); font-size: .85rem;">النسبة</span><b id="ccRatio">—</b></div>
+          <div class="cc-badges" id="ccBadges"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ================= MODULES ================= -->
+  <section id="modules">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">الداخلية</p>
+        <h2>اثنتا عشرة وحدة تحت أداة واحدة</h2>
+        <p>سبع من المشاريع الأفضل في مجالها (منسوخة من مستودعاتها) وخمس أصلية authored لهذه الحزمة — كلها تُقرأ كأدلة <code dir="ltr">MANUAL.md</code> من القرص عند الحاجة، ولا شيء منها يُسجَّل كأداة مستقلة.</p>
+      </div>
+      <div class="filters" role="group" aria-label="فلترة الوحدات" id="modFilters">
+        <button type="button" data-f="all" aria-pressed="true">الكل</button>
+        <button type="button" data-f="original" aria-pressed="false">الأصلية (5)</button>
+        <button type="button" data-f="upstream" aria-pressed="false">من المشاريع العالمية (7)</button>
+        <button type="button" data-f="quality" aria-pressed="false">جودة وتحقق</button>
+        <button type="button" data-f="motion" aria-pressed="false">حركة</button>
+        <button type="button" data-f="tokens" aria-pressed="false">رموز وثيمات</button>
+      </div>
+      <div class="mods" id="modGrid"></div>
+    </div>
+  </section>
+
+  <!-- ================= DECISION TREE ================= -->
+  <section id="tree" style="padding-block-start: 0;">
+    <div class="wrap">
+      <div class="sec-head" style="text-align: center; margin-inline: auto;">
+        <p class="kicker">شجرة القرار</p>
+        <h2>أربعة أسئلة تحسم الوحدة</h2>
+        <p>نفس الأسئلة التي يطرحها الوكيل عند استقبال أي مهمة — جرّبها:</p>
+      </div>
+      <div class="tree" id="treeBox" aria-live="polite">
+        <div class="q-step active" data-step="1">
+          <div class="q-num">السؤال 1 / 4</div>
+          <h3>هل المهمة أو المحتوى يتضمن العربية أو أي نص RTL؟</h3>
+          <div class="answers">
+            <button type="button" data-goto="2" data-add="rtl-arabic">نعم</button>
+            <button type="button" data-goto="2">لا</button>
+          </div>
+        </div>
+        <div class="q-step" data-step="2">
+          <div class="q-num">السؤال 2 / 4</div>
+          <h3>هل المدخل تصميم قائم تريد استهلاكه أو نسخه؟</h3>
+          <div class="answers">
+            <button type="button" data-goto="3" data-add="extract">رابط موقع</button>
+            <button type="button" data-goto="3" data-add="tokens">لقطة شاشة أو لوحة ألوان</button>
+            <button type="button" data-goto="3">لا</button>
+          </div>
+        </div>
+        <div class="q-step" data-step="3">
+          <div class="q-num">السؤال 3 / 4</div>
+          <h3>هل تبني شيئًا جديدًا أم تعدّل شيئًا موجودًا؟</h3>
+          <div class="answers">
+            <button type="button" data-goto="4" data-add="taste">جديد — من الصفر</button>
+            <button type="button" data-goto="4" data-add="polish">موجود — تحسين وصقل</button>
+          </div>
+        </div>
+        <div class="q-step" data-step="4">
+          <div class="q-num">السؤال 4 / 4</div>
+          <h3>بمَ تنتهي المهمة؟</h3>
+          <div class="answers">
+            <button type="button" data-result="ship">واجهة تُسلَّم للمستخدم</button>
+            <button type="button" data-result="theme">ملف ثيمات أو وضع داكن</button>
+            <button type="button" data-result="motion">حركة أو انتقالات</button>
+            <button type="button" data-result="perf">صفحة أسرع تجتاز Vitals</button>
+          </div>
+        </div>
+        <div class="q-step result" data-step="result"></div>
+        <button class="back" type="button" id="treeBack" hidden>↩ ابدأ من جديد</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BANS ================= -->
+  <section id="bans" style="padding-block-start: 0;">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">سجل المحظورات</p>
+        <h2>أنماط لا تُشحن أبدًا — وما يُفعل بدلًا منها</h2>
+        <p>مختارات من السجل العابر للوحدات في <code dir="ltr">SKILL.md</code> — إن وُجد أحدها في مخرجات الوكيل فالمهمة لم تنتهِ بعد.</p>
+      </div>
+      <div class="bans" id="banGrid"></div>
+    </div>
+  </section>
+
+  <!-- ================= INSTALL ================= -->
+  <section id="install" style="padding-block-start: 0;">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">التثبيت والإدارة</p>
+        <h2>سطر واحد… ثم أعد تشغيل وكيلك</h2>
+        <p>المثبّت يكشف بيئتك تلقائيًا (Claude Code، Codex، Gemini CLI، Cursor، Windsurf، OpenCode) وينصّب أداة واحدة باسم <code dir="ltr">design-arsenal</code>، مع أوامر إدارة لاحقة.</p>
+      </div>
+      <div class="term" dir="ltr">
+        <div class="bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <div class="tabs" role="group" aria-label="أوامر الطرفية">
+            <button type="button" data-tab="install" aria-pressed="true">install</button>
+            <button type="button" data-tab="doctor" aria-pressed="false">doctor</button>
+            <button type="button" data-tab="list" aria-pressed="false">list</button>
+            <button type="button" data-tab="update" aria-pressed="false">update</button>
+          </div>
+        </div>
+        <pre id="termOut"></pre>
+        <div class="copybar"><button type="button" id="termCopy">نسخ الأمر</button></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot themed">
+  <div class="wrap inner">
+    <span>design-arsenal v2.3.0 — أداة واحدة، اثنتا عشرة وحدة، صفر اعتماديات في هذه الصفحة.</span>
+    <span>
+      <a href="https://github.com/CTO-DRS/design-arsenal" dir="ltr">GitHub</a> ·
+      <a href="#top">إلى الأعلى ↑</a>
+    </span>
+  </div>
+  <div class="wrap" style="margin-block-start: 10px;">
+    <span style="color: var(--text-muted); font-size: .78rem;">هذه الصفحة تلتزم بقواعد الأداة نفسها: إقلاع بلا وميض، خصائص منطقية للـRTL، حارس reduced-motion، وحلقة تركيز ≥3:1 في الثيمين.</span>
+  </div>
+</footer>
+<script>
+/* ================= theme: three-mode (dark-mode §3/§4) ================= */
+(function () {
+  var btn = document.getElementById("themeBtn");
+  var label = document.getElementById("themeLabel");
+  var live = document.getElementById("theme-status");
+  var icon = document.getElementById("themeIcon");
+  var ICONS = {
+    light: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5 5l1.7 1.7M17.3 17.3 19 19M19 5l-1.7 1.7M6.7 17.3 5 19"/>',
+    dark: '<path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11Z"/>',
+    system: '<rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8.5 20.5h7M12 16.5v4"/>'
+  };
+  var NAMES = { light: "فاتح", dark: "داكن", system: "النظام" };
+  var ORDER = ["light", "dark", "system"];
+  var mql = matchMedia("(prefers-color-scheme: dark)");
+
+  function effective() {
+    var s = null;
+    try { s = localStorage.getItem("theme"); } catch (e) {}
+    return s === "light" || s === "dark" ? s : "system";
+  }
+  function apply() {
+    var mode = effective();
+    var t = mode === "system" ? (mql.matches ? "dark" : "light") : mode;
+    document.documentElement.dataset.theme = t;
+    label.textContent = NAMES[mode];
+    icon.innerHTML = ICONS[mode];
+    syncSeg(mode);
+  }
+  btn.addEventListener("click", function () {
+    var next = ORDER[(ORDER.indexOf(effective()) + 1) % ORDER.length];
+    try {
+      if (next === "system") localStorage.removeItem("theme");
+      else localStorage.setItem("theme", next);
+    } catch (e) {}
+    apply();
+    if (live) live.textContent = "الثيم: " + NAMES[next];
+  });
+  mql.addEventListener("change", function () { if (effective() === "system") apply(); });
+  apply();
+
+  /* studio segmented controls mirror the same mechanism */
+  var segs = document.querySelectorAll(".seg");
+  function syncSeg(mode) {
+    segs.forEach(function (seg) {
+      if (seg.dataset.seg !== "theme") return;
+      seg.querySelectorAll("button").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.dataset.val === mode));
+      });
+    });
+  }
+  document.querySelectorAll('[data-seg="theme"] button').forEach(function (b) {
+    b.addEventListener("click", function () {
+      var v = b.dataset.val;
+      try {
+        if (v === "system") localStorage.removeItem("theme");
+        else localStorage.setItem("theme", v);
+      } catch (e) {}
+      apply();
+      if (live) live.textContent = "الثيم: " + NAMES[v];
+    });
+  });
+})();
+
+/* ================= direction + motion ================= */
+(function () {
+  document.querySelectorAll('[data-seg="dir"] button').forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.documentElement.dir = b.dataset.val;
+      document.querySelectorAll('[data-seg="dir"] button').forEach(function (x) {
+        x.setAttribute("aria-pressed", String(x === b));
+      });
+    });
+  });
+  document.querySelectorAll('[data-seg="motion"] button').forEach(function (b) {
+    b.addEventListener("click", function () {
+      var reduced = b.dataset.val === "reduced";
+      document.documentElement.classList.toggle("force-reduced-motion", reduced);
+      document.body.classList.toggle("motion-live", !reduced);
+      document.querySelectorAll('[data-seg="motion"] button').forEach(function (x) {
+        x.setAttribute("aria-pressed", String(x === b));
+      });
+    });
+  });
+  document.body.classList.add("motion-live");
+})();
+
+/* ================= contrast checker (same math as contrast.mjs) ================= */
+(function () {
+  var fg = document.getElementById("ccFg"), bg = document.getElementById("ccBg");
+  var sample = document.getElementById("ccSample");
+  var ratioEl = document.getElementById("ccRatio");
+  var badgesEl = document.getElementById("ccBadges");
+  function rgb(hex) {
+    var h = hex.replace("#", "");
+    if (h.length === 3) h = h.split("").map(function (c) { return c + c; }).join("");
+    return [0, 2, 4].map(function (i) { return parseInt(h.slice(i, i + 2), 16) / 255; });
+  }
+  function lum(hex) {
+    var c = rgb(hex).map(function (v) { return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  }
+  function ratio(a, b) {
+    var l1 = lum(a), l2 = lum(b);
+    var hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+  function badge(pass, text) {
+    return '<span class="badge ' + (pass ? "pass" : "fail") + '">' + (pass ? "✓ " : "✗ ") + text + "</span>";
+  }
+  function update() {
+    var f = fg.value, b = bg.value;
+    var r = ratio(f, b);
+    sample.style.background = b;
+    sample.style.color = f;
+    sample.style.borderColor = "color-mix(in srgb, " + f + " 25%, " + b + ")";
+    document.getElementById("ccFgHex").textContent = f.toUpperCase();
+    document.getElementById("ccBgHex").textContent = b.toUpperCase();
+    ratioEl.textContent = r.toFixed(2) + ":1";
+    ratioEl.style.color = "";
+    badgesEl.innerHTML =
+      badge(r >= 4.5, "نص عادي AA (4.5:1)") +
+      badge(r >= 3, "نص كبير AA (3:1)") +
+      badge(r >= 7, "AAA (7:1)") +
+      badge(r >= 3, "عناصر واجهة وأيقونات (3:1)");
+  }
+  fg.addEventListener("input", update);
+  bg.addEventListener("input", update);
+  document.getElementById("ccSwap").addEventListener("click", function () {
+    var t = fg.value; fg.value = bg.value; bg.value = t; update();
+  });
+  update();
+})();
+
+/* ================= modules grid ================= */
+(function () {
+  var MODS = [
+    { n: "01", slug: "extract", name: "designlang / design-extract", og: false, cat: "workflow", stage: "EXTRACT", blurb: "يستخرج نظام تصميم أي موقع كاملًا: رموز DTCG، إعدادات Tailwind، ثيم shadcn، متغيرات Figma، ودرجات WCAG بأمر واحد." },
+    { n: "02", slug: "taste", name: "Taste Skill v2", og: false, cat: "workflow", stage: "TASTE", blurb: "توجيه فني مضاد للقوالب الجاهزة: اتجاهات مدروسة من 247 موقعًا حائزًا على جوائز، مع حظر صارم لأسلوب AI slop." },
+    { n: "03", slug: "polish", name: "Impeccable", og: false, cat: "quality", stage: "POLISH", blurb: "24 أمر صقل ومراجعة (polish، audit، critique، bolder، typeset…) مع قواعد كشف حتمية للأنماط الرديئة." },
+    { n: "04", slug: "gsap", name: "GSAP Skills (official)", og: false, cat: "motion", stage: "MOTION", blurb: "ثمانية أدوات فرعية رسمية: timelines، ScrollTrigger، React، الأداء، الإضافات — التحريك البرمجي المتقدم." },
+    { n: "05", slug: "components", name: "React Bits", og: false, cat: "components", stage: "BUILD", blurb: "218 مكوّن React متحرك جاهز بخمس فئات ونكهتي TS-CSS وTS-Tailwind وسجل shadcn." },
+    { n: "06", slug: "transitions", name: "Transitions.dev", og: false, cat: "motion", stage: "MOTION", blurb: "أكثر من 43 انتقال CSS إنتاجية: مودالات، توستات، شارات، حالات تفكير ذكاء اصطناعي — مع رموز حركة." },
+    { n: "07", slug: "verify", name: "Playwright CLI", og: false, cat: "quality", stage: "VERIFY", blurb: "أتمتة متصفح موفّرة للرموز: لقطات، تصفح، فحص تدفقات، فيديو، وتتبع أخطاء للوكلاء البرمجية." },
+    { n: "08", slug: "rtl-arabic", name: "RTL Arabic Design", og: true, cat: "localization", stage: "طبقة سياق", blurb: "خصائص منطقية بدل left/right، تايبوغرافيا عربية (حظر letterspacing، ارتفاع السطر 1.7–1.9)، أرقام، عكس، وGSAP تحت RTL." },
+    { n: "09", slug: "a11y", name: "Accessibility (WCAG 2.2 AA)", og: true, cat: "quality", stage: "بوابة كل مرحلة", blurb: "سكربت تباين بلا اعتماديات، HTML دلالي، 4 أنماط ARIA، لوحة مفاتيح، نماذج، وحركة آمنة دهليزيًا — تدقيق 12 نقطة." },
+    { n: "10", slug: "tokens", name: "Design Tokens (DTCG)", og: true, cat: "tokens", stage: "EXTRACT/BUILD", blurb: "من لقطة أو رابط أو موجز إلى معمارية رموز متدرجة تُصدَّر إلى CSS وTailwind v3/v4 وFigma — والداكن بملف." },
+    { n: "11", slug: "web-vitals", name: "Web Vitals (Performance)", og: true, cat: "quality", stage: "ميزانية كل مرحلة", blurb: "عتبات LCP/INP/CLS وخط لعب التحميل + محلل HTML ثابت يكشف lazy heroes والوسائط بلا أبعاد والسكربتات الحاجبة." },
+    { n: "12", slug: "dark-mode", name: "Dark Mode (Theming)", og: true, cat: "tokens", stage: "طبقة الثيمات", blurb: "إعادة ضبط لا قلب: سطوح 12% ونص 90%، الثيم بملف موازٍ، مفتاح ثلاثي بلا وميض، وفاحص توازية وتباين الثيمين." }
+  ];
+  var grid = document.getElementById("modGrid");
+  function render(f) {
+    grid.innerHTML = MODS.filter(function (m) {
+      if (f === "all") return true;
+      if (f === "original") return m.og;
+      if (f === "upstream") return !m.og;
+      return m.cat === f;
+    }).map(function (m) {
+      return '<article class="mod">' +
+        '<div class="top"><span class="idx">' + m.n + '</span><h3>' + m.name + '</h3>' +
+        '<span class="tag ' + (m.og ? "og" : "up") + '">' + (m.og ? "أصلية" : "من مشروع عالمي") + "</span></div>" +
+        '<span class="stage-line">' + m.stage + "</span>" +
+        "<p>" + m.blurb + "</p>" +
+        '<code class="path">skills/' + (m.slug === "tokens" ? "design-tokens" : m.slug) + "/MANUAL.md</code>" +
+        "</article>";
+    }).join("");
+  }
+  document.getElementById("modFilters").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    render(b.dataset.f);
+  });
+  render("all");
+})();
+
+/* ================= decision tree ================= */
+(function () {
+  var box = document.getElementById("treeBox");
+  var back = document.getElementById("treeBack");
+  var picked = [];
+  var RESULTS = {
+    ship: ["a11y + web-vitals + verify", "سلّم بعد البوابات: فحص تباين الزوجين، لِنت HTML الثابت، ثم لقطات بالمتصفح.", "skills/a11y/MANUAL.md + skills/web-vitals/MANUAL.md"],
+    theme: ["tokens → dark-mode", "ابنِ معمارية الرموز ثم ثيمًا موازيًا بلا وميض — وفاحص theme.mjs على الثيمين معًا.", "skills/design-tokens/MANUAL.md + skills/dark-mode/MANUAL.md"],
+    motion: ["transitions (CSS) أو gsap (مشاهد)", "تفاعل دقيق لعنصر واحد = transitions؛ مشاهد مُرسّبة بالتمرير = gsap — ولا خلط على نفس العنصر.", "skills/transitions/transitions-dev/MANUAL.md أو skills/gsap/gsap-core/MANUAL.md"],
+    perf: ["web-vitals", "فحص ثابت أولًا (بلا تخمين أرقام): lazy hero، أبعاد مفقودة، سكربتات حاجبة — ثم خط اللعب ثم القياس.", "skills/web-vitals/MANUAL.md"]
+  };
+  function step(n) {
+    box.querySelectorAll(".q-step").forEach(function (s) {
+      s.classList.toggle("active", s.dataset.step === String(n));
+    });
+    back.hidden = false;
+  }
+  function showResult(key, extras) {
+    var r = RESULTS[key];
+    var el = box.querySelector(".result");
+    var extraLine = extras && extras.length
+      ? "<p><b style='color: var(--text)'>مع طبقات إضافية:</b> " + extras.join(" → ") + "</p>"
+      : "";
+    el.innerHTML = '<div class="q-num">النتيجة</div>' +
+      '<div class="mod-name">' + r[0] + "</div>" + extraLine +
+      "<p>" + r[1] + "</p>" +
+      '<code class="path">' + r[2] + "</code>";
+    box.querySelectorAll(".q-step").forEach(function (s) { s.classList.remove("active"); });
+    el.classList.add("active");
+    back.hidden = false;
+  }
+  box.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b || b === back) return;
+    if (b.dataset.goto) {
+      if (b.dataset.add) picked.push(b.dataset.add);
+      step(b.dataset.goto);
+    } else if (b.dataset.result) {
+      showResult(b.dataset.result, picked);
+    }
+  });
+  back.addEventListener("click", function () {
+    picked = [];
+    box.querySelector(".result").innerHTML = "";
+    step(1);
+    back.hidden = true;
+  });
+})();
+
+/* ================= bans grid ================= */
+(function () {
+  var BANS = [
+    ["زر بـ <code dir='ltr'>&lt;div onClick&gt;</code>", "ميت للوحة المفاتيح وغير مرئي لقارئ الشاشة.", "استخدم <code dir='ltr'>&lt;button&gt;</code> — a11y §3"],
+    ["نص رمادي على لون بتباين أقل من 4.5:1", "عينك تخدعك — الإدراك غير خطي.", "قِس بـ contrast.mjs — a11y §2"],
+    ["حركة بلا حارس prefers-reduced-motion", "دوار الحركة حقيقي لثلث البالغين تقريبًا.", "حارس CSS أو gsap.matchMedia — a11y §7"],
+    ["letterspacing على نص عربي", "يكسر اتصال الحروف العربية فيتفكك الكلام.", "لا تباعد أحرف للعربية — rtl-arabic §3"],
+    ["خاصيات left/right في صفحة RTL", "تنكسر عند قلب الاتجاه.", "خصائص منطقية: inline-start/end — rtl-arabic §1"],
+    ["قيم hex صلبة داخل المكوّنات مع وجود ملف رموز", "الثيم لا يستطيع تغيير ما لا يمر بالرموز.", "أسماء دلالية فقط — tokens §7"],
+    ["loading='lazy' على صورة الـhero", "المتصفح يكتشف الطلب متأخرًا فيهبط LCP.", "eager + fetchpriority=high — web-vitals §2"],
+    ["وسائط بلا width/height صريحين", "انزياح تخطيط مضمون عند التحميل (CLS).", "احجز الأبعاد دائمًا — web-vitals §3"],
+    ["ثيم داكن بقلب القيم #fff↔#000", "وهج أبيض وسطوح ميتة بلا ارتفاع.", "أعد الضبط: 12% و90% — dark-mode §1"],
+    ["مفتاح ثيم يومض أبيض عند كل تحديث", "الوميض يعني غياب سكربت الإقلاع.", "سكربت سطري حاجب في head — dark-mode §4"]
+  ];
+  document.getElementById("banGrid").innerHTML = BANS.map(function (b) {
+    return '<div class="ban"><span class="no">✗ ' + b[0] + "</span><p>" + b[1] + '</p><span class="fix">✓ ' + b[2] + "</span></div>";
+  }).join("");
+})();
+
+/* ================= terminal tabs ================= */
+(function () {
+  var CMDS = {
+    install: '<span class="g">$</span> bash install.sh\n<span class="c"># كشف تلقائي: Claude Code / Codex / Gemini CLI / Cursor / Windsurf / OpenCode</span>\n<span class="c"># → يُنصّب أداة واحدة باسم design-arsenal (SKILL.md + 12 وحدة داخلية)</span>\n<span class="g">✓</span> Installed as ONE skill: design-arsenal\n<span class="c"># ثم أعد تشغيل وكيلك — سيسجّل أداة واحدة بالضبط</span>',
+    doctor: '<span class="g">$</span> bash install.sh doctor\n<span class="c">✓</span> root SKILL.md present (single entry point)\n<span class="c">✓</span> no nested SKILL.md under skills/ (manuals only)\n<span class="c">✓</span> index.json valid — version 2.3.0\n<span class="c">✓</span> all 23 manual paths from index.json exist on disk\n<span class="c">✓</span> script OK: a11y/contrast.mjs · design-tokens/convert.mjs · web-vitals/webvitals.mjs · dark-mode/theme.mjs\n<span class="g">✓</span> healthy — one tool, all references resolve.',
+    list: '<span class="g">$</span> bash install.sh list\ndesign-arsenal — ONE tool, 12 modules (v2.3.0)\n  1. extract      [upstream]  designlang / design-extract\n  2. taste        [upstream]  Taste Skill v2\n  3. polish       [upstream]  Impeccable\n  4. gsap         [upstream]  GSAP Skills (official) (+8 sub)\n  5. components   [upstream]  React Bits\n  6. transitions  [upstream]  Transitions.dev (+3 sub)\n  7. verify       [upstream]  Playwright CLI\n  8. rtl-arabic   <span class="g">[original]</span>  RTL Arabic Design\n  9. a11y         <span class="g">[original]</span>  Accessibility (WCAG 2.2 AA)\n 10. tokens       <span class="g">[original]</span>  Design Tokens (DTCG)\n 11. web-vitals   <span class="g">[original]</span>  Web Vitals (Performance)\n 12. dark-mode    <span class="g">[original]</span>  Dark Mode (Theming)',
+    update: '<span class="g">$</span> bash install.sh update\n<span class="c"># استنساخ git؟ ← git pull --ff-only</span>\n<span class="c"># نسخة ZIP؟ ← آخر Release من GitHub ثم doctor تلقائيًا</span>\n<span class="g">✓</span> updated to v2.3.0'
+  };
+  var out = document.getElementById("termOut");
+  var current = "install";
+  function show(k) { current = k; out.innerHTML = CMDS[k]; }
+  document.querySelectorAll(".term .tabs button").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll(".term .tabs button").forEach(function (x) {
+        x.setAttribute("aria-pressed", String(x === b));
+      });
+      show(b.dataset.tab);
+    });
+  });
+  document.getElementById("termCopy").addEventListener("click", function () {
+    var text = "bash install.sh" + (current === "install" ? "" : " " + current);
+    if (navigator.clipboard) navigator.clipboard.writeText(text);
+    this.textContent = "تم النسخ ✓";
+    var self = this;
+    setTimeout(function () { self.textContent = "نسخ الأمر"; }, 1400);
+  });
+  show("install");
+})();
+
+/* ================= copy buttons ================= */
+document.querySelectorAll("[data-copy]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var el = document.querySelector(b.dataset.copy);
+    if (el && navigator.clipboard) navigator.clipboard.writeText(el.textContent.trim());
+    b.textContent = "تم ✓";
+    setTimeout(function () { b.textContent = "نسخ"; }, 1400);
+  });
+});
+
+/* live buy button demo feedback */
+(function () {
+  var buy = document.getElementById("buyBtn"), save = document.getElementById("saveBtn");
+  if (buy) buy.addEventListener("click", function () {
+    buy.textContent = "أُضيف ✓"; setTimeout(function () { buy.textContent = "اشترِ الآن"; }, 1200);
+  });
+  if (save) save.addEventListener("click", function () {
+    save.textContent = "محفوظ ✓"; setTimeout(function () { save.textContent = "أضِف للمفضلة"; }, 1200);
+  });
+})();
+</script>
+</body>
+</html>

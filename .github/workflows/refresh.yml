@@ -3,9 +3,13 @@ name: Refresh bundle from upstream
 # Rebuilds skills/ + examples/ from the 7 upstream repositories and opens
 # a PR when anything changed. Runs monthly and on demand.
 #
-# The four ORIGINAL modules (skills/rtl-arabic, skills/a11y,
-# skills/design-tokens, skills/web-vitals — see ATTRIBUTION.md) are excluded
-# from the rsync sync: they have no upstream and must never be deleted by a refresh.
+# The five ORIGINAL modules (skills/rtl-arabic, skills/a11y,
+# skills/design-tokens, skills/web-vitals, skills/dark-mode — see
+# ATTRIBUTION.md) are excluded from the rsync sync: they have no upstream and
+# must never be deleted by a refresh.
+# examples/workflows/ is also original content (the Arabic end-to-end
+# walkthroughs) — protected the same way (v2.3.0 fix: it was previously
+# wiped by the rsync --delete on examples/).
 #
 # Note: ATTRIBUTION.md documents every upstream source and license — review
 # it as part of merging any refresh PR.
@@ -43,11 +47,12 @@ jobs:
             --exclude='a11y/' \
             --exclude='design-tokens/' \
             --exclude='web-vitals/' \
+            --exclude='dark-mode/' \
             bundle/skills/ skills/
-          rsync -a --delete bundle/examples/ examples/
-          # guard: original modules must survive every refresh
-          for d in skills/rtl-arabic skills/a11y skills/design-tokens skills/web-vitals; do
-            [ -d "$d" ] || { echo "❌ original module lost: $d"; exit 1; }
+          rsync -a --delete --exclude='workflows/' bundle/examples/ examples/
+          # guard: original modules + original workflows must survive every refresh
+          for d in skills/rtl-arabic skills/a11y skills/design-tokens skills/web-vitals skills/dark-mode examples/workflows; do
+            [ -d "$d" ] || { echo "❌ original content lost: $d"; exit 1; }
           done
 
       - name: Detect changes
